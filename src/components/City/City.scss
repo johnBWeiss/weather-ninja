@@ -1,0 +1,17 @@
+.city-container {
+  height: 240px;
+  width: 240px;
+  border-radius: 20px;
+  display: inline-block; /* Ensure the wrapper only takes the width of its contents */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1),
+    0 -5px 10px rgba(0, 0, 0, 0.1);
+  padding: 0px 20px;
+}
+
+.weather-img {
+  height: 140px;
+}
+
+.heart-icon-city {
+  width: 30px;
+}

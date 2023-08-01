@@ -1,0 +1,24 @@
+@mixin flexBox($justify: null, $width: null, $gap: null) {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+
+  -ms-flex-pack: center;
+  justify-content: center;
+
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+
+  @if $justify {
+    -ms-flex-pack: $justify;
+    justify-content: $justify;
+  }
+  @if $gap {
+    grid-gap: $gap;
+    gap: $gap;
+  }
+  @if $width {
+    width: $width;
+  }
+}
