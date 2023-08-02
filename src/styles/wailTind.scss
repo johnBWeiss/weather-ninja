@@ -11,22 +11,13 @@ html {
   margin: 0 !important;
   padding: 0 !important;
   position: relative;
-  overflow: hidden;
+  // overflow: hidden;
 }
 body {
   margin: 0 !important;
   padding: 0 !important;
   width: 100%;
   height: 100%;
-  // position: relative;
-  // touch-action: auto;
-  // overflow: hidden;
-  // user-select: none;
-  // display: block;
-  font-family: Heebo !important;
-  // @include theme(background-color, mainBack);
-  // @include theme(color, mainText);
-
   letter-spacing: 0.5px;
 }
 
@@ -55,7 +46,6 @@ ul {
   list-style: none;
 }
 
-/* For images to not be able to exceed their container */
 img {
   max-width: 100%;
 }
@@ -151,8 +141,6 @@ input {
 .flex-wrap{
   flex-wrap: wrap;
 }
-
-
 
 .align-end {
   align-items: flex-end;

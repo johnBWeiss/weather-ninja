@@ -26,6 +26,7 @@
   background-color: #fff;
   font-size: 17px;
   color: black;
+  z-index: 2;
 }
 
 .HeaderInnerContainer {
@@ -131,8 +132,10 @@
 }
 
 .gallery-container {
-  padding-top: 200px;
+  padding: 200px 40px;
   grid-gap: 40px 40px;
+  justify-content: center;
+  width: 90%;
 }
 
 html {
@@ -141,7 +144,6 @@ html {
   margin: 0 !important;
   padding: 0 !important;
   position: relative;
-  overflow: hidden;
 }
 
 body {
@@ -149,7 +151,6 @@ body {
   padding: 0 !important;
   width: 100%;
   height: 100%;
-  font-family: Heebo !important;
   letter-spacing: 0.5px;
 }
 
@@ -177,7 +178,6 @@ ul {
   list-style: none;
 }
 
-/* For images to not be able to exceed their container */
 img {
   max-width: 100%;
 }
