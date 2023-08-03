@@ -122,23 +122,18 @@ input {
 }
 
 .flex {
-  display: flex;
-  align-items: center;
+  @include flexBox();
 }
 .space-between {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  @include flexBox(space-between);
 }
 
 .vertical-flex {
-  display: flex;
-  justify-content: center;
+  @include flexBox(center);
   flex-direction: column;
 }
 .flex-end {
-  display: flex;
-  justify-content: flex-end;
+  @include flexBox(flex-end);
 }
 
 .flex-wrap {
@@ -150,24 +145,17 @@ input {
 }
 
 .space-around {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
+  @include flexBox(space-around);
 }
 .flex-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include flexBox(center);
 }
 .flex-start {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
+  @include flexBox(flex-start);
 }
 .true-center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include flexBox(center);
+  width: fit-content;
   align-self: center;
   margin: 0 auto;
   text-align: center;
