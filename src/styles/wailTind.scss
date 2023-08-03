@@ -21,6 +21,15 @@ body {
   letter-spacing: 0.5px;
 }
 
+.hoverEffect {
+  transition: 0.3s;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    transition: 0.3s;
+  }
+}
+
 .cursorPointer {
   &:hover {
     cursor: pointer;

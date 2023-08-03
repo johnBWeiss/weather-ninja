@@ -29,6 +29,8 @@ const Home = () => {
   const [stateInputValue, setStateInputValue] = useState("");
 
   async function getCityFromGeolocation() {
+    dispatch(resetError());
+
     return new Promise((resolve, reject) => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -49,6 +51,7 @@ const Home = () => {
   useEffect(() => {
     dispatch(resetError());
     async function fetchCityName() {
+      dispatch(resetError());
       if (currentCityName.length <= 0) {
         try {
           const position = await getCityFromGeolocation();
@@ -64,6 +67,7 @@ const Home = () => {
             .get(apiUrl)
             .then((response) => {
               const data = response.data;
+              console.log(data);
               dispatch(
                 getSingleCity({
                   cityCode: data.Key,
@@ -71,11 +75,13 @@ const Home = () => {
                   isFavoriteChosen: false,
                 })
               );
-              dispatch(
-                getFiveDays({
-                  cityCode: data.Key,
-                })
-              );
+              // setTimeout(() => {
+              //   dispatch(
+              //     getFiveDays({
+              //       cityCode: data.Key,
+              //     })
+              //   );
+              // }, 200);
             })
             .catch((error) => {
               console.error("Error fetching data:", error.message);
@@ -95,7 +101,9 @@ const Home = () => {
       //   );
       // }
     }
-    // fetchCityName();
+    if (currentCityName == "") {
+      // fetchCityName();
+    }
     scrollToTop();
     // dispatch(getSingleCity({ cityCode: "215854", cityName: "Tel Aviv" }));
   }, []);
@@ -117,6 +125,7 @@ const Home = () => {
     const language = "en-us";
 
     const url = `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${apiKey}&q=${stateInputValue}&language=${language}`;
+    dispatch(resetError());
 
     try {
       const response = await axios.get(url);

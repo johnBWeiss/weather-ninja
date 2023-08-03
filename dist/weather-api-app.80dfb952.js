@@ -49398,7 +49398,7 @@ var City = function City(_ref) {
     }
   }, [data, cityTemperature, isFarenheight, cityCode]);
   return /*#__PURE__*/_react.default.createElement("div", {
-    className: "city-container vertical-flex gap-8 ",
+    className: "city-container vertical-flex gap-8 ".concat(favoriteClickHandler ? "hoverEffect" : null, " "),
     onClick: displayFavorite
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "celsius-button",
@@ -49417,7 +49417,7 @@ var City = function City(_ref) {
     onClick: function onClick(e) {
       return toggleFavoriteHandler(e, cityName, cityTemperature, cityCode);
     },
-    className: "heart-icon-city",
+    className: "heart-icon-city hoverEffect",
     src: (0, _helperFunction.isFavoriteHandler)(cityCode) ? _fullHeartIconBlack.default : _emptyHeartIcon.default,
     alt: "heart"
   })));
@@ -51494,6 +51494,7 @@ var Home = function Home() {
       return _regeneratorRuntime().wrap(function _callee3$(_context3) {
         while (1) switch (_context3.prev = _context3.next) {
           case 0:
+            dispatch((0, _globalSlice.resetError)());
             return _context3.abrupt("return", new Promise(function (resolve, reject) {
               if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function (position) {
@@ -51511,7 +51512,7 @@ var Home = function Home() {
                 reject(new Error("Geolocation not supported in this browser."));
               }
             }));
-          case 1:
+          case 2:
           case "end":
             return _context3.stop();
         }
@@ -51523,21 +51524,22 @@ var Home = function Home() {
     dispatch((0, _globalSlice.resetError)());
     function fetchCityName() {
       return _fetchCityName.apply(this, arguments);
-    } // fetchCityName();
+    }
     function _fetchCityName() {
       _fetchCityName = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         var position, latitude, longitude, endpointURL, apiKey, language, toplevel, apiUrl;
         return _regeneratorRuntime().wrap(function _callee$(_context) {
           while (1) switch (_context.prev = _context.next) {
             case 0:
+              dispatch((0, _globalSlice.resetError)());
               if (!(currentCityName.length <= 0)) {
-                _context.next = 17;
+                _context.next = 18;
                 break;
               }
-              _context.prev = 1;
-              _context.next = 4;
+              _context.prev = 2;
+              _context.next = 5;
               return getCityFromGeolocation();
-            case 4:
+            case 5:
               position = _context.sent;
               latitude = position.latitude, longitude = position.longitude;
               endpointURL = "http://dataservice.accuweather.com/locations/v1/cities/geoposition/search";
@@ -51547,32 +51549,40 @@ var Home = function Home() {
               apiUrl = "".concat(endpointURL, "?apikey=").concat(apiKey, "&q=").concat(latitude, "%2C").concat(longitude, "&language=").concat(language, "&toplevel=").concat(toplevel);
               _axios.default.get(apiUrl).then(function (response) {
                 var data = response.data;
+                console.log(data);
                 dispatch((0, _globalSlice.getSingleCity)({
                   cityCode: data.Key,
                   cityName: data === null || data === void 0 ? void 0 : data.LocalizedName,
                   isFavoriteChosen: false
                 }));
-                dispatch((0, _globalSlice.getFiveDays)({
-                  cityCode: data.Key
-                }));
+                // setTimeout(() => {
+                //   dispatch(
+                //     getFiveDays({
+                //       cityCode: data.Key,
+                //     })
+                //   );
+                // }, 200);
               }).catch(function (error) {
                 console.error("Error fetching data:", error.message);
                 dispatch((0, _globalSlice.errorHandler)());
               });
-              _context.next = 17;
+              _context.next = 18;
               break;
-            case 14:
-              _context.prev = 14;
-              _context.t0 = _context["catch"](1);
+            case 15:
+              _context.prev = 15;
+              _context.t0 = _context["catch"](2);
               // console.log("Error getting geolocation:", error.message);
               dispatch((0, _globalSlice.errorHandler)());
-            case 17:
+            case 18:
             case "end":
               return _context.stop();
           }
-        }, _callee, null, [[1, 14]]);
+        }, _callee, null, [[2, 15]]);
       }));
       return _fetchCityName.apply(this, arguments);
+    }
+    if (currentCityName == "") {
+      // fetchCityName();
     }
     (0, _helperFunction.scrollToTop)();
     // dispatch(getSingleCity({ cityCode: "215854", cityName: "Tel Aviv" }));
@@ -51595,10 +51605,11 @@ var Home = function Home() {
             apiKey = "IeogV01qgqGpHm1XxALIFB1JAtbxBs7E";
             language = "en-us";
             url = "http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=".concat(apiKey, "&q=").concat(stateInputValue, "&language=").concat(language);
-            _context2.prev = 3;
-            _context2.next = 6;
+            dispatch((0, _globalSlice.resetError)());
+            _context2.prev = 4;
+            _context2.next = 7;
             return _axios.default.get(url);
-          case 6:
+          case 7:
             response = _context2.sent;
             console.log("Response:", response.data[0].Key);
             dispatch((0, _globalSlice.getSingleCity)({
@@ -51609,18 +51620,18 @@ var Home = function Home() {
             dispatch((0, _globalSlice.getFiveDays)({
               cityCode: response === null || response === void 0 || (_response$data3 = response.data) === null || _response$data3 === void 0 || (_response$data3 = _response$data3[0]) === null || _response$data3 === void 0 ? void 0 : _response$data3.Key
             }));
-            _context2.next = 16;
+            _context2.next = 17;
             break;
-          case 12:
-            _context2.prev = 12;
-            _context2.t0 = _context2["catch"](3);
+          case 13:
+            _context2.prev = 13;
+            _context2.t0 = _context2["catch"](4);
             console.error("Error fetching data:", _context2.t0.message);
             dispatch((0, _globalSlice.errorHandler)());
-          case 16:
+          case 17:
           case "end":
             return _context2.stop();
         }
-      }, _callee2, null, [[3, 12]]);
+      }, _callee2, null, [[4, 13]]);
     }));
     return function searchByTextHandler() {
       return _ref.apply(this, arguments);

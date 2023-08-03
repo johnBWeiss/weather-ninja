@@ -87,7 +87,9 @@ const City = ({
 
   return (
     <div
-      className="city-container vertical-flex gap-8 "
+      className={`city-container vertical-flex gap-8 ${
+        favoriteClickHandler ? "hoverEffect" : null
+      } `}
       onClick={displayFavorite}
     >
       <div className="celsius-button" onClick={imperialVsMetricToggleHandler}>
@@ -121,7 +123,7 @@ const City = ({
             onClick={(e) =>
               toggleFavoriteHandler(e, cityName, cityTemperature, cityCode)
             }
-            className="heart-icon-city"
+            className="heart-icon-city hoverEffect"
             src={isFavoriteHandler(cityCode) ? fullHeart : emptyHeart}
             alt="heart"
           />
