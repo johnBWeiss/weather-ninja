@@ -150,11 +150,11 @@ let mockDataArray = [
         },
     },
 ];
-const urlForGettingCityBasedGeo = `http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=IeogV01qgqGpHm1XxALIFB1JAtbxBs7E&q=31.8067218%2C35.4996216&language=en-us&toplevel=false`;
-const urlForCityCode = `/locations/v1/cities/autocomplete?apikey=IeogV01qgqGpHm1XxALIFB1JAtbxBs7E&q=tel&language=en-us`;
+const urlForGettingCityBasedGeo = `http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=ps9T93lqmdD16AcRRA6Cuq83mABQMy4O&q=31.8067218%2C35.4996216&language=en-us&toplevel=false`;
+const urlForCityCode = `/locations/v1/cities/autocomplete?apikey=ps9T93lqmdD16AcRRA6Cuq83mABQMy4O&q=tel&language=en-us`;
 const singleCityGetUrl = `http://dataservice.accuweather.com/currentconditions/v1/215854`;
 const weeklyShortUrlFarenheight = `http://dataservice.accuweather.com/forecasts/v1/daily/5day/215854`;
-const weeklyShortUrlCelsius = `/forecasts/v1/daily/5day/215854?apikey=IeogV01qgqGpHm1XxALIFB1JAtbxBs7E&language=en-us&details=false&metric=true`;
+const weeklyShortUrlCelsius = `/forecasts/v1/daily/5day/215854?apikey=ps9T93lqmdD16AcRRA6Cuq83mABQMy4O&language=en-us&details=false&metric=true`;
 const cityName = mockDataArray[0].LocalizedName;
 const cityCode = mockDataArray[0].Key;
 const singleCityShortMockData = [

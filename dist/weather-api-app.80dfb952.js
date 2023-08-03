@@ -41142,7 +41142,7 @@ function _regeneratorRuntime() { "use strict"; /*! regenerator-runtime -- Copyri
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 var baseURL = 'http://dataservice.accuweather.com';
-var apikey = 'IeogV01qgqGpHm1XxALIFB1JAtbxBs7E';
+var apikey = 'ps9T93lqmdD16AcRRA6Cuq83mABQMy4O';
 var initialMobile = window.matchMedia("(max-width: 1250px)");
 var initialState = {
   favoritesArray: [],
@@ -49572,11 +49572,11 @@ var mockDataArray = [{
     LocalizedName: "West Java"
   }
 }];
-var urlForGettingCityBasedGeo = "http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=IeogV01qgqGpHm1XxALIFB1JAtbxBs7E&q=31.8067218%2C35.4996216&language=en-us&toplevel=false";
-var urlForCityCode = "/locations/v1/cities/autocomplete?apikey=IeogV01qgqGpHm1XxALIFB1JAtbxBs7E&q=tel&language=en-us";
+var urlForGettingCityBasedGeo = "http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=ps9T93lqmdD16AcRRA6Cuq83mABQMy4O&q=31.8067218%2C35.4996216&language=en-us&toplevel=false";
+var urlForCityCode = "/locations/v1/cities/autocomplete?apikey=ps9T93lqmdD16AcRRA6Cuq83mABQMy4O&q=tel&language=en-us";
 var singleCityGetUrl = "http://dataservice.accuweather.com/currentconditions/v1/215854";
 var weeklyShortUrlFarenheight = "http://dataservice.accuweather.com/forecasts/v1/daily/5day/215854";
-var weeklyShortUrlCelsius = "/forecasts/v1/daily/5day/215854?apikey=IeogV01qgqGpHm1XxALIFB1JAtbxBs7E&language=en-us&details=false&metric=true";
+var weeklyShortUrlCelsius = "/forecasts/v1/daily/5day/215854?apikey=ps9T93lqmdD16AcRRA6Cuq83mABQMy4O&language=en-us&details=false&metric=true";
 var cityName = mockDataArray[0].LocalizedName;
 var cityCode = mockDataArray[0].Key;
 var singleCityShortMockData = [{
@@ -51543,7 +51543,7 @@ var Home = function Home() {
               position = _context.sent;
               latitude = position.latitude, longitude = position.longitude;
               endpointURL = "http://dataservice.accuweather.com/locations/v1/cities/geoposition/search";
-              apiKey = "IeogV01qgqGpHm1XxALIFB1JAtbxBs7E";
+              apiKey = "ps9T93lqmdD16AcRRA6Cuq83mABQMy4O";
               language = "en-us";
               toplevel = false;
               apiUrl = "".concat(endpointURL, "?apikey=").concat(apiKey, "&q=").concat(latitude, "%2C").concat(longitude, "&language=").concat(language, "&toplevel=").concat(toplevel);
@@ -51582,7 +51582,7 @@ var Home = function Home() {
       return _fetchCityName.apply(this, arguments);
     }
     if (currentCityName == "") {
-      // fetchCityName();
+      fetchCityName();
     }
     (0, _helperFunction.scrollToTop)();
     // dispatch(getSingleCity({ cityCode: "215854", cityName: "Tel Aviv" }));
@@ -51602,7 +51602,7 @@ var Home = function Home() {
       return _regeneratorRuntime().wrap(function _callee2$(_context2) {
         while (1) switch (_context2.prev = _context2.next) {
           case 0:
-            apiKey = "IeogV01qgqGpHm1XxALIFB1JAtbxBs7E";
+            apiKey = "ps9T93lqmdD16AcRRA6Cuq83mABQMy4O";
             language = "en-us";
             url = "http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=".concat(apiKey, "&q=").concat(stateInputValue, "&language=").concat(language);
             dispatch((0, _globalSlice.resetError)());

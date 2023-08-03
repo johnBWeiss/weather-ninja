@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import axios from "axios";
 
 const baseURL = 'http://dataservice.accuweather.com'
-const apikey = 'IeogV01qgqGpHm1XxALIFB1JAtbxBs7E'
+const apikey = 'ps9T93lqmdD16AcRRA6Cuq83mABQMy4O'
 
 let initialMobile = window.matchMedia("(max-width: 1250px)");
 const initialState = {

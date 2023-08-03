@@ -58,7 +58,7 @@ const Home = () => {
           const { latitude, longitude } = position;
           const endpointURL =
             "http://dataservice.accuweather.com/locations/v1/cities/geoposition/search";
-          const apiKey = "IeogV01qgqGpHm1XxALIFB1JAtbxBs7E";
+          const apiKey = "ps9T93lqmdD16AcRRA6Cuq83mABQMy4O";
 
           const language = "en-us";
           const toplevel = false;
@@ -102,7 +102,7 @@ const Home = () => {
       // }
     }
     if (currentCityName == "") {
-      // fetchCityName();
+      fetchCityName();
     }
     scrollToTop();
     // dispatch(getSingleCity({ cityCode: "215854", cityName: "Tel Aviv" }));
@@ -121,7 +121,7 @@ const Home = () => {
   };
 
   const searchByTextHandler = async () => {
-    const apiKey = "IeogV01qgqGpHm1XxALIFB1JAtbxBs7E";
+    const apiKey = "ps9T93lqmdD16AcRRA6Cuq83mABQMy4O";
     const language = "en-us";
 
     const url = `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${apiKey}&q=${stateInputValue}&language=${language}`;
