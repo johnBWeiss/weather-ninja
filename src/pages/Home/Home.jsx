@@ -6,7 +6,6 @@ import axios from "axios";
 import { globalSelector } from "../../../store/globalSlice";
 import { setCurrentCity } from "../../../store/globalSlice";
 import { getSingleCity } from "../../../store/globalSlice";
-
 const Home = () => {
   const dispatch=useDispatch()
   const reduxState = useSelector(globalSelector);
@@ -17,6 +16,7 @@ const Home = () => {
       currentCityTemperature,
     },
   } = reduxState;
+  console.log(currentCityName, currentCityTemperature);
   const [inputValue, setInputValue] = useState("");
   const [currentCity, setCurrentCity] = useState(false);
 
@@ -56,7 +56,7 @@ const Home = () => {
           .get(apiUrl)
           .then((response) => {
             const data = response.data;
-         
+            
             dispatch(getSingleCity({ cityCode: data.Key, cityName: data?.LocalizedName }));
           })
           .catch((error) => {
@@ -66,9 +66,9 @@ const Home = () => {
         console.log("Error getting geolocation:", error.message);
       }
     }
-    if (!isFavoriteChosen) {
+    // if (!isFavoriteChosen) {
       fetchCityName();
-    }
+    // }
 
     // dispatch(getSingleCity({ cityCode: "215854", cityName: "Tel Aviv" }));
   }, []);
@@ -76,6 +76,7 @@ const Home = () => {
   const handleInputChange = (event) => {
     const inputText = event.target.value;
 
+    // Regular expression to allow only English letters (a-z, A-Z)
     const englishLettersRegex = /^[a-zA-Z]*$/;
 
     if (englishLettersRegex.test(inputText)) {
@@ -83,7 +84,6 @@ const Home = () => {
       setInputValue(inputTextLowerCase);
     }
   };
-
 
 
   return (

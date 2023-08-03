@@ -21,11 +21,12 @@ const initialState = {
 };
 
 export const getSingleCity = createAsyncThunk('globalSlice/getSingleCity',
-<
+
   async ( payload , thunkAPI) => {
     console.log(payload.cityCode);
     try {
       let response = await axios(`http://dataservice.accuweather.com/currentconditions/v1/${payload.cityCode}?apikey=IeogV01qgqGpHm1XxALIFB1JAtbxBs7E&language=en-us`)
+      console.log(response);
       return { currentCityTemperature: response?.data?.[0]?.Temperature?.Imperial?.Value, currentCityName: payload?.cityName }
     } catch (error) {
       /*
