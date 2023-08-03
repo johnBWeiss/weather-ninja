@@ -292,6 +292,7 @@ input {
   align-items: center;
   -ms-flex-pack: space-between;
   justify-content: space-between;
+  width: 100%;
 }
 
 .vertical-flex {

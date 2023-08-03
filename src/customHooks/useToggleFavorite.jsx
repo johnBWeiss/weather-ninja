@@ -4,7 +4,8 @@ import { setUpdateFavoriteArray } from "../../store/globalSlice";
 const useToggleFavorite = (cityName, cityTemperature, cityCode) => {
   const dispatch = useDispatch();
 
-  const toggleFavoriteHandler = () => {
+  const toggleFavoriteHandler = (e) => {
+    e.stopPropagation();
     const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
     const isCityFavorite = favorites.some((item) => item.cityCode === cityCode);
     if (isCityFavorite) {

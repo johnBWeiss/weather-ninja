@@ -32,25 +32,6 @@ export const getRandomErrorMessage = () => {
     return errorMessages[randomIndex];
 };
 
-// export const toggleFavorite = (cityName, cityTemperature, cityCode) => {
-//     const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-
-//     const isFavorite = favorites.some(
-//         (item) =>
-//             item.cityCode === cityCode
-//     );
-
-//     if (isFavorite) {
-//         const updatedFavorites = favorites.filter(
-//             (item) =>
-//                 !(item.cityCode === cityCode)
-//         );
-//         localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-//     } else {
-//         favorites.push({ cityName, cityTemperature, cityCode });
-//         localStorage.setItem("favorites", JSON.stringify(favorites));
-//     }
-// };
 
 export const isFavoriteHandler = (cityCode) => {
     console.log(cityCode);
@@ -60,4 +41,11 @@ export const isFavoriteHandler = (cityCode) => {
         (item) =>
             item.cityCode === cityCode
     );
+};
+
+export const scrollToTop = () => {
+    window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+    });
 };

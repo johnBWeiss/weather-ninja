@@ -16,6 +16,7 @@ const City = ({
   data,
   type,
   isFarenheight,
+  favoriteClickHandler,
 }) => {
   const { toggleFavoriteHandler } = useToggleFavorite(
     cityName,
@@ -69,6 +70,12 @@ const City = ({
 
   const dayAndMonth = getDayAndMonth(data?.Date);
 
+  const displayFavorite = () => {
+    if (favoriteClickHandler) {
+      favoriteClickHandler(cityCode, cityName);
+    }
+  };
+
   useEffect(() => {
     setStateMinMaxTemperature(data?.Temperature);
     setStateSingleTemperature(cityTemperature);
@@ -79,7 +86,10 @@ const City = ({
   }, [data, cityTemperature, isFarenheight, cityCode]);
 
   return (
-    <div className="city-container vertical-flex gap-8 ">
+    <div
+      className="city-container vertical-flex gap-8 "
+      onClick={displayFavorite}
+    >
       <div className="celsius-button" onClick={imperialVsMetricToggleHandler}>
         {temperatureType.current === "F" ? "C" : "F"}
       </div>
@@ -90,7 +100,7 @@ const City = ({
           <img className="weather-img" src={partCloud} alt="part cloud" />{" "}
           {type === "weeklyItem" ? (
             <div>
-              {stateMinMaxTemperature?.Minimum?.Value} -{" "}
+              {stateMinMaxTemperature?.Minimum?.Value} -
               {stateMinMaxTemperature?.Maximum?.Value}
             </div>
           ) : (
@@ -108,8 +118,8 @@ const City = ({
 
         {type !== "weeklyItem" && (
           <img
-            onClick={() =>
-              toggleFavoriteHandler(cityName, cityTemperature, cityCode)
+            onClick={(e) =>
+              toggleFavoriteHandler(e, cityName, cityTemperature, cityCode)
             }
             className="heart-icon-city"
             src={isFavoriteHandler(cityCode) ? fullHeart : emptyHeart}

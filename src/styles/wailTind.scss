@@ -125,7 +125,7 @@ input {
   @include flexBox();
 }
 .space-between {
-  @include flexBox(space-between);
+  @include flexBox(space-between, 100%);
 }
 
 .vertical-flex {

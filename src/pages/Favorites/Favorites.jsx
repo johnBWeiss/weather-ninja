@@ -1,11 +1,21 @@
 import React, { useState, useEffect } from "react";
 import City from "../../components/City/City";
-import { resetError } from "../../../store/globalSlice";
+import {
+  getFiveDays,
+  getSingleCity,
+  resetError,
+} from "../../../store/globalSlice";
 import { globalSelector } from "../../../store/globalSlice";
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setUpdateFavoriteArray } from "../../../store/globalSlice";
+import { useNavigate } from "react-router-dom";
+import { scrollToTop } from "../../utils/helperFunction";
 
 const Favorites = () => {
+  const navigate = useNavigate();
   const reduxState = useSelector(globalSelector);
+  const dispatch = useDispatch();
   console.log(reduxState);
   const { favoritesArray } = reduxState;
   console.log(favoritesArray);
@@ -20,6 +30,18 @@ const Favorites = () => {
   // useEffect(() => {
   //   updateFavoritesState();
   // }, [updateFavoritesArray]);
+  useEffect(() => {
+    const favoritesFromStorage =
+      JSON.parse(localStorage.getItem("favorites")) || [];
+    dispatch(setUpdateFavoriteArray(favoritesFromStorage));
+    scrollToTop();
+  }, [dispatch]);
+
+  const favoriteClickHandler = (cityCode, cityName) => {
+    dispatch(getSingleCity({ cityCode, cityName }));
+    dispatch(getFiveDays({ cityCode }));
+    navigate("/");
+  };
 
   return (
     <>
@@ -32,6 +54,7 @@ const Favorites = () => {
             cityName={value.cityName}
             cityCode={value.cityCode}
             cityTemperature={value.cityTemperature}
+            favoriteClickHandler={favoriteClickHandler}
           />
         ))}
       </div>

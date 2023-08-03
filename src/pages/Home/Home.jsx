@@ -10,7 +10,7 @@ import { weeklyArrayShortData } from "../../utils/mockData";
 import { getFiveDays } from "../../../store/globalSlice";
 import { errorHandler } from "../../../store/globalSlice";
 import { resetError } from "../../../store/globalSlice";
-import { getRandomErrorMessage } from "../../utils/helperFunction";
+import { getRandomErrorMessage, scrollToTop } from "../../utils/helperFunction";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -96,7 +96,7 @@ const Home = () => {
       // }
     }
     // fetchCityName();
-
+    scrollToTop();
     // dispatch(getSingleCity({ cityCode: "215854", cityName: "Tel Aviv" }));
   }, []);
 

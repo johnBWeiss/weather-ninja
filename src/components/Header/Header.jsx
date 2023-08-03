@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { globalSelector } from "../../../store/globalSlice";
@@ -23,7 +23,9 @@ const Header = () => {
       navigate("/Favorites");
     }
   };
-
+  useEffect(() => {
+    setOverlayPosition(location.pathname === "/" ? 0 : "47%");
+  }, [location.pathname]);
   return (
     <div className="HeaderContainer">
       <div className="HeaderInnerContainer">

@@ -49217,7 +49217,7 @@ module.exports = "/empty-heart-icon.86b54d98.png";
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.isFavoriteHandler = exports.getRandomErrorMessage = exports.getDayAndMonth = exports.fahrenheitToCelsius = exports.celsiusToFahrenheit = void 0;
+exports.scrollToTop = exports.isFavoriteHandler = exports.getRandomErrorMessage = exports.getDayAndMonth = exports.fahrenheitToCelsius = exports.celsiusToFahrenheit = void 0;
 var fahrenheitToCelsius = function fahrenheitToCelsius(fahrenheit) {
   var celsius = (fahrenheit - 32) * (5 / 9);
   return Math.round(celsius); // Round the Celsius value to one decimal place
@@ -49250,26 +49250,6 @@ var getRandomErrorMessage = function getRandomErrorMessage() {
   var randomIndex = Math.floor(Math.random() * errorMessages.length);
   return errorMessages[randomIndex];
 };
-
-// export const toggleFavorite = (cityName, cityTemperature, cityCode) => {
-//     const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-
-//     const isFavorite = favorites.some(
-//         (item) =>
-//             item.cityCode === cityCode
-//     );
-
-//     if (isFavorite) {
-//         const updatedFavorites = favorites.filter(
-//             (item) =>
-//                 !(item.cityCode === cityCode)
-//         );
-//         localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-//     } else {
-//         favorites.push({ cityName, cityTemperature, cityCode });
-//         localStorage.setItem("favorites", JSON.stringify(favorites));
-//     }
-// };
 exports.getRandomErrorMessage = getRandomErrorMessage;
 var isFavoriteHandler = function isFavoriteHandler(cityCode) {
   console.log(cityCode);
@@ -49279,6 +49259,13 @@ var isFavoriteHandler = function isFavoriteHandler(cityCode) {
   });
 };
 exports.isFavoriteHandler = isFavoriteHandler;
+var scrollToTop = function scrollToTop() {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
+};
+exports.scrollToTop = scrollToTop;
 },{}],"../src/customHooks/useToggleFavorite.jsx":[function(require,module,exports) {
 "use strict";
 
@@ -49290,7 +49277,8 @@ var _reactRedux = require("react-redux");
 var _globalSlice = require("../../store/globalSlice");
 var useToggleFavorite = function useToggleFavorite(cityName, cityTemperature, cityCode) {
   var dispatch = (0, _reactRedux.useDispatch)();
-  var toggleFavoriteHandler = function toggleFavoriteHandler() {
+  var toggleFavoriteHandler = function toggleFavoriteHandler(e) {
+    e.stopPropagation();
     var favorites = JSON.parse(localStorage.getItem("favorites")) || [];
     var isCityFavorite = favorites.some(function (item) {
       return item.cityCode === cityCode;
@@ -49347,7 +49335,8 @@ var City = function City(_ref) {
     cityTemperature = _ref.cityTemperature,
     data = _ref.data,
     type = _ref.type,
-    isFarenheight = _ref.isFarenheight;
+    isFarenheight = _ref.isFarenheight,
+    favoriteClickHandler = _ref.favoriteClickHandler;
   var _useToggleFavorite = (0, _useToggleFavorite2.default)(cityName, cityTemperature, cityCode),
     toggleFavoriteHandler = _useToggleFavorite.toggleFavoriteHandler;
   var _useState = (0, _react.useState)((_data$Temperature = data === null || data === void 0 ? void 0 : data.Temperature) !== null && _data$Temperature !== void 0 ? _data$Temperature : ""),
@@ -49395,6 +49384,11 @@ var City = function City(_ref) {
     temperatureType.current === "C" ? temperatureType.current = "F" : temperatureType.current = "C";
   };
   var dayAndMonth = (0, _helperFunction.getDayAndMonth)(data === null || data === void 0 ? void 0 : data.Date);
+  var displayFavorite = function displayFavorite() {
+    if (favoriteClickHandler) {
+      favoriteClickHandler(cityCode, cityName);
+    }
+  };
   (0, _react.useEffect)(function () {
     setStateMinMaxTemperature(data === null || data === void 0 ? void 0 : data.Temperature);
     setStateSingleTemperature(cityTemperature);
@@ -49404,7 +49398,8 @@ var City = function City(_ref) {
     }
   }, [data, cityTemperature, isFarenheight, cityCode]);
   return /*#__PURE__*/_react.default.createElement("div", {
-    className: "city-container vertical-flex gap-8 "
+    className: "city-container vertical-flex gap-8 ",
+    onClick: displayFavorite
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "celsius-button",
     onClick: imperialVsMetricToggleHandler
@@ -49416,11 +49411,11 @@ var City = function City(_ref) {
     className: "weather-img",
     src: _partlyCloudy.default,
     alt: "part cloud"
-  }), " ", type === "weeklyItem" ? /*#__PURE__*/_react.default.createElement("div", null, stateMinMaxTemperature === null || stateMinMaxTemperature === void 0 || (_stateMinMaxTemperatu3 = stateMinMaxTemperature.Minimum) === null || _stateMinMaxTemperatu3 === void 0 ? void 0 : _stateMinMaxTemperatu3.Value, " -", " ", stateMinMaxTemperature === null || stateMinMaxTemperature === void 0 || (_stateMinMaxTemperatu4 = stateMinMaxTemperature.Maximum) === null || _stateMinMaxTemperatu4 === void 0 ? void 0 : _stateMinMaxTemperatu4.Value) : /*#__PURE__*/_react.default.createElement("div", null, stateSingleTemperature))), /*#__PURE__*/_react.default.createElement("div", {
+  }), " ", type === "weeklyItem" ? /*#__PURE__*/_react.default.createElement("div", null, stateMinMaxTemperature === null || stateMinMaxTemperature === void 0 || (_stateMinMaxTemperatu3 = stateMinMaxTemperature.Minimum) === null || _stateMinMaxTemperatu3 === void 0 ? void 0 : _stateMinMaxTemperatu3.Value, " -", stateMinMaxTemperature === null || stateMinMaxTemperature === void 0 || (_stateMinMaxTemperatu4 = stateMinMaxTemperature.Maximum) === null || _stateMinMaxTemperatu4 === void 0 ? void 0 : _stateMinMaxTemperatu4.Value) : /*#__PURE__*/_react.default.createElement("div", null, stateSingleTemperature))), /*#__PURE__*/_react.default.createElement("div", {
     className: "space-between"
   }, type === "weeklyItem" ? /*#__PURE__*/_react.default.createElement("div", null, dayAndMonth) : /*#__PURE__*/_react.default.createElement("div", null, cityName), /*#__PURE__*/_react.default.createElement("div", null, " \xB0 ", temperatureType.current), type !== "weeklyItem" && /*#__PURE__*/_react.default.createElement("img", {
-    onClick: function onClick() {
-      return toggleFavoriteHandler(cityName, cityTemperature, cityCode);
+    onClick: function onClick(e) {
+      return toggleFavoriteHandler(e, cityName, cityTemperature, cityCode);
     },
     className: "heart-icon-city",
     src: (0, _helperFunction.isFavoriteHandler)(cityCode) ? _fullHeartIconBlack.default : _emptyHeartIcon.default,
@@ -51529,7 +51524,6 @@ var Home = function Home() {
     function fetchCityName() {
       return _fetchCityName.apply(this, arguments);
     } // fetchCityName();
-    // dispatch(getSingleCity({ cityCode: "215854", cityName: "Tel Aviv" }));
     function _fetchCityName() {
       _fetchCityName = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee() {
         var position, latitude, longitude, endpointURL, apiKey, language, toplevel, apiUrl;
@@ -51580,6 +51574,8 @@ var Home = function Home() {
       }));
       return _fetchCityName.apply(this, arguments);
     }
+    (0, _helperFunction.scrollToTop)();
+    // dispatch(getSingleCity({ cityCode: "215854", cityName: "Tel Aviv" }));
   }, []);
   var handleInputChange = function handleInputChange(event) {
     console.log(event.target.value);
@@ -51714,6 +51710,9 @@ var Header = function Header() {
       navigate("/Favorites");
     }
   };
+  (0, _react.useEffect)(function () {
+    setOverlayPosition(location.pathname === "/" ? 0 : "47%");
+  }, [location.pathname]);
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "HeaderContainer"
   }, /*#__PURE__*/_react.default.createElement("div", {
@@ -51758,11 +51757,15 @@ var _react = _interopRequireWildcard(require("react"));
 var _City = _interopRequireDefault(require("../../components/City/City"));
 var _globalSlice = require("../../../store/globalSlice");
 var _reactRedux = require("react-redux");
+var _reactRouterDom = require("react-router-dom");
+var _helperFunction = require("../../utils/helperFunction");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 var Favorites = function Favorites() {
+  var navigate = (0, _reactRouterDom.useNavigate)();
   var reduxState = (0, _reactRedux.useSelector)(_globalSlice.globalSelector);
+  var dispatch = (0, _reactRedux.useDispatch)();
   console.log(reduxState);
   var favoritesArray = reduxState.favoritesArray;
   console.log(favoritesArray);
@@ -51777,7 +51780,21 @@ var Favorites = function Favorites() {
   // useEffect(() => {
   //   updateFavoritesState();
   // }, [updateFavoritesArray]);
-
+  (0, _react.useEffect)(function () {
+    var favoritesFromStorage = JSON.parse(localStorage.getItem("favorites")) || [];
+    dispatch((0, _globalSlice.setUpdateFavoriteArray)(favoritesFromStorage));
+    (0, _helperFunction.scrollToTop)();
+  }, [dispatch]);
+  var favoriteClickHandler = function favoriteClickHandler(cityCode, cityName) {
+    dispatch((0, _globalSlice.getSingleCity)({
+      cityCode: cityCode,
+      cityName: cityName
+    }));
+    dispatch((0, _globalSlice.getFiveDays)({
+      cityCode: cityCode
+    }));
+    navigate("/");
+  };
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("h1", {
     className: "favorites-title padding-top-300 center"
   }, "Favorites"), /*#__PURE__*/_react.default.createElement("div", {
@@ -51788,13 +51805,14 @@ var Favorites = function Favorites() {
       isFarenheight: true,
       cityName: value.cityName,
       cityCode: value.cityCode,
-      cityTemperature: value.cityTemperature
+      cityTemperature: value.cityTemperature,
+      favoriteClickHandler: favoriteClickHandler
     });
   })));
 };
 var _default = Favorites;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","../../components/City/City":"../src/components/City/City.jsx","../../../store/globalSlice":"../store/globalSlice.js","react-redux":"../node_modules/react-redux/es/index.js"}],"../Main.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","../../components/City/City":"../src/components/City/City.jsx","../../../store/globalSlice":"../store/globalSlice.js","react-redux":"../node_modules/react-redux/es/index.js","react-router-dom":"../node_modules/react-router-dom/dist/index.js","../../utils/helperFunction":"../src/utils/helperFunction.js"}],"../Main.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -52047,7 +52065,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "51871" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49362" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
