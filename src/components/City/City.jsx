@@ -4,13 +4,28 @@ import fullHeart from "../../assets/images/full-heart-icon-black.png";
 import emptyHeart from "../../assets/images/empty-heart-icon.png";
 import { fahrenheitToCelsius } from "../../utils/helperFunction";
 import { celsiusToFahrenheit } from "../../utils/helperFunction";
-import { getDayOfWeek } from "../../utils/helperFunction";
 import { getDayAndMonth } from "../../utils/helperFunction";
-const City = ({ cityName, title, cityTemperature, data, type,isFavorite,isFarenheight }) => {
+import { isFavoriteHandler } from "../../utils/helperFunction";
+
+import useToggleFavorite from "../../customHooks/useToggleFavorite";
+const City = ({
+  cityName,
+  cityCode,
+  title,
+  cityTemperature,
+  data,
+  type,
+  isFarenheight,
+}) => {
+  const { toggleFavoriteHandler } = useToggleFavorite(
+    cityName,
+    cityTemperature,
+    cityCode
+  );
+
   const [stateMinMaxTemperature, setStateMinMaxTemperature] = useState(
     data?.Temperature ?? ""
   );
-  console.log(data);
   const [stateSingleTemperature, setStateSingleTemperature] = useState(
     cityTemperature ?? ""
   );
@@ -36,7 +51,7 @@ const City = ({ cityName, title, cityTemperature, data, type,isFavorite,isFarenh
 
     if (type !== "weeklyItem") {
       let temp;
-  
+
       if (temperatureType.current === "C") {
         temp = celsiusToFahrenheit(stateSingleTemperature);
       }
@@ -52,21 +67,16 @@ const City = ({ cityName, title, cityTemperature, data, type,isFavorite,isFarenh
       : (temperatureType.current = "C");
   };
 
-
-  // const dayOfWeek = getDayOfWeek(data?.Date);
   const dayAndMonth = getDayAndMonth(data?.Date);
 
   useEffect(() => {
     setStateMinMaxTemperature(data?.Temperature);
-    setStateSingleTemperature(cityTemperature)
-      if (!isFarenheight) {
-        temperatureType.current = "F";
-        imperialVsMetricToggleHandler();
-      }
-  }, [data,cityTemperature,isFarenheight]);
-
-
-  
+    setStateSingleTemperature(cityTemperature);
+    if (!isFarenheight) {
+      temperatureType.current = "F";
+      imperialVsMetricToggleHandler();
+    }
+  }, [data, cityTemperature, isFarenheight, cityCode]);
 
   return (
     <div className="city-container vertical-flex gap-8 ">
@@ -94,11 +104,17 @@ const City = ({ cityName, title, cityTemperature, data, type,isFavorite,isFarenh
         ) : (
           <div>{cityName}</div>
         )}
-        {/* {type === "weeklyItem" ? <div>{dayOfWeek}</div> : <div>{cityName}</div>} */}
         <div> ° {temperatureType.current}</div>
 
         {type !== "weeklyItem" && (
-          <img className="heart-icon-city" src={fullHeart} alt="heart" />
+          <img
+            onClick={() =>
+              toggleFavoriteHandler(cityName, cityTemperature, cityCode)
+            }
+            className="heart-icon-city"
+            src={isFavoriteHandler(cityCode) ? fullHeart : emptyHeart}
+            alt="heart"
+          />
         )}
       </div>
     </div>

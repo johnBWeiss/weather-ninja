@@ -1,14 +1,17 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { globalSelector } from "../../../store/globalSlice";
 import houseIcon from "../../assets/images/house-icon.png";
 import fullHeartIcon from "../../assets/images/full-heart-icon.png";
-
+import { useLocation } from "react-router-dom";
 const Header = () => {
   const reduxState = useSelector(globalSelector);
+  const location = useLocation();
   const navigate = useNavigate();
-  const [overlayPosition, setOverlayPosition] = useState(0);
+  const [overlayPosition, setOverlayPosition] = useState(
+    location.pathname === "/" ? 0 : "47%"
+  );
 
   const buttonClickHandler = (value) => {
     if (value === "home") {
@@ -24,7 +27,7 @@ const Header = () => {
   return (
     <div className="HeaderContainer">
       <div className="HeaderInnerContainer">
-        <div>Weather Ninja</div>
+        <h2>Weather Ninja</h2>
         <div className="header-button-container space-around relative ">
           <div
             className="chosen-header-overlay"

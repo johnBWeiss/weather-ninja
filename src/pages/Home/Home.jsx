@@ -22,7 +22,7 @@ const Home = () => {
       isFavoriteChosen,
       currentCityName,
       currentCityTemperature,
-      currentCityCode,
+      cityCode,
     },
   } = reduxState;
 
@@ -90,7 +90,7 @@ const Home = () => {
       // if (isFavoriteChosen) {
       //   dispatch(
       //     getFiveDays({
-      //       cityCode: currentCityCode,
+      //       cityCode: cityCode,
       //     })
       //   );
       // }
@@ -163,6 +163,7 @@ const Home = () => {
             cityName={currentCityName ?? ""}
             cityTemperature={currentCityTemperature ?? ""}
             type={"singleItem"}
+            cityCode={cityCode}
             // isFarenheight={false}
           />
         )}

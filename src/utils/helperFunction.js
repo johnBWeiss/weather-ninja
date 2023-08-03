@@ -8,11 +8,11 @@ export const celsiusToFahrenheit = (celsius) => {
     return Math.round(fahrenheit); // Round the Fahrenheit value to one decimal place
 };
 
-export const getDayOfWeek = (dateStr) => {
-    const date = new Date(dateStr);
-    const dayOfWeek = date.toLocaleDateString(undefined, { weekday: "long" });
-    return dayOfWeek;
-};
+// export const getDayOfWeek = (dateStr) => {
+//     const date = new Date(dateStr);
+//     const dayOfWeek = date.toLocaleDateString(undefined, { weekday: "long" });
+//     return dayOfWeek;
+// };
 
 export const getDayAndMonth = (dateStr) => {
     const date = new Date(dateStr);
@@ -32,27 +32,28 @@ export const getRandomErrorMessage = () => {
     return errorMessages[randomIndex];
 };
 
-const toggleFavorite = (name, temperature, cityCode) => {
-    const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+// export const toggleFavorite = (cityName, cityTemperature, cityCode) => {
+//     const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
-    const isFavorite = favorites.some(
-        (item) =>
-            item.cityCode === cityCode
-    );
+//     const isFavorite = favorites.some(
+//         (item) =>
+//             item.cityCode === cityCode
+//     );
 
-    if (isFavorite) {
-        const updatedFavorites = favorites.filter(
-            (item) =>
-                !(item.cityCode === cityCode)
-        );
-        localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-    } else {
-        favorites.push({ name, temperature, cityCode });
-        localStorage.setItem("favorites", JSON.stringify(favorites));
-    }
-};
+//     if (isFavorite) {
+//         const updatedFavorites = favorites.filter(
+//             (item) =>
+//                 !(item.cityCode === cityCode)
+//         );
+//         localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+//     } else {
+//         favorites.push({ cityName, cityTemperature, cityCode });
+//         localStorage.setItem("favorites", JSON.stringify(favorites));
+//     }
+// };
 
-const isFavorite = (cityCode) => {
+export const isFavoriteHandler = (cityCode) => {
+    console.log(cityCode);
     const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
     return favorites.some(

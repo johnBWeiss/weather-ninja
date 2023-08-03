@@ -41126,7 +41126,7 @@ exports.Axios = Axios;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.setIsMobile = exports.setCurrentCityFromFavorites = exports.setCurrentCity = exports.resetError = exports.globalSlice = exports.globalSelector = exports.getSingleCity = exports.getFiveDays = exports.errorHandler = exports.default = void 0;
+exports.setUpdateFavoriteArray = exports.setIsMobile = exports.setCurrentCityFromFavorites = exports.setCurrentCity = exports.resetError = exports.globalSlice = exports.globalSelector = exports.getSingleCity = exports.getFiveDays = exports.errorHandler = exports.default = void 0;
 var _toolkit = require("@reduxjs/toolkit");
 var _store = require("./store");
 var _reactRedux = require("react-redux");
@@ -41145,6 +41145,7 @@ var baseURL = 'http://dataservice.accuweather.com';
 var apikey = 'IeogV01qgqGpHm1XxALIFB1JAtbxBs7E';
 var initialMobile = window.matchMedia("(max-width: 1250px)");
 var initialState = {
+  favoritesArray: [],
   error: false,
   pending: false,
   isMobile: initialMobile.matches,
@@ -41154,7 +41155,6 @@ var initialState = {
     isFavoriteChosen: false,
     cityCode: '',
     currentCityName: '',
-    currentCItyCode: '',
     currentCityTemperature: ''
     // minTemperature: '',
     // maxTemperature: '',
@@ -41250,19 +41250,25 @@ var globalSlice = (0, _toolkit.createSlice)({
       var payload = _ref3.payload;
       state.isMobile = payload;
     },
+    setUpdateFavoriteArray: function setUpdateFavoriteArray(state, _ref4) {
+      var payload = _ref4.payload;
+      state.favoritesArray = payload;
+      console.log(payload);
+      console.log(state.favoritesArray);
+    },
     // setCurrentCityFromFavorites: (state, { payload }) => {
     //   state.currentCity = { ...payload, isFavoriteChosen: true };
     // },
-    setCurrentCity: function setCurrentCity(state, _ref4) {
-      var payload = _ref4.payload;
+    setCurrentCity: function setCurrentCity(state, _ref5) {
+      var payload = _ref5.payload;
       state.currentCity = _objectSpread({}, payload);
     }
   },
   extraReducers: function extraReducers(builder) {
     builder.addCase(getSingleCity.pending, function (state) {
       state.pending = true;
-    }).addCase(getSingleCity.fulfilled, function (state, _ref5) {
-      var payload = _ref5.payload;
+    }).addCase(getSingleCity.fulfilled, function (state, _ref6) {
+      var payload = _ref6.payload;
       state.pending = false;
       state.currentCity = _objectSpread({}, payload);
       // state.getSingleCity = { code: payload[0].Key, name:payload[0].LocalizedName }
@@ -41271,8 +41277,8 @@ var globalSlice = (0, _toolkit.createSlice)({
       state.pending = true;
     }).addCase(getFiveDays.pending, function (state) {
       state.pending = true;
-    }).addCase(getFiveDays.fulfilled, function (state, _ref6) {
-      var payload = _ref6.payload;
+    }).addCase(getFiveDays.fulfilled, function (state, _ref7) {
+      var payload = _ref7.payload;
       console.log(payload);
       state.pending = false;
       state.fiveDaysArray = payload;
@@ -41288,7 +41294,9 @@ var _globalSlice$actions = globalSlice.actions,
   setCurrentCity = _globalSlice$actions.setCurrentCity,
   setIsMobile = _globalSlice$actions.setIsMobile,
   errorHandler = _globalSlice$actions.errorHandler,
-  resetError = _globalSlice$actions.resetError;
+  resetError = _globalSlice$actions.resetError,
+  setUpdateFavoriteArray = _globalSlice$actions.setUpdateFavoriteArray;
+exports.setUpdateFavoriteArray = setUpdateFavoriteArray;
 exports.resetError = resetError;
 exports.errorHandler = errorHandler;
 exports.setIsMobile = setIsMobile;
@@ -49209,7 +49217,7 @@ module.exports = "/empty-heart-icon.86b54d98.png";
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getRandomErrorMessage = exports.getDayOfWeek = exports.getDayAndMonth = exports.fahrenheitToCelsius = exports.celsiusToFahrenheit = void 0;
+exports.isFavoriteHandler = exports.getRandomErrorMessage = exports.getDayAndMonth = exports.fahrenheitToCelsius = exports.celsiusToFahrenheit = void 0;
 var fahrenheitToCelsius = function fahrenheitToCelsius(fahrenheit) {
   var celsius = (fahrenheit - 32) * (5 / 9);
   return Math.round(celsius); // Round the Celsius value to one decimal place
@@ -49219,15 +49227,13 @@ var celsiusToFahrenheit = function celsiusToFahrenheit(celsius) {
   var fahrenheit = celsius * 9 / 5 + 32;
   return Math.round(fahrenheit); // Round the Fahrenheit value to one decimal place
 };
+
+// export const getDayOfWeek = (dateStr) => {
+//     const date = new Date(dateStr);
+//     const dayOfWeek = date.toLocaleDateString(undefined, { weekday: "long" });
+//     return dayOfWeek;
+// };
 exports.celsiusToFahrenheit = celsiusToFahrenheit;
-var getDayOfWeek = function getDayOfWeek(dateStr) {
-  var date = new Date(dateStr);
-  var dayOfWeek = date.toLocaleDateString(undefined, {
-    weekday: "long"
-  });
-  return dayOfWeek;
-};
-exports.getDayOfWeek = getDayOfWeek;
 var getDayAndMonth = function getDayAndMonth(dateStr) {
   var date = new Date(dateStr);
   var options = {
@@ -49244,33 +49250,74 @@ var getRandomErrorMessage = function getRandomErrorMessage() {
   var randomIndex = Math.floor(Math.random() * errorMessages.length);
   return errorMessages[randomIndex];
 };
+
+// export const toggleFavorite = (cityName, cityTemperature, cityCode) => {
+//     const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+//     const isFavorite = favorites.some(
+//         (item) =>
+//             item.cityCode === cityCode
+//     );
+
+//     if (isFavorite) {
+//         const updatedFavorites = favorites.filter(
+//             (item) =>
+//                 !(item.cityCode === cityCode)
+//         );
+//         localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+//     } else {
+//         favorites.push({ cityName, cityTemperature, cityCode });
+//         localStorage.setItem("favorites", JSON.stringify(favorites));
+//     }
+// };
 exports.getRandomErrorMessage = getRandomErrorMessage;
-var toggleFavorite = function toggleFavorite(name, temperature, cityCode) {
-  var favorites = JSON.parse(localStorage.getItem("favorites")) || [];
-  var isFavorite = favorites.some(function (item) {
-    return item.cityCode === cityCode;
-  });
-  if (isFavorite) {
-    var updatedFavorites = favorites.filter(function (item) {
-      return !(item.cityCode === cityCode);
-    });
-    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
-  } else {
-    favorites.push({
-      name: name,
-      temperature: temperature,
-      cityCode: cityCode
-    });
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-  }
-};
-var isFavorite = function isFavorite(cityCode) {
+var isFavoriteHandler = function isFavoriteHandler(cityCode) {
+  console.log(cityCode);
   var favorites = JSON.parse(localStorage.getItem("favorites")) || [];
   return favorites.some(function (item) {
     return item.cityCode === cityCode;
   });
 };
-},{}],"../src/components/City/City.jsx":[function(require,module,exports) {
+exports.isFavoriteHandler = isFavoriteHandler;
+},{}],"../src/customHooks/useToggleFavorite.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _reactRedux = require("react-redux");
+var _globalSlice = require("../../store/globalSlice");
+var useToggleFavorite = function useToggleFavorite(cityName, cityTemperature, cityCode) {
+  var dispatch = (0, _reactRedux.useDispatch)();
+  var toggleFavoriteHandler = function toggleFavoriteHandler() {
+    var favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+    var isCityFavorite = favorites.some(function (item) {
+      return item.cityCode === cityCode;
+    });
+    if (isCityFavorite) {
+      var updatedFavorites = favorites.filter(function (item) {
+        return item.cityCode !== cityCode;
+      });
+      localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+      dispatch((0, _globalSlice.setUpdateFavoriteArray)(updatedFavorites));
+    } else {
+      favorites.push({
+        cityName: cityName,
+        cityTemperature: cityTemperature,
+        cityCode: cityCode
+      });
+      localStorage.setItem("favorites", JSON.stringify(favorites));
+      dispatch((0, _globalSlice.setUpdateFavoriteArray)(favorites));
+    }
+  };
+  return {
+    toggleFavoriteHandler: toggleFavoriteHandler
+  };
+};
+var _default = useToggleFavorite;
+exports.default = _default;
+},{"react-redux":"../node_modules/react-redux/es/index.js","../../store/globalSlice":"../store/globalSlice.js"}],"../src/components/City/City.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49282,6 +49329,7 @@ var _partlyCloudy = _interopRequireDefault(require("../../assets/images/partly c
 var _fullHeartIconBlack = _interopRequireDefault(require("../../assets/images/full-heart-icon-black.png"));
 var _emptyHeartIcon = _interopRequireDefault(require("../../assets/images/empty-heart-icon.png"));
 var _helperFunction = require("../../utils/helperFunction");
+var _useToggleFavorite2 = _interopRequireDefault(require("../../customHooks/useToggleFavorite"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -49294,17 +49342,18 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var City = function City(_ref) {
   var _data$Temperature, _stateMinMaxTemperatu3, _stateMinMaxTemperatu4;
   var cityName = _ref.cityName,
+    cityCode = _ref.cityCode,
     title = _ref.title,
     cityTemperature = _ref.cityTemperature,
     data = _ref.data,
     type = _ref.type,
-    isFavorite = _ref.isFavorite,
     isFarenheight = _ref.isFarenheight;
+  var _useToggleFavorite = (0, _useToggleFavorite2.default)(cityName, cityTemperature, cityCode),
+    toggleFavoriteHandler = _useToggleFavorite.toggleFavoriteHandler;
   var _useState = (0, _react.useState)((_data$Temperature = data === null || data === void 0 ? void 0 : data.Temperature) !== null && _data$Temperature !== void 0 ? _data$Temperature : ""),
     _useState2 = _slicedToArray(_useState, 2),
     stateMinMaxTemperature = _useState2[0],
     setStateMinMaxTemperature = _useState2[1];
-  console.log(data);
   var _useState3 = (0, _react.useState)(cityTemperature !== null && cityTemperature !== void 0 ? cityTemperature : ""),
     _useState4 = _slicedToArray(_useState3, 2),
     stateSingleTemperature = _useState4[0],
@@ -49345,8 +49394,6 @@ var City = function City(_ref) {
     }
     temperatureType.current === "C" ? temperatureType.current = "F" : temperatureType.current = "C";
   };
-
-  // const dayOfWeek = getDayOfWeek(data?.Date);
   var dayAndMonth = (0, _helperFunction.getDayAndMonth)(data === null || data === void 0 ? void 0 : data.Date);
   (0, _react.useEffect)(function () {
     setStateMinMaxTemperature(data === null || data === void 0 ? void 0 : data.Temperature);
@@ -49355,7 +49402,7 @@ var City = function City(_ref) {
       temperatureType.current = "F";
       imperialVsMetricToggleHandler();
     }
-  }, [data, cityTemperature, isFarenheight]);
+  }, [data, cityTemperature, isFarenheight, cityCode]);
   return /*#__PURE__*/_react.default.createElement("div", {
     className: "city-container vertical-flex gap-8 "
   }, /*#__PURE__*/_react.default.createElement("div", {
@@ -49372,14 +49419,17 @@ var City = function City(_ref) {
   }), " ", type === "weeklyItem" ? /*#__PURE__*/_react.default.createElement("div", null, stateMinMaxTemperature === null || stateMinMaxTemperature === void 0 || (_stateMinMaxTemperatu3 = stateMinMaxTemperature.Minimum) === null || _stateMinMaxTemperatu3 === void 0 ? void 0 : _stateMinMaxTemperatu3.Value, " -", " ", stateMinMaxTemperature === null || stateMinMaxTemperature === void 0 || (_stateMinMaxTemperatu4 = stateMinMaxTemperature.Maximum) === null || _stateMinMaxTemperatu4 === void 0 ? void 0 : _stateMinMaxTemperatu4.Value) : /*#__PURE__*/_react.default.createElement("div", null, stateSingleTemperature))), /*#__PURE__*/_react.default.createElement("div", {
     className: "space-between"
   }, type === "weeklyItem" ? /*#__PURE__*/_react.default.createElement("div", null, dayAndMonth) : /*#__PURE__*/_react.default.createElement("div", null, cityName), /*#__PURE__*/_react.default.createElement("div", null, " \xB0 ", temperatureType.current), type !== "weeklyItem" && /*#__PURE__*/_react.default.createElement("img", {
+    onClick: function onClick() {
+      return toggleFavoriteHandler(cityName, cityTemperature, cityCode);
+    },
     className: "heart-icon-city",
-    src: _fullHeartIconBlack.default,
+    src: (0, _helperFunction.isFavoriteHandler)(cityCode) ? _fullHeartIconBlack.default : _emptyHeartIcon.default,
     alt: "heart"
   })));
 };
 var _default = City;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","../../assets/images/partly cloudy.png":"../src/assets/images/partly cloudy.png","../../assets/images/full-heart-icon-black.png":"../src/assets/images/full-heart-icon-black.png","../../assets/images/empty-heart-icon.png":"../src/assets/images/empty-heart-icon.png","../../utils/helperFunction":"../src/utils/helperFunction.js"}],"../src/utils/mockData.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","../../assets/images/partly cloudy.png":"../src/assets/images/partly cloudy.png","../../assets/images/full-heart-icon-black.png":"../src/assets/images/full-heart-icon-black.png","../../assets/images/empty-heart-icon.png":"../src/assets/images/empty-heart-icon.png","../../utils/helperFunction":"../src/utils/helperFunction.js","../../customHooks/useToggleFavorite":"../src/customHooks/useToggleFavorite.jsx"}],"../src/utils/mockData.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -51436,7 +51486,7 @@ var Home = function Home() {
     isFavoriteChosen = _reduxState$currentCi.isFavoriteChosen,
     currentCityName = _reduxState$currentCi.currentCityName,
     currentCityTemperature = _reduxState$currentCi.currentCityTemperature,
-    currentCityCode = _reduxState$currentCi.currentCityCode;
+    cityCode = _reduxState$currentCi.cityCode;
   var _useState = (0, _react.useState)(""),
     _useState2 = _slicedToArray(_useState, 2),
     stateInputValue = _useState2[0],
@@ -51604,7 +51654,8 @@ var Home = function Home() {
   }, (0, _helperFunction.getRandomErrorMessage)()), !error && currentCityName && /*#__PURE__*/_react.default.createElement(_City.default, {
     cityName: currentCityName !== null && currentCityName !== void 0 ? currentCityName : "",
     cityTemperature: currentCityTemperature !== null && currentCityTemperature !== void 0 ? currentCityTemperature : "",
-    type: "singleItem"
+    type: "singleItem",
+    cityCode: cityCode
     // isFarenheight={false}
   })), /*#__PURE__*/_react.default.createElement("div", {
     className: "flex flex-wrap center gallery-container"
@@ -51647,8 +51698,9 @@ function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefine
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var Header = function Header() {
   var reduxState = (0, _reactRedux.useSelector)(_globalSlice.globalSelector);
+  var location = (0, _reactRouterDom.useLocation)();
   var navigate = (0, _reactRouterDom.useNavigate)();
-  var _useState = (0, _react.useState)(0),
+  var _useState = (0, _react.useState)(location.pathname === "/" ? 0 : "47%"),
     _useState2 = _slicedToArray(_useState, 2),
     overlayPosition = _useState2[0],
     setOverlayPosition = _useState2[1];
@@ -51666,7 +51718,7 @@ var Header = function Header() {
     className: "HeaderContainer"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "HeaderInnerContainer"
-  }, /*#__PURE__*/_react.default.createElement("div", null, "Weather Ninja"), /*#__PURE__*/_react.default.createElement("div", {
+  }, /*#__PURE__*/_react.default.createElement("h2", null, "Weather Ninja"), /*#__PURE__*/_react.default.createElement("div", {
     className: "header-button-container space-around relative "
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "chosen-header-overlay",
@@ -51702,25 +51754,47 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.default = void 0;
-var _react = _interopRequireDefault(require("react"));
+var _react = _interopRequireWildcard(require("react"));
 var _City = _interopRequireDefault(require("../../components/City/City"));
+var _globalSlice = require("../../../store/globalSlice");
+var _reactRedux = require("react-redux");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 var Favorites = function Favorites() {
-  var mockFavorites = ["", "", ""];
+  var reduxState = (0, _reactRedux.useSelector)(_globalSlice.globalSelector);
+  console.log(reduxState);
+  var favoritesArray = reduxState.favoritesArray;
+  console.log(favoritesArray);
+  // console.log(updateFavoritesArray);
+  // const [favoritesArray, setFavoritesArray] = useState([]);
+  // const updateFavoritesState = () => {
+  //   const favoritesFromStorage =
+  //     JSON.parse(localStorage.getItem("favorites")) || [];
+  //   setFavoritesArray(favoritesFromStorage);
+  // };
+
+  // useEffect(() => {
+  //   updateFavoritesState();
+  // }, [updateFavoritesArray]);
+
   return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("h1", {
     className: "favorites-title padding-top-300 center"
   }, "Favorites"), /*#__PURE__*/_react.default.createElement("div", {
     className: "flex flex-wrap center gallery-container"
-  }, mockFavorites === null || mockFavorites === void 0 ? void 0 : mockFavorites.map(function (forecast, index) {
+  }, favoritesArray === null || favoritesArray === void 0 ? void 0 : favoritesArray.map(function (value, index) {
     return /*#__PURE__*/_react.default.createElement(_City.default, {
       key: index,
-      isFarenheight: true
+      isFarenheight: true,
+      cityName: value.cityName,
+      cityCode: value.cityCode,
+      cityTemperature: value.cityTemperature
     });
   })));
 };
 var _default = Favorites;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","../../components/City/City":"../src/components/City/City.jsx"}],"../Main.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","../../components/City/City":"../src/components/City/City.jsx","../../../store/globalSlice":"../store/globalSlice.js","react-redux":"../node_modules/react-redux/es/index.js"}],"../Main.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {

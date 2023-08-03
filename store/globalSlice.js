@@ -8,6 +8,7 @@ const apikey = 'IeogV01qgqGpHm1XxALIFB1JAtbxBs7E'
 
 let initialMobile = window.matchMedia("(max-width: 1250px)");
 const initialState = {
+  favoritesArray: [],
   error: false,
   pending: false,
   isMobile: initialMobile.matches,
@@ -17,7 +18,6 @@ const initialState = {
     isFavoriteChosen: false,
     cityCode: '',
     currentCityName: '',
-    currentCItyCode: '',
     currentCityTemperature: ''
     // minTemperature: '',
     // maxTemperature: '',
@@ -76,6 +76,11 @@ export const globalSlice = createSlice({
     setIsMobile: (state, { payload }) => {
       state.isMobile = payload;
     },
+    setUpdateFavoriteArray: (state, { payload }) => {
+      state.favoritesArray = payload;
+      console.log(payload);
+      console.log(state.favoritesArray);
+    },
     // setCurrentCityFromFavorites: (state, { payload }) => {
     //   state.currentCity = { ...payload, isFavoriteChosen: true };
     // },
@@ -122,7 +127,8 @@ export const {
   setCurrentCity,
   setIsMobile,
   errorHandler,
-  resetError
+  resetError,
+  setUpdateFavoriteArray
 
 } = globalSlice.actions;
 
