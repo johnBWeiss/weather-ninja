@@ -28,8 +28,6 @@ const Home = () => {
 
   const [stateInputValue, setStateInputValue] = useState("");
 
-  console.log(fiveDaysArray);
-
   async function getCityFromGeolocation() {
     return new Promise((resolve, reject) => {
       if (navigator.geolocation) {
@@ -66,8 +64,6 @@ const Home = () => {
             .get(apiUrl)
             .then((response) => {
               const data = response.data;
-              console.log(data);
-              // setCurrentCity(data);
               dispatch(
                 getSingleCity({
                   cityCode: data.Key,
@@ -86,7 +82,7 @@ const Home = () => {
               dispatch(errorHandler());
             });
         } catch (error) {
-          console.log("Error getting geolocation:", error.message);
+          // console.log("Error getting geolocation:", error.message);
           dispatch(errorHandler());
         }
       }
@@ -117,11 +113,10 @@ const Home = () => {
   };
 
   const searchByTextHandler = async () => {
-    console.log(stateInputValue);
     const apiKey = "IeogV01qgqGpHm1XxALIFB1JAtbxBs7E";
     const language = "en-us";
 
-    const url = `zhttp://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${apiKey}&q=${stateInputValue}&language=${language}`;
+    const url = `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${apiKey}&q=${stateInputValue}&language=${language}`;
 
     try {
       const response = await axios.get(url);

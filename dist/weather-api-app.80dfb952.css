@@ -143,6 +143,10 @@
   color: red;
 }
 
+.favorites-title {
+  font-size: clamp(26px, 4.5vw, 150px);
+}
+
 html {
   width: 100%;
   height: 100%;
@@ -236,6 +240,10 @@ input {
 
 .padding-top-100 {
   padding-top: 100px;
+}
+
+.padding-top-300 {
+  padding-top: 300px;
 }
 
 .padding-bottom-50 {

@@ -26,8 +26,37 @@ export const getRandomErrorMessage = () => {
         "Yeah...so about your request. Not happening this time, had an error. Sorry",
         "Oops! Something went wrong. Just wear a sweater or something",
         "Um, is your browser ok? Cause this isn't really working. Check for an error somewhere",
-        "Sorry, error. We should blame the developer though, he probably has imposter syndrom",
+        "Sorry, had an error. let's blame the developer!",
     ];
     const randomIndex = Math.floor(Math.random() * errorMessages.length);
     return errorMessages[randomIndex];
+};
+
+const toggleFavorite = (name, temperature, cityCode) => {
+    const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+    const isFavorite = favorites.some(
+        (item) =>
+            item.cityCode === cityCode
+    );
+
+    if (isFavorite) {
+        const updatedFavorites = favorites.filter(
+            (item) =>
+                !(item.cityCode === cityCode)
+        );
+        localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+    } else {
+        favorites.push({ name, temperature, cityCode });
+        localStorage.setItem("favorites", JSON.stringify(favorites));
+    }
+};
+
+const isFavorite = (cityCode) => {
+    const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
+    return favorites.some(
+        (item) =>
+            item.cityCode === cityCode
+    );
 };

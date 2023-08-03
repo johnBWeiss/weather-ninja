@@ -3,7 +3,7 @@
 @import "../components/Header/Header.scss";
 @import "../components/City/City.scss";
 @import "../pages/Home/home.scss";
-
+@import "../pages/Favorites/favorites.scss";
 
 html {
   width: 100%;
@@ -98,6 +98,9 @@ input {
 .padding-top-100 {
   padding-top: 100px;
 }
+.padding-top-300 {
+  padding-top: 300px;
+}
 .padding-bottom-50 {
   padding-bottom: 50px;
 }
@@ -138,7 +141,7 @@ input {
   justify-content: flex-end;
 }
 
-.flex-wrap{
+.flex-wrap {
   flex-wrap: wrap;
 }
 
@@ -177,8 +180,8 @@ input {
   margin: 0 auto;
 }
 
-.center{
-  margin:0 auto;
+.center {
+  margin: 0 auto;
   align-self: center;
   width: fit-content;
 }
@@ -242,8 +245,7 @@ input {
 .gap-12 {
   display: flex;
   gap: 12px;
-    align-items: center;
-
+  align-items: center;
 }
 .gap-16 {
   display: flex;

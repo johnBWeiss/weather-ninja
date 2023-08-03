@@ -49240,11 +49240,36 @@ var getDayAndMonth = function getDayAndMonth(dateStr) {
 };
 exports.getDayAndMonth = getDayAndMonth;
 var getRandomErrorMessage = function getRandomErrorMessage() {
-  var errorMessages = ["Yeah...so about your request. Not happening this time, had an error. Sorry", "Oops! Something went wrong. Just wear a sweater or something", "Um, is your browser ok? Cause this isn't really working. Check for an error somewhere", "Sorry, error. We should blame the developer though, he probably has imposter syndrom"];
+  var errorMessages = ["Yeah...so about your request. Not happening this time, had an error. Sorry", "Oops! Something went wrong. Just wear a sweater or something", "Um, is your browser ok? Cause this isn't really working. Check for an error somewhere", "Sorry, had an error. let's blame the developer!"];
   var randomIndex = Math.floor(Math.random() * errorMessages.length);
   return errorMessages[randomIndex];
 };
 exports.getRandomErrorMessage = getRandomErrorMessage;
+var toggleFavorite = function toggleFavorite(name, temperature, cityCode) {
+  var favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+  var isFavorite = favorites.some(function (item) {
+    return item.cityCode === cityCode;
+  });
+  if (isFavorite) {
+    var updatedFavorites = favorites.filter(function (item) {
+      return !(item.cityCode === cityCode);
+    });
+    localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
+  } else {
+    favorites.push({
+      name: name,
+      temperature: temperature,
+      cityCode: cityCode
+    });
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }
+};
+var isFavorite = function isFavorite(cityCode) {
+  var favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+  return favorites.some(function (item) {
+    return item.cityCode === cityCode;
+  });
+};
 },{}],"../src/components/City/City.jsx":[function(require,module,exports) {
 "use strict";
 
@@ -51416,7 +51441,6 @@ var Home = function Home() {
     _useState2 = _slicedToArray(_useState, 2),
     stateInputValue = _useState2[0],
     setStateInputValue = _useState2[1];
-  console.log(fiveDaysArray);
   function getCityFromGeolocation() {
     return _getCityFromGeolocation.apply(this, arguments);
   }
@@ -51463,7 +51487,7 @@ var Home = function Home() {
           while (1) switch (_context.prev = _context.next) {
             case 0:
               if (!(currentCityName.length <= 0)) {
-                _context.next = 18;
+                _context.next = 17;
                 break;
               }
               _context.prev = 1;
@@ -51479,8 +51503,6 @@ var Home = function Home() {
               apiUrl = "".concat(endpointURL, "?apikey=").concat(apiKey, "&q=").concat(latitude, "%2C").concat(longitude, "&language=").concat(language, "&toplevel=").concat(toplevel);
               _axios.default.get(apiUrl).then(function (response) {
                 var data = response.data;
-                console.log(data);
-                // setCurrentCity(data);
                 dispatch((0, _globalSlice.getSingleCity)({
                   cityCode: data.Key,
                   cityName: data === null || data === void 0 ? void 0 : data.LocalizedName,
@@ -51493,14 +51515,14 @@ var Home = function Home() {
                 console.error("Error fetching data:", error.message);
                 dispatch((0, _globalSlice.errorHandler)());
               });
-              _context.next = 18;
+              _context.next = 17;
               break;
             case 14:
               _context.prev = 14;
               _context.t0 = _context["catch"](1);
-              console.log("Error getting geolocation:", _context.t0.message);
+              // console.log("Error getting geolocation:", error.message);
               dispatch((0, _globalSlice.errorHandler)());
-            case 18:
+            case 17:
             case "end":
               return _context.stop();
           }
@@ -51524,14 +51546,13 @@ var Home = function Home() {
       return _regeneratorRuntime().wrap(function _callee2$(_context2) {
         while (1) switch (_context2.prev = _context2.next) {
           case 0:
-            console.log(stateInputValue);
             apiKey = "IeogV01qgqGpHm1XxALIFB1JAtbxBs7E";
             language = "en-us";
-            url = "zhttp://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=".concat(apiKey, "&q=").concat(stateInputValue, "&language=").concat(language);
-            _context2.prev = 4;
-            _context2.next = 7;
+            url = "http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=".concat(apiKey, "&q=").concat(stateInputValue, "&language=").concat(language);
+            _context2.prev = 3;
+            _context2.next = 6;
             return _axios.default.get(url);
-          case 7:
+          case 6:
             response = _context2.sent;
             console.log("Response:", response.data[0].Key);
             dispatch((0, _globalSlice.getSingleCity)({
@@ -51542,18 +51563,18 @@ var Home = function Home() {
             dispatch((0, _globalSlice.getFiveDays)({
               cityCode: response === null || response === void 0 || (_response$data3 = response.data) === null || _response$data3 === void 0 || (_response$data3 = _response$data3[0]) === null || _response$data3 === void 0 ? void 0 : _response$data3.Key
             }));
-            _context2.next = 17;
+            _context2.next = 16;
             break;
-          case 13:
-            _context2.prev = 13;
-            _context2.t0 = _context2["catch"](4);
+          case 12:
+            _context2.prev = 12;
+            _context2.t0 = _context2["catch"](3);
             console.error("Error fetching data:", _context2.t0.message);
             dispatch((0, _globalSlice.errorHandler)());
-          case 17:
+          case 16:
           case "end":
             return _context2.stop();
         }
-      }, _callee2, null, [[4, 13]]);
+      }, _callee2, null, [[3, 12]]);
     }));
     return function searchByTextHandler() {
       return _ref.apply(this, arguments);
@@ -51638,6 +51659,7 @@ var Header = function Header() {
     }
     if (value === "favorites") {
       setOverlayPosition("47%");
+      navigate("/Favorites");
     }
   };
   return /*#__PURE__*/_react.default.createElement("div", {
@@ -51673,7 +51695,32 @@ var Header = function Header() {
 };
 var _default = Header;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/dist/index.js","react-redux":"../node_modules/react-redux/es/index.js","../../../store/globalSlice":"../store/globalSlice.js","../../assets/images/house-icon.png":"../src/assets/images/house-icon.png","../../assets/images/full-heart-icon.png":"../src/assets/images/full-heart-icon.png"}],"../Main.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/dist/index.js","react-redux":"../node_modules/react-redux/es/index.js","../../../store/globalSlice":"../store/globalSlice.js","../../assets/images/house-icon.png":"../src/assets/images/house-icon.png","../../assets/images/full-heart-icon.png":"../src/assets/images/full-heart-icon.png"}],"../src/pages/Favorites/Favorites.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _react = _interopRequireDefault(require("react"));
+var _City = _interopRequireDefault(require("../../components/City/City"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+var Favorites = function Favorites() {
+  var mockFavorites = ["", "", ""];
+  return /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("h1", {
+    className: "favorites-title padding-top-300 center"
+  }, "Favorites"), /*#__PURE__*/_react.default.createElement("div", {
+    className: "flex flex-wrap center gallery-container"
+  }, mockFavorites === null || mockFavorites === void 0 ? void 0 : mockFavorites.map(function (forecast, index) {
+    return /*#__PURE__*/_react.default.createElement(_City.default, {
+      key: index,
+      isFarenheight: true
+    });
+  })));
+};
+var _default = Favorites;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js","../../components/City/City":"../src/components/City/City.jsx"}],"../Main.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -51684,6 +51731,7 @@ var _react = _interopRequireDefault(require("react"));
 var _reactRouterDom = require("react-router-dom");
 var _Home = _interopRequireDefault(require("./src/pages/Home/Home"));
 var _Header = _interopRequireDefault(require("./src/components/Header/Header"));
+var _Favorites = _interopRequireDefault(require("./src/pages/Favorites/Favorites"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 var Main = function Main() {
   return /*#__PURE__*/_react.default.createElement("div", {
@@ -51692,11 +51740,15 @@ var Main = function Main() {
     exact: true,
     path: "/",
     element: /*#__PURE__*/_react.default.createElement(_Home.default, null)
+  }), /*#__PURE__*/_react.default.createElement(_reactRouterDom.Route, {
+    exact: true,
+    path: "/Favorites",
+    element: /*#__PURE__*/_react.default.createElement(_Favorites.default, null)
   }))));
 };
 var _default = Main;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/dist/index.js","./src/pages/Home/Home":"../src/pages/Home/Home.jsx","./src/components/Header/Header":"../src/components/Header/Header.jsx"}],"../serviceWorkerRegistration.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/dist/index.js","./src/pages/Home/Home":"../src/pages/Home/Home.jsx","./src/components/Header/Header":"../src/components/Header/Header.jsx","./src/pages/Favorites/Favorites":"../src/pages/Favorites/Favorites.jsx"}],"../serviceWorkerRegistration.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
