@@ -6,7 +6,7 @@ import { fahrenheitToCelsius } from "../../utils/helperFunction";
 import { celsiusToFahrenheit } from "../../utils/helperFunction";
 import { getDayOfWeek } from "../../utils/helperFunction";
 
-const City = ({ cityName, title, cityTemperature, data, type,isFavorite }) => {
+const City = ({ cityName, title, cityTemperature, data, type,isFavorite,isFarenheight }) => {
   const [stateMinMaxTemperature, setStateMinMaxTemperature] = useState(
     data?.Temperature ?? ""
   );
@@ -35,12 +35,15 @@ const City = ({ cityName, title, cityTemperature, data, type,isFavorite }) => {
 
     if (type !== "weeklyItem") {
       let temp;
+      console.log(stateSingleTemperature);
+      console.log(cityTemperature);
       if (temperatureType.current === "C") {
         temp = celsiusToFahrenheit(stateSingleTemperature);
       }
       if (temperatureType.current === "F") {
         temp = fahrenheitToCelsius(cityTemperature);
       }
+      console.log(temp);
       setStateSingleTemperature(temp);
     }
 
@@ -68,7 +71,14 @@ const City = ({ cityName, title, cityTemperature, data, type,isFavorite }) => {
   useEffect(() => {
     setStateMinMaxTemperature(data?.Temperature);
     setStateSingleTemperature(cityTemperature)
-  }, [data,cityTemperature]);
+      if (!isFarenheight) {
+        temperatureType.current = "F";
+        imperialVsMetricToggleHandler();
+      }
+  }, [data,cityTemperature,isFarenheight]);
+
+
+  
 
   return (
     <div className="city-container vertical-flex gap-8 ">

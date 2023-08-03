@@ -6,6 +6,7 @@ import axios from "axios";
 import { globalSelector } from "../../../store/globalSlice";
 import { setCurrentCity } from "../../../store/globalSlice";
 import { getSingleCity } from "../../../store/globalSlice";
+import { weeklyArrayShortData } from "../../utils/mockData";
 const Home = () => {
   const dispatch=useDispatch()
   const reduxState = useSelector(globalSelector);
@@ -16,11 +17,10 @@ const Home = () => {
       currentCityTemperature,
     },
   } = reduxState;
-  console.log(currentCityName, currentCityTemperature);
+
   const [inputValue, setInputValue] = useState("");
   const [currentCity, setCurrentCity] = useState(false);
 
-  const urlForGettingCityBasedGeo = `http://dataservice.accuweather.com/locations/v1/cities/geoposition/search?apikey=IeogV01qgqGpHm1XxALIFB1JAtbxBs7E&q=31.8067218%2C35.4996216&language=en-us&toplevel=false`;
 
   async function getCityFromGeolocation() {
     return new Promise((resolve, reject) => {
@@ -56,7 +56,8 @@ const Home = () => {
           .get(apiUrl)
           .then((response) => {
             const data = response.data;
-            
+            console.log(data);
+            // setCurrentCity(data);
             dispatch(getSingleCity({ cityCode: data.Key, cityName: data?.LocalizedName }));
           })
           .catch((error) => {
@@ -86,6 +87,7 @@ const Home = () => {
   };
 
 
+
   return (
     <div className="home-container">
       <div className="flex relative center">
@@ -103,11 +105,13 @@ const Home = () => {
         <City
           cityName={currentCityName ?? ""}
           cityTemperature={currentCityTemperature ?? ""}
+          type={"singleItem"}
+          // isFarenheight={false}
         />
       </div>
       <div className="flex flex-wrap center gallery-container">
         {weeklyArrayShortData?.DailyForecasts?.map((forecast, index) => (
-          <City key={index} type={"weeklyItem"} data={forecast} />
+          <City key={index} type={"weeklyItem"} data={forecast} isFarenheight={true} />
         ))}
       </div>
     </div>
