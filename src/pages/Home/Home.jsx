@@ -7,20 +7,28 @@ import { globalSelector } from "../../../store/globalSlice";
 import { setCurrentCity } from "../../../store/globalSlice";
 import { getSingleCity } from "../../../store/globalSlice";
 import { weeklyArrayShortData } from "../../utils/mockData";
+import { getFiveDays } from "../../../store/globalSlice";
+import { errorHandler } from "../../../store/globalSlice";
+import { resetError } from "../../../store/globalSlice";
+import { getRandomErrorMessage } from "../../utils/helperFunction";
+
 const Home = () => {
-  const dispatch=useDispatch()
+  const dispatch = useDispatch();
   const reduxState = useSelector(globalSelector);
   const {
+    fiveDaysArray,
+    error,
     currentCity: {
       isFavoriteChosen,
       currentCityName,
       currentCityTemperature,
+      currentCityCode,
     },
   } = reduxState;
 
-  const [inputValue, setInputValue] = useState("");
-  const [currentCity, setCurrentCity] = useState(false);
+  const [stateInputValue, setStateInputValue] = useState("");
 
+  console.log(fiveDaysArray);
 
   async function getCityFromGeolocation() {
     return new Promise((resolve, reject) => {
@@ -41,52 +49,100 @@ const Home = () => {
   }
 
   useEffect(() => {
+    dispatch(resetError());
     async function fetchCityName() {
-      try {
-        const position = await getCityFromGeolocation();
-        const { latitude, longitude } = position;
-        const endpointURL =
-          "http://dataservice.accuweather.com/locations/v1/cities/geoposition/search";
-        const apiKey = "IeogV01qgqGpHm1XxALIFB1JAtbxBs7E";
+      if (currentCityName.length <= 0) {
+        try {
+          const position = await getCityFromGeolocation();
+          const { latitude, longitude } = position;
+          const endpointURL =
+            "http://dataservice.accuweather.com/locations/v1/cities/geoposition/search";
+          const apiKey = "IeogV01qgqGpHm1XxALIFB1JAtbxBs7E";
 
-        const language = "en-us";
-        const toplevel = false;
-        const apiUrl = `${endpointURL}?apikey=${apiKey}&q=${latitude}%2C${longitude}&language=${language}&toplevel=${toplevel}`;
-        axios
-          .get(apiUrl)
-          .then((response) => {
-            const data = response.data;
-            console.log(data);
-            // setCurrentCity(data);
-            dispatch(getSingleCity({ cityCode: data.Key, cityName: data?.LocalizedName }));
-          })
-          .catch((error) => {
-            console.error("Error fetching data:", error.message);
-          });
-      } catch (error) {
-        console.log("Error getting geolocation:", error.message);
+          const language = "en-us";
+          const toplevel = false;
+          const apiUrl = `${endpointURL}?apikey=${apiKey}&q=${latitude}%2C${longitude}&language=${language}&toplevel=${toplevel}`;
+          axios
+            .get(apiUrl)
+            .then((response) => {
+              const data = response.data;
+              console.log(data);
+              // setCurrentCity(data);
+              dispatch(
+                getSingleCity({
+                  cityCode: data.Key,
+                  cityName: data?.LocalizedName,
+                  isFavoriteChosen: false,
+                })
+              );
+              dispatch(
+                getFiveDays({
+                  cityCode: data.Key,
+                })
+              );
+            })
+            .catch((error) => {
+              console.error("Error fetching data:", error.message);
+              dispatch(errorHandler());
+            });
+        } catch (error) {
+          console.log("Error getting geolocation:", error.message);
+          dispatch(errorHandler());
+        }
       }
+
+      // if (isFavoriteChosen) {
+      //   dispatch(
+      //     getFiveDays({
+      //       cityCode: currentCityCode,
+      //     })
+      //   );
+      // }
     }
-    // if (!isFavoriteChosen) {
-      fetchCityName();
-    // }
+    // fetchCityName();
 
     // dispatch(getSingleCity({ cityCode: "215854", cityName: "Tel Aviv" }));
   }, []);
 
   const handleInputChange = (event) => {
+    console.log(event.target.value);
     const inputText = event.target.value;
 
-    // Regular expression to allow only English letters (a-z, A-Z)
-    const englishLettersRegex = /^[a-zA-Z]*$/;
+    const englishLettersRegex = /^[a-zA-Z\s]*$/;
 
     if (englishLettersRegex.test(inputText)) {
       let inputTextLowerCase = inputText.toLowerCase();
-      setInputValue(inputTextLowerCase);
+      setStateInputValue(inputTextLowerCase);
     }
   };
 
+  const searchByTextHandler = async () => {
+    console.log(stateInputValue);
+    const apiKey = "IeogV01qgqGpHm1XxALIFB1JAtbxBs7E";
+    const language = "en-us";
 
+    const url = `zhttp://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${apiKey}&q=${stateInputValue}&language=${language}`;
+
+    try {
+      const response = await axios.get(url);
+      console.log("Response:", response.data[0].Key);
+      dispatch(
+        getSingleCity({
+          cityCode: response?.data?.[0]?.Key,
+          cityName: response?.data?.[0]?.LocalizedName,
+          isFavoriteChosen: false,
+        })
+      );
+      dispatch(
+        getFiveDays({
+          cityCode: response?.data?.[0]?.Key,
+        })
+      );
+    } catch (error) {
+      console.error("Error fetching data:", error.message);
+      dispatch(errorHandler());
+    }
+  };
 
   return (
     <div className="home-container">
@@ -96,22 +152,34 @@ const Home = () => {
         <input
           className="search-input"
           type="text"
-          value={inputValue}
+          value={stateInputValue}
           onChange={handleInputChange}
-          placeholder="Search for a city"
+          onKeyDown={(e) => {
+            e.code === "Enter" && searchByTextHandler();
+          }}
+          placeholder="Search for a city and press enter"
         />
       </div>
       <div className="center padding-top-100">
-        <City
-          cityName={currentCityName ?? ""}
-          cityTemperature={currentCityTemperature ?? ""}
-          type={"singleItem"}
-          // isFarenheight={false}
-        />
+        {error && <h1 className="error-message">{getRandomErrorMessage()}</h1>}
+
+        {!error && currentCityName && (
+          <City
+            cityName={currentCityName ?? ""}
+            cityTemperature={currentCityTemperature ?? ""}
+            type={"singleItem"}
+            // isFarenheight={false}
+          />
+        )}
       </div>
       <div className="flex flex-wrap center gallery-container">
-        {weeklyArrayShortData?.DailyForecasts?.map((forecast, index) => (
-          <City key={index} type={"weeklyItem"} data={forecast} isFarenheight={true} />
+        {fiveDaysArray?.map((forecast, index) => (
+          <City
+            key={index}
+            type={"weeklyItem"}
+            data={forecast}
+            isFarenheight={true}
+          />
         ))}
       </div>
     </div>

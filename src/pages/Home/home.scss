@@ -5,20 +5,21 @@
   .search-input {
     border-radius: 30px;
     padding: 10px;
-    font-size: 16px;
+    font-size: 20px;
     border: 1px solid #ccc;
     margin: 0 auto;
     outline: none;
-    width: 300px;
+    width: 600px;
+    height: 60px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    padding-left: 40px;
+    padding-left: 48px;
   }
 }
 
 .search-icon {
   position: absolute;
   height: 20px;
-  left: 10px;
+  left: 16px;
 }
 
 .single-city-container {
@@ -29,4 +30,8 @@
   grid-gap: 40px 40px;
   justify-content: center;
   width: 90%;
+}
+
+.error-message {
+  color: red;
 }

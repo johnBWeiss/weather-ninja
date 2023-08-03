@@ -6,6 +6,7 @@ import houseIcon from "../../assets/images/house-icon.png";
 import fullHeartIcon from "../../assets/images/full-heart-icon.png";
 
 const Header = () => {
+  const reduxState = useSelector(globalSelector);
   const navigate = useNavigate();
   const [overlayPosition, setOverlayPosition] = useState(0);
 

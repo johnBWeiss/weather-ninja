@@ -5,11 +5,12 @@ import emptyHeart from "../../assets/images/empty-heart-icon.png";
 import { fahrenheitToCelsius } from "../../utils/helperFunction";
 import { celsiusToFahrenheit } from "../../utils/helperFunction";
 import { getDayOfWeek } from "../../utils/helperFunction";
-
+import { getDayAndMonth } from "../../utils/helperFunction";
 const City = ({ cityName, title, cityTemperature, data, type,isFavorite,isFarenheight }) => {
   const [stateMinMaxTemperature, setStateMinMaxTemperature] = useState(
     data?.Temperature ?? ""
   );
+  console.log(data);
   const [stateSingleTemperature, setStateSingleTemperature] = useState(
     cityTemperature ?? ""
   );
@@ -35,8 +36,7 @@ const City = ({ cityName, title, cityTemperature, data, type,isFavorite,isFarenh
 
     if (type !== "weeklyItem") {
       let temp;
-      console.log(stateSingleTemperature);
-      console.log(cityTemperature);
+  
       if (temperatureType.current === "C") {
         temp = celsiusToFahrenheit(stateSingleTemperature);
       }
@@ -52,21 +52,9 @@ const City = ({ cityName, title, cityTemperature, data, type,isFavorite,isFarenh
       : (temperatureType.current = "C");
   };
 
-  // const fahrenheitToCelsius = (fahrenheit) => {
-  //   const celsius = (fahrenheit - 32) * (5 / 9);
-  //   return Math.round(celsius); // Round the Celsius value to one decimal place
-  // };
 
-  // const celsiusToFahrenheit = (celsius) => {
-  //   const fahrenheit = (celsius * 9) / 5 + 32;
-  //   return Math.round(fahrenheit); // Round the Fahrenheit value to one decimal place
-  // };
-
-  // const dateStr = data?.Date;
-  // const date = new Date(dateStr);
-  // const dayOfWeek = date.toLocaleDateString(undefined, { weekday: "long" });
-
-  const dayOfWeek = getDayOfWeek(data?.Date);
+  // const dayOfWeek = getDayOfWeek(data?.Date);
+  const dayAndMonth = getDayAndMonth(data?.Date);
 
   useEffect(() => {
     setStateMinMaxTemperature(data?.Temperature);
@@ -101,7 +89,12 @@ const City = ({ cityName, title, cityTemperature, data, type,isFavorite,isFarenh
         </div>
       </div>
       <div className="space-between">
-        {type === "weeklyItem" ? <div>{dayOfWeek}</div> : <div>{cityName}</div>}
+        {type === "weeklyItem" ? (
+          <div>{dayAndMonth}</div>
+        ) : (
+          <div>{cityName}</div>
+        )}
+        {/* {type === "weeklyItem" ? <div>{dayOfWeek}</div> : <div>{cityName}</div>} */}
         <div> ° {temperatureType.current}</div>
 
         {type !== "weeklyItem" && (
