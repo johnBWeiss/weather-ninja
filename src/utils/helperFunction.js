@@ -1,3 +1,9 @@
+import cloudy from "../assets/images/cloudy.png"
+import lightRain from "../assets/images/light rain.png"
+
+
+
+
 export const fahrenheitToCelsius = (fahrenheit) => {
     const celsius = (fahrenheit - 32) * (5 / 9);
     // return Math.round(celsius); 
@@ -63,4 +69,23 @@ export const weeklyMinMax = (isFarenheight, stateMin, stateMax, dataMin, dataMax
     }
 
     return { min, max }
+}
+
+export const getImageForWeather = (weather) => {
+    const lowerWeather = weather?.toLowerCase();
+
+    switch (lowerWeather) {
+        case 'cloudy':
+            return cloudy;
+        case 'clear':
+            return lightRain;
+        case 'light rain':
+            return cloudy;
+        case 'heavy rain':
+            return lightRain;
+        case 'mostly clear':
+            return cloudy;
+        default:
+            return lightRain;
+    }
 }

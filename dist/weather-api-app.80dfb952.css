@@ -161,6 +161,16 @@
   width: 30px;
 }
 
+.sun-img {
+  height: 40px;
+  margin-left: -6px;
+}
+
+.moon-img {
+  height: 28px;
+  transform: translate(2px, -4px);
+}
+
 @media (max-width: 1250px) {
   .city-container {
     transform: scale(0.8);
@@ -673,6 +683,11 @@ input {
 .gap-16 {
   display: flex;
   gap: 16px;
+}
+
+.gap-17 {
+  display: flex;
+  gap: 17px;
 }
 
 .gap-18 {

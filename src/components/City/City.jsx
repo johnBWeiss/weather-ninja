@@ -10,6 +10,9 @@ import { useDispatch } from "react-redux";
 import { setToggleDegreeType } from "../../../store/globalSlice";
 import { weeklyMinMax } from "../../utils/helperFunction";
 import useToggleFavorite from "../../customHooks/useToggleFavorite";
+import sunIcon from "../../assets/images/sun-icon.png";
+import moonIcon from "../../assets/images/moon-icon.png";
+import { getImageForWeather } from "../../utils/helperFunction";
 
 const City = ({
   cityName,
@@ -21,6 +24,7 @@ const City = ({
   isFarenheight,
   favoriteClickHandler,
   isDarkMode,
+  weatherText,
 }) => {
   const { toggleFavoriteHandler } = useToggleFavorite(
     cityName,
@@ -84,7 +88,6 @@ const City = ({
   };
 
   useEffect(() => {
-    console.log(cityTemperature);
     setStateMinMaxTemperature(data?.Temperature);
     setStateSingleTemperature(cityTemperature);
     if (!isFarenheight) {
@@ -95,25 +98,60 @@ const City = ({
   return (
     <div
       className={`city-container vertical-flex ${
-        favoriteClickHandler ? "hoverEffect" : null
+        favoriteClickHandler && "hoverEffect"
       } `}
       onClick={displayFavorite}
-      style={{ background: isDarkMode ? "grey" : "white" }}
+      style={{
+        background: isDarkMode ? "grey" : "white",
+        gap: type === "weeklyItem" && "25px",
+      }}
     >
-      <div className="city-title bold">{cityName}</div>
-      <div></div>
-      {title}
-      <div className="vertical-flex ">
-        <div className="gap-12">
-          <img className="weather-img" src={partCloud} alt="part cloud" />{" "}
+      {type !== "weeklyItem" && (
+        <div className=" gap-6 vertical-flex">
+          <div className="city-title bold">{cityName}</div>
+          <div className="font-10">{cityCode}</div>
         </div>
+      )}
+      {type === "weeklyItem" && (
+        <div className="city-title bold">
+          {stateMinMaxTemperature?.Minimum?.Value}
+          {isFarenheight ? "°F" : "°C"}
+          <span> - </span>
+          {stateMinMaxTemperature?.Maximum?.Value}
+          {isFarenheight ? "°F" : "°C"}
+        </div>
+      )}
+      {title}
+      <div className="gap-20 vertical-flex width-100 bold">
+        {type === "weeklyItem" && (
+          <>
+            <div className="gap-12 self-start ">
+              <img className="sun-img" src={sunIcon} alt="part cloud" />
+              <div>{data?.Day?.IconPhrase}</div>
+            </div>
+            <div className="gap-17 self-start">
+              <img className="moon-img" src={moonIcon} alt="part cloud" />
+              <div>{data?.Night?.IconPhrase}</div>
+            </div>
+          </>
+        )}
+        {type !== "weeklyItem" && (
+          <div className="gap-12">
+            <img
+              className="weather-img"
+              src={getImageForWeather(weatherText)}
+              alt="part cloud"
+            />
+            <div>{weatherText}</div>
+          </div>
+        )}
       </div>
       <div className="space-between bottom-row-city">
-        {type === "weeklyItem" && <div>{dayAndMonth}</div>}
+        {type === "weeklyItem" && <div className="font-16">{dayAndMonth}</div>}
         {type === "weeklyItem" ? (
           <div>
-            {stateMinMaxTemperature?.Minimum?.Value} -
-            {stateMinMaxTemperature?.Maximum?.Value}
+            {/* {stateMinMaxTemperature?.Minimum?.Value} -
+            {stateMinMaxTemperature?.Maximum?.Value} */}
           </div>
         ) : (
           <div>
@@ -125,7 +163,13 @@ const City = ({
         {type !== "weeklyItem" && (
           <img
             onClick={(e) =>
-              toggleFavoriteHandler(e, cityName, cityTemperature, cityCode)
+              toggleFavoriteHandler(
+                e,
+                cityName,
+                cityTemperature,
+                cityCode,
+                weatherText
+              )
             }
             className="heart-icon-city hoverEffect"
             src={isFavoriteHandler(cityCode) ? fullHeart : emptyHeart}

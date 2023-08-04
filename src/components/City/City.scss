@@ -29,6 +29,15 @@
   width: 30px;
 }
 
+.sun-img {
+  height: 40px;
+  margin-left: -6px;
+}
+.moon-img {
+  height: 28px;
+  transform: translate(2px, -4px);
+}
+
 @media (max-width: $mobileBreakPoint) {
   .city-container {
     transform: scale(0.8);

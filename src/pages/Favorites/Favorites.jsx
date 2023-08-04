@@ -10,11 +10,9 @@ import City from "../../components/City/City";
 
 const Favorites = () => {
   const navigate = useNavigate();
-  // const reduxState = useSelector(globalSelector);
   const dispatch = useDispatch();
   const { favoritesArray, isFarenheight, isDarkMode } =
     useSelector(globalSelector);
-
   useEffect(() => {
     const favoritesFromStorage =
       JSON.parse(localStorage.getItem("favorites")) || [];
@@ -44,6 +42,8 @@ const Favorites = () => {
             favoriteClickHandler={favoriteClickHandler}
             isFarenheight={isFarenheight}
             isDarkMode={isDarkMode}
+            weatherText={value?.weatherText}
+            type={"singleItem"}
           />
         ))}
       </div>

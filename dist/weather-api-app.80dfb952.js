@@ -12502,7 +12502,7 @@ var initialState = {
 };
 var getSingleCity = (0, _toolkit.createAsyncThunk)('globalSlice/getSingleCity', /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(payload, thunkAPI) {
-    var _response$data, _response;
+    var _response$data, _response$data2, _response;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
@@ -12515,7 +12515,8 @@ var getSingleCity = (0, _toolkit.createAsyncThunk)('globalSlice/getSingleCity', 
             currentCityTemperature: _response === null || _response === void 0 || (_response$data = _response.data) === null || _response$data === void 0 || (_response$data = _response$data[0]) === null || _response$data === void 0 || (_response$data = _response$data.Temperature) === null || _response$data === void 0 || (_response$data = _response$data.Imperial) === null || _response$data === void 0 ? void 0 : _response$data.Value,
             currentCityName: payload === null || payload === void 0 ? void 0 : payload.cityName,
             isFavoriteChosen: payload.isFavoriteChosen,
-            cityCode: payload.cityCode
+            cityCode: payload.cityCode,
+            weatherText: _response === null || _response === void 0 || (_response$data2 = _response.data) === null || _response$data2 === void 0 || (_response$data2 = _response$data2[0]) === null || _response$data2 === void 0 ? void 0 : _response$data2.WeatherText
           });
         case 7:
           _context.prev = 7;
@@ -49211,13 +49212,20 @@ module.exports = "/partly cloudy.e43f17ab.png";
 module.exports = "/full-heart-icon-black.b8e22fa0.png";
 },{}],"../src/assets/images/empty-heart-icon.png":[function(require,module,exports) {
 module.exports = "/empty-heart-icon.86b54d98.png";
+},{}],"../src/assets/images/cloudy.png":[function(require,module,exports) {
+module.exports = "/cloudy.c8f46ce7.png";
+},{}],"../src/assets/images/light rain.png":[function(require,module,exports) {
+module.exports = "/light rain.d3c8ebf4.png";
 },{}],"../src/utils/helperFunction.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.weeklyMinMax = exports.scrollToTop = exports.isFavoriteHandler = exports.getRandomErrorMessage = exports.getDayAndMonth = exports.fahrenheitToCelsius = exports.celsiusToFahrenheit = void 0;
+exports.weeklyMinMax = exports.scrollToTop = exports.isFavoriteHandler = exports.getRandomErrorMessage = exports.getImageForWeather = exports.getDayAndMonth = exports.fahrenheitToCelsius = exports.celsiusToFahrenheit = void 0;
+var _cloudy = _interopRequireDefault(require("../assets/images/cloudy.png"));
+var _lightRain = _interopRequireDefault(require("../assets/images/light rain.png"));
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 var fahrenheitToCelsius = function fahrenheitToCelsius(fahrenheit) {
   var celsius = (fahrenheit - 32) * (5 / 9);
   // return Math.round(celsius); 
@@ -49285,7 +49293,25 @@ var weeklyMinMax = function weeklyMinMax(isFarenheight, stateMin, stateMax, data
   };
 };
 exports.weeklyMinMax = weeklyMinMax;
-},{}],"../src/customHooks/useToggleFavorite.jsx":[function(require,module,exports) {
+var getImageForWeather = function getImageForWeather(weather) {
+  var lowerWeather = weather === null || weather === void 0 ? void 0 : weather.toLowerCase();
+  switch (lowerWeather) {
+    case 'cloudy':
+      return _cloudy.default;
+    case 'clear':
+      return _lightRain.default;
+    case 'light rain':
+      return _cloudy.default;
+    case 'heavy rain':
+      return _lightRain.default;
+    case 'mostly clear':
+      return _cloudy.default;
+    default:
+      return _lightRain.default;
+  }
+};
+exports.getImageForWeather = getImageForWeather;
+},{"../assets/images/cloudy.png":"../src/assets/images/cloudy.png","../assets/images/light rain.png":"../src/assets/images/light rain.png"}],"../src/customHooks/useToggleFavorite.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49294,7 +49320,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _reactRedux = require("react-redux");
 var _globalSlice = require("../../store/globalSlice");
-var useToggleFavorite = function useToggleFavorite(cityName, cityTemperature, cityCode) {
+var useToggleFavorite = function useToggleFavorite(cityName, cityTemperature, cityCode, weatherText) {
   var dispatch = (0, _reactRedux.useDispatch)();
   var toggleFavoriteHandler = function toggleFavoriteHandler(e) {
     e.stopPropagation();
@@ -49324,7 +49350,11 @@ var useToggleFavorite = function useToggleFavorite(cityName, cityTemperature, ci
 };
 var _default = useToggleFavorite;
 exports.default = _default;
-},{"react-redux":"../node_modules/react-redux/es/index.js","../../store/globalSlice":"../store/globalSlice.js"}],"../src/components/City/City.jsx":[function(require,module,exports) {
+},{"react-redux":"../node_modules/react-redux/es/index.js","../../store/globalSlice":"../store/globalSlice.js"}],"../src/assets/images/sun-icon.png":[function(require,module,exports) {
+module.exports = "/sun-icon.2ec7ef83.png";
+},{}],"../src/assets/images/moon-icon.png":[function(require,module,exports) {
+module.exports = "/moon-icon.d2c904c4.png";
+},{}],"../src/components/City/City.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -49339,6 +49369,8 @@ var _helperFunction = require("../../utils/helperFunction");
 var _reactRedux = require("react-redux");
 var _globalSlice = require("../../../store/globalSlice");
 var _useToggleFavorite2 = _interopRequireDefault(require("../../customHooks/useToggleFavorite"));
+var _sunIcon = _interopRequireDefault(require("../../assets/images/sun-icon.png"));
+var _moonIcon = _interopRequireDefault(require("../../assets/images/moon-icon.png"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -49349,7 +49381,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var City = function City(_ref) {
-  var _data$Temperature, _stateMinMaxTemperatu3, _stateMinMaxTemperatu4;
+  var _data$Temperature, _stateMinMaxTemperatu3, _stateMinMaxTemperatu4, _data$Day, _data$Night;
   var cityName = _ref.cityName,
     cityCode = _ref.cityCode,
     title = _ref.title,
@@ -49358,7 +49390,8 @@ var City = function City(_ref) {
     type = _ref.type,
     isFarenheight = _ref.isFarenheight,
     favoriteClickHandler = _ref.favoriteClickHandler,
-    isDarkMode = _ref.isDarkMode;
+    isDarkMode = _ref.isDarkMode,
+    weatherText = _ref.weatherText;
   var _useToggleFavorite = (0, _useToggleFavorite2.default)(cityName, cityTemperature, cityCode),
     toggleFavoriteHandler = _useToggleFavorite.toggleFavoriteHandler;
   var dispatch = (0, _reactRedux.useDispatch)();
@@ -49413,7 +49446,6 @@ var City = function City(_ref) {
     }
   };
   (0, _react.useEffect)(function () {
-    console.log(cityTemperature);
     setStateMinMaxTemperature(data === null || data === void 0 ? void 0 : data.Temperature);
     setStateSingleTemperature(cityTemperature);
     if (!isFarenheight) {
@@ -49421,26 +49453,47 @@ var City = function City(_ref) {
     }
   }, [data, cityTemperature, isFarenheight, cityCode]);
   return /*#__PURE__*/_react.default.createElement("div", {
-    className: "city-container vertical-flex ".concat(favoriteClickHandler ? "hoverEffect" : null, " "),
+    className: "city-container vertical-flex ".concat(favoriteClickHandler && "hoverEffect", " "),
     onClick: displayFavorite,
     style: {
-      background: isDarkMode ? "grey" : "white"
+      background: isDarkMode ? "grey" : "white",
+      gap: type === "weeklyItem" && "25px"
     }
+  }, type !== "weeklyItem" && /*#__PURE__*/_react.default.createElement("div", {
+    className: " gap-6 vertical-flex"
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "city-title bold"
-  }, cityName), /*#__PURE__*/_react.default.createElement("div", null), title, /*#__PURE__*/_react.default.createElement("div", {
-    className: "vertical-flex "
-  }, /*#__PURE__*/_react.default.createElement("div", {
+  }, cityName), /*#__PURE__*/_react.default.createElement("div", {
+    className: "font-10"
+  }, cityCode)), type === "weeklyItem" && /*#__PURE__*/_react.default.createElement("div", {
+    className: "city-title bold"
+  }, stateMinMaxTemperature === null || stateMinMaxTemperature === void 0 || (_stateMinMaxTemperatu3 = stateMinMaxTemperature.Minimum) === null || _stateMinMaxTemperatu3 === void 0 ? void 0 : _stateMinMaxTemperatu3.Value, isFarenheight ? "°F" : "°C", /*#__PURE__*/_react.default.createElement("span", null, " - "), stateMinMaxTemperature === null || stateMinMaxTemperature === void 0 || (_stateMinMaxTemperatu4 = stateMinMaxTemperature.Maximum) === null || _stateMinMaxTemperatu4 === void 0 ? void 0 : _stateMinMaxTemperatu4.Value, isFarenheight ? "°F" : "°C"), title, /*#__PURE__*/_react.default.createElement("div", {
+    className: "gap-20 vertical-flex width-100 bold"
+  }, type === "weeklyItem" && /*#__PURE__*/_react.default.createElement(_react.default.Fragment, null, /*#__PURE__*/_react.default.createElement("div", {
+    className: "gap-12 self-start "
+  }, /*#__PURE__*/_react.default.createElement("img", {
+    className: "sun-img",
+    src: _sunIcon.default,
+    alt: "part cloud"
+  }), /*#__PURE__*/_react.default.createElement("div", null, data === null || data === void 0 || (_data$Day = data.Day) === null || _data$Day === void 0 ? void 0 : _data$Day.IconPhrase)), /*#__PURE__*/_react.default.createElement("div", {
+    className: "gap-17 self-start"
+  }, /*#__PURE__*/_react.default.createElement("img", {
+    className: "moon-img",
+    src: _moonIcon.default,
+    alt: "part cloud"
+  }), /*#__PURE__*/_react.default.createElement("div", null, data === null || data === void 0 || (_data$Night = data.Night) === null || _data$Night === void 0 ? void 0 : _data$Night.IconPhrase))), type !== "weeklyItem" && /*#__PURE__*/_react.default.createElement("div", {
     className: "gap-12"
   }, /*#__PURE__*/_react.default.createElement("img", {
     className: "weather-img",
-    src: _partlyCloudy.default,
+    src: (0, _helperFunction.getImageForWeather)(weatherText),
     alt: "part cloud"
-  }), " ")), /*#__PURE__*/_react.default.createElement("div", {
+  }), /*#__PURE__*/_react.default.createElement("div", null, weatherText))), /*#__PURE__*/_react.default.createElement("div", {
     className: "space-between bottom-row-city"
-  }, type === "weeklyItem" && /*#__PURE__*/_react.default.createElement("div", null, dayAndMonth), type === "weeklyItem" ? /*#__PURE__*/_react.default.createElement("div", null, stateMinMaxTemperature === null || stateMinMaxTemperature === void 0 || (_stateMinMaxTemperatu3 = stateMinMaxTemperature.Minimum) === null || _stateMinMaxTemperatu3 === void 0 ? void 0 : _stateMinMaxTemperatu3.Value, " -", stateMinMaxTemperature === null || stateMinMaxTemperature === void 0 || (_stateMinMaxTemperatu4 = stateMinMaxTemperature.Maximum) === null || _stateMinMaxTemperatu4 === void 0 ? void 0 : _stateMinMaxTemperatu4.Value) : /*#__PURE__*/_react.default.createElement("div", null, stateSingleTemperature, isFarenheight ? " °F" : " °C"), type !== "weeklyItem" && /*#__PURE__*/_react.default.createElement("img", {
+  }, type === "weeklyItem" && /*#__PURE__*/_react.default.createElement("div", {
+    className: "font-16"
+  }, dayAndMonth), type === "weeklyItem" ? /*#__PURE__*/_react.default.createElement("div", null) : /*#__PURE__*/_react.default.createElement("div", null, stateSingleTemperature, isFarenheight ? " °F" : " °C"), type !== "weeklyItem" && /*#__PURE__*/_react.default.createElement("img", {
     onClick: function onClick(e) {
-      return toggleFavoriteHandler(e, cityName, cityTemperature, cityCode);
+      return toggleFavoriteHandler(e, cityName, cityTemperature, cityCode, weatherText);
     },
     className: "heart-icon-city hoverEffect",
     src: (0, _helperFunction.isFavoriteHandler)(cityCode) ? _fullHeartIconBlack.default : _emptyHeartIcon.default,
@@ -49449,7 +49502,7 @@ var City = function City(_ref) {
 };
 var _default = City;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","../../assets/images/partly cloudy.png":"../src/assets/images/partly cloudy.png","../../assets/images/full-heart-icon-black.png":"../src/assets/images/full-heart-icon-black.png","../../assets/images/empty-heart-icon.png":"../src/assets/images/empty-heart-icon.png","../../utils/helperFunction":"../src/utils/helperFunction.js","react-redux":"../node_modules/react-redux/es/index.js","../../../store/globalSlice":"../store/globalSlice.js","../../customHooks/useToggleFavorite":"../src/customHooks/useToggleFavorite.jsx"}],"../src/utils/mockData.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","../../assets/images/partly cloudy.png":"../src/assets/images/partly cloudy.png","../../assets/images/full-heart-icon-black.png":"../src/assets/images/full-heart-icon-black.png","../../assets/images/empty-heart-icon.png":"../src/assets/images/empty-heart-icon.png","../../utils/helperFunction":"../src/utils/helperFunction.js","react-redux":"../node_modules/react-redux/es/index.js","../../../store/globalSlice":"../store/globalSlice.js","../../customHooks/useToggleFavorite":"../src/customHooks/useToggleFavorite.jsx","../../assets/images/sun-icon.png":"../src/assets/images/sun-icon.png","../../assets/images/moon-icon.png":"../src/assets/images/moon-icon.png"}],"../src/utils/mockData.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -51499,6 +51552,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var Home = function Home() {
+  var _weeklyArrayShortData;
   var dispatch = (0, _reactRedux.useDispatch)();
   // const reduxState = useSelector(globalSelector);
   var _useSelector = (0, _reactRedux.useSelector)(_globalSlice.globalSelector),
@@ -51510,7 +51564,8 @@ var Home = function Home() {
     isFavoriteChosen = _useSelector$currentC.isFavoriteChosen,
     currentCityName = _useSelector$currentC.currentCityName,
     currentCityTemperature = _useSelector$currentC.currentCityTemperature,
-    cityCode = _useSelector$currentC.cityCode;
+    cityCode = _useSelector$currentC.cityCode,
+    weatherText = _useSelector$currentC.weatherText;
   var _useState = (0, _react.useState)(""),
     _useState2 = _slicedToArray(_useState, 2),
     stateInputValue = _useState2[0],
@@ -51658,7 +51713,11 @@ var Home = function Home() {
     };
   }();
   return /*#__PURE__*/_react.default.createElement("div", {
-    className: "home-container gradual-animation"
+    className: "home-container gradual-animation",
+    style: {
+      color: isDarkMode ? "white" : "black",
+      transition: "0.6s"
+    }
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "flex relative center"
   }, /*#__PURE__*/_react.default.createElement("img", {
@@ -51684,17 +51743,22 @@ var Home = function Home() {
     type: "singleItem",
     cityCode: cityCode,
     isFarenheight: isFarenheight,
-    isDarkMode: isDarkMode
+    isDarkMode: isDarkMode,
+    weatherText: weatherText
   })), /*#__PURE__*/_react.default.createElement("div", {
     className: "flex flex-wrap center gallery-container"
-  }, fiveDaysArray === null || fiveDaysArray === void 0 ? void 0 : fiveDaysArray.map(function (forecast, index) {
-    return /*#__PURE__*/_react.default.createElement(_City.default, {
-      key: index,
-      type: "weeklyItem",
-      data: forecast,
-      isFarenheight: isFarenheight,
-      isDarkMode: isDarkMode
-    });
+  }, _mockData.weeklyArrayShortData === null || _mockData.weeklyArrayShortData === void 0 || (_weeklyArrayShortData = _mockData.weeklyArrayShortData.DailyForecasts) === null || _weeklyArrayShortData === void 0 ? void 0 : _weeklyArrayShortData.map(function (forecast, index) {
+    return (
+      /*#__PURE__*/
+      // {fiveDaysArray?.map((forecast, index) => (
+      _react.default.createElement(_City.default, {
+        key: index,
+        type: "weeklyItem",
+        data: forecast,
+        isFarenheight: isFarenheight,
+        isDarkMode: isDarkMode
+      })
+    );
   })));
 };
 var _default = Home;
@@ -51891,7 +51955,6 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 var Favorites = function Favorites() {
   var navigate = (0, _reactRouterDom.useNavigate)();
-  // const reduxState = useSelector(globalSelector);
   var dispatch = (0, _reactRedux.useDispatch)();
   var _useSelector = (0, _reactRedux.useSelector)(_globalSlice.globalSelector),
     favoritesArray = _useSelector.favoritesArray,
@@ -51930,7 +51993,9 @@ var Favorites = function Favorites() {
       cityTemperature: value === null || value === void 0 ? void 0 : value.cityTemperature,
       favoriteClickHandler: favoriteClickHandler,
       isFarenheight: isFarenheight,
-      isDarkMode: isDarkMode
+      isDarkMode: isDarkMode,
+      weatherText: value === null || value === void 0 ? void 0 : value.weatherText,
+      type: "singleItem"
     });
   })));
 };

@@ -29,6 +29,7 @@ const Home = () => {
       currentCityName,
       currentCityTemperature,
       cityCode,
+      weatherText,
     },
   } = useSelector(globalSelector);
 
@@ -144,7 +145,10 @@ const Home = () => {
   };
 
   return (
-    <div className="home-container gradual-animation">
+    <div
+      className="home-container gradual-animation"
+      style={{ color: isDarkMode ? "white" : "black", transition: "0.6s" }}
+    >
       <div className="flex relative center">
         <img className="search-icon" src={searchIcon} alt="search icon" />
 
@@ -170,11 +174,13 @@ const Home = () => {
             cityCode={cityCode}
             isFarenheight={isFarenheight}
             isDarkMode={isDarkMode}
+            weatherText={weatherText}
           />
         )}
       </div>
       <div className="flex flex-wrap center gallery-container">
-        {fiveDaysArray?.map((forecast, index) => (
+        {weeklyArrayShortData?.DailyForecasts?.map((forecast, index) => (
+          // {fiveDaysArray?.map((forecast, index) => (
           <City
             key={index}
             type={"weeklyItem"}

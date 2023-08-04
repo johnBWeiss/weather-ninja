@@ -1,7 +1,12 @@
 import { useDispatch } from "react-redux";
 import { setUpdateFavoriteArray } from "../../store/globalSlice";
 
-const useToggleFavorite = (cityName, cityTemperature, cityCode) => {
+const useToggleFavorite = (
+  cityName,
+  cityTemperature,
+  cityCode,
+  weatherText
+) => {
   const dispatch = useDispatch();
 
   const toggleFavoriteHandler = (e) => {
