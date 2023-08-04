@@ -1,11 +1,13 @@
 export const fahrenheitToCelsius = (fahrenheit) => {
     const celsius = (fahrenheit - 32) * (5 / 9);
-    return Math.round(celsius); // Round the Celsius value to one decimal place
+    // return Math.round(celsius); 
+    return Number(celsius.toFixed(1)); // Round to one decimal point
 };
 
 export const celsiusToFahrenheit = (celsius) => {
     const fahrenheit = (celsius * 9) / 5 + 32;
-    return Math.round(fahrenheit); // Round the Fahrenheit value to one decimal place
+    // return Math.round(fahrenheit); 
+    return Number(fahrenheit.toFixed(1)); // Round to one decimal point
 };
 
 // export const getDayOfWeek = (dateStr) => {

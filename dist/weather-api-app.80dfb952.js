@@ -49220,12 +49220,14 @@ Object.defineProperty(exports, "__esModule", {
 exports.weeklyMinMax = exports.scrollToTop = exports.isFavoriteHandler = exports.getRandomErrorMessage = exports.getDayAndMonth = exports.fahrenheitToCelsius = exports.celsiusToFahrenheit = void 0;
 var fahrenheitToCelsius = function fahrenheitToCelsius(fahrenheit) {
   var celsius = (fahrenheit - 32) * (5 / 9);
-  return Math.round(celsius); // Round the Celsius value to one decimal place
+  // return Math.round(celsius); 
+  return Number(celsius.toFixed(1)); // Round to one decimal point
 };
 exports.fahrenheitToCelsius = fahrenheitToCelsius;
 var celsiusToFahrenheit = function celsiusToFahrenheit(celsius) {
   var fahrenheit = celsius * 9 / 5 + 32;
-  return Math.round(fahrenheit); // Round the Fahrenheit value to one decimal place
+  // return Math.round(fahrenheit); 
+  return Number(fahrenheit.toFixed(1)); // Round to one decimal point
 };
 
 // export const getDayOfWeek = (dateStr) => {
@@ -49400,8 +49402,10 @@ var City = function City(_ref) {
       }
       setStateSingleTemperature(temp);
     }
-    dispatch((0, _globalSlice.setToggleDegreeType)());
+
+    // dispatch(setToggleDegreeType());
   };
+
   var dayAndMonth = (0, _helperFunction.getDayAndMonth)(data === null || data === void 0 ? void 0 : data.Date);
   var displayFavorite = function displayFavorite() {
     if (favoriteClickHandler) {
@@ -49409,6 +49413,7 @@ var City = function City(_ref) {
     }
   };
   (0, _react.useEffect)(function () {
+    console.log(cityTemperature);
     setStateMinMaxTemperature(data === null || data === void 0 ? void 0 : data.Temperature);
     setStateSingleTemperature(cityTemperature);
     if (!isFarenheight) {

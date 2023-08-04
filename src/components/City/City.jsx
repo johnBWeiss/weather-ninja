@@ -72,7 +72,7 @@ const City = ({
       setStateSingleTemperature(temp);
     }
 
-    dispatch(setToggleDegreeType());
+    // dispatch(setToggleDegreeType());
   };
 
   const dayAndMonth = getDayAndMonth(data?.Date);
@@ -84,6 +84,7 @@ const City = ({
   };
 
   useEffect(() => {
+    console.log(cityTemperature);
     setStateMinMaxTemperature(data?.Temperature);
     setStateSingleTemperature(cityTemperature);
     if (!isFarenheight) {
@@ -109,7 +110,6 @@ const City = ({
       </div>
       <div className="space-between bottom-row-city">
         {type === "weeklyItem" && <div>{dayAndMonth}</div>}
-        {/* <div> ° {isFarenheight ? "F" : "C"}</div> */}
         {type === "weeklyItem" ? (
           <div>
             {stateMinMaxTemperature?.Minimum?.Value} -
