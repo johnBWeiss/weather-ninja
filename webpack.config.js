@@ -4,6 +4,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require("terser-webpack-plugin");
 const { svgToMiniDataURI } = require("mini-svg-data-uri");
 const WebpackObfuscatorPlugin = require("webpack-obfuscator");
+const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: "./index.js",
@@ -17,6 +18,11 @@ module.exports = {
     }),
     new MiniCssExtractPlugin({
       filename: 'styles.css',
+    }),
+    new CopyPlugin({
+      patterns: [
+        { from: './_redirects', to: '' },
+      ],
     }),
     // new WebpackObfuscatorPlugin({
     //   // rotateStringArray: true,
