@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import partCloud from "../../assets/images/partly cloudy.png";
 import fullHeart from "../../assets/images/full-heart-icon-black.png";
 import emptyHeart from "../../assets/images/empty-heart-icon.png";
@@ -6,8 +6,11 @@ import { fahrenheitToCelsius } from "../../utils/helperFunction";
 import { celsiusToFahrenheit } from "../../utils/helperFunction";
 import { getDayAndMonth } from "../../utils/helperFunction";
 import { isFavoriteHandler } from "../../utils/helperFunction";
-
+import { useDispatch } from "react-redux";
+import { setToggleDegreeType } from "../../../store/globalSlice";
+import { weeklyMinMax } from "../../utils/helperFunction";
 import useToggleFavorite from "../../customHooks/useToggleFavorite";
+
 const City = ({
   cityName,
   cityCode,
@@ -25,6 +28,8 @@ const City = ({
     cityCode
   );
 
+  const dispatch = useDispatch();
+
   const [stateMinMaxTemperature, setStateMinMaxTemperature] = useState(
     data?.Temperature ?? ""
   );
@@ -32,41 +37,42 @@ const City = ({
     cityTemperature ?? ""
   );
 
-  const temperatureType = useRef("F");
-
   const imperialVsMetricToggleHandler = () => {
     if (type === "weeklyItem") {
-      let min, max;
-      if (temperatureType.current === "C") {
-        min = celsiusToFahrenheit(stateMinMaxTemperature?.Minimum?.Value);
-        max = celsiusToFahrenheit(stateMinMaxTemperature?.Maximum?.Value);
-      }
-      if (temperatureType.current === "F") {
-        min = fahrenheitToCelsius(data?.Temperature?.Minimum?.Value);
-        max = fahrenheitToCelsius(data?.Temperature?.Maximum?.Value);
-      }
+      const minMax = weeklyMinMax(
+        isFarenheight,
+        stateMinMaxTemperature?.Minimum?.Value,
+        stateMinMaxTemperature?.Maximum?.Value,
+        data?.Temperature?.Minimum?.Value,
+        data?.Temperature?.Maximum?.Value
+      );
+      // let min, max;
+      // if (!isFarenheight) {
+      //   min = celsiusToFahrenheit(stateMinMaxTemperature?.Minimum?.Value);
+      //   max = celsiusToFahrenheit(stateMinMaxTemperature?.Maximum?.Value);
+      // }
+      // if (isFarenheight) {
+      //   min = fahrenheitToCelsius(data?.Temperature?.Minimum?.Value);
+      //   max = fahrenheitToCelsius(data?.Temperature?.Maximum?.Value);
+      // }
       setStateMinMaxTemperature({
-        Minimum: { Value: min },
-        Maximum: { Value: max },
+        Minimum: { Value: minMax.min },
+        Maximum: { Value: minMax.max },
       });
     }
 
     if (type !== "weeklyItem") {
       let temp;
-
-      if (temperatureType.current === "C") {
+      if (isFarenheight) {
         temp = celsiusToFahrenheit(stateSingleTemperature);
       }
-      if (temperatureType.current === "F") {
+      if (!isFarenheight) {
         temp = fahrenheitToCelsius(cityTemperature);
       }
-      console.log(temp);
       setStateSingleTemperature(temp);
     }
 
-    temperatureType.current === "C"
-      ? (temperatureType.current = "F")
-      : (temperatureType.current = "C");
+    dispatch(setToggleDegreeType());
   };
 
   const dayAndMonth = getDayAndMonth(data?.Date);
@@ -78,11 +84,9 @@ const City = ({
   };
 
   useEffect(() => {
-    console.log(isFarenheight);
     setStateMinMaxTemperature(data?.Temperature);
     setStateSingleTemperature(cityTemperature);
     if (!isFarenheight) {
-      temperatureType.current = "F";
       imperialVsMetricToggleHandler();
     }
   }, [data, cityTemperature, isFarenheight, cityCode]);
@@ -95,10 +99,7 @@ const City = ({
       onClick={displayFavorite}
       style={{ background: isDarkMode ? "grey" : "white" }}
     >
-      <div className="city-title bold">
-        {/* {temperatureType.current === "F" ? "C" : "F"} */}
-        {cityName}
-      </div>
+      <div className="city-title bold">{cityName}</div>
       <div></div>
       {title}
       <div className="vertical-flex ">

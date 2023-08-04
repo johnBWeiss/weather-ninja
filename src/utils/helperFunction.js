@@ -48,3 +48,17 @@ export const scrollToTop = () => {
         behavior: 'smooth'
     });
 };
+
+export const weeklyMinMax = (isFarenheight, stateMin, stateMax, dataMin, dataMax) => {
+    let min, max
+    if (!isFarenheight) {
+        min = celsiusToFahrenheit(stateMinMaxTemperature?.Minimum?.Value);
+        max = celsiusToFahrenheit(stateMinMaxTemperature?.Maximum?.Value);
+    }
+    if (isFarenheight) {
+        min = fahrenheitToCelsius(data?.Temperature?.Minimum?.Value);
+        max = fahrenheitToCelsius(data?.Temperature?.Maximum?.Value);
+    }
+
+    return { min, max }
+}

@@ -49217,7 +49217,7 @@ module.exports = "/empty-heart-icon.86b54d98.png";
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.scrollToTop = exports.isFavoriteHandler = exports.getRandomErrorMessage = exports.getDayAndMonth = exports.fahrenheitToCelsius = exports.celsiusToFahrenheit = void 0;
+exports.weeklyMinMax = exports.scrollToTop = exports.isFavoriteHandler = exports.getRandomErrorMessage = exports.getDayAndMonth = exports.fahrenheitToCelsius = exports.celsiusToFahrenheit = void 0;
 var fahrenheitToCelsius = function fahrenheitToCelsius(fahrenheit) {
   var celsius = (fahrenheit - 32) * (5 / 9);
   return Math.round(celsius); // Round the Celsius value to one decimal place
@@ -49265,6 +49265,24 @@ var scrollToTop = function scrollToTop() {
   });
 };
 exports.scrollToTop = scrollToTop;
+var weeklyMinMax = function weeklyMinMax(isFarenheight, stateMin, stateMax, dataMin, dataMax) {
+  var min, max;
+  if (!isFarenheight) {
+    var _stateMinMaxTemperatu, _stateMinMaxTemperatu2;
+    min = celsiusToFahrenheit((_stateMinMaxTemperatu = stateMinMaxTemperature) === null || _stateMinMaxTemperatu === void 0 || (_stateMinMaxTemperatu = _stateMinMaxTemperatu.Minimum) === null || _stateMinMaxTemperatu === void 0 ? void 0 : _stateMinMaxTemperatu.Value);
+    max = celsiusToFahrenheit((_stateMinMaxTemperatu2 = stateMinMaxTemperature) === null || _stateMinMaxTemperatu2 === void 0 || (_stateMinMaxTemperatu2 = _stateMinMaxTemperatu2.Maximum) === null || _stateMinMaxTemperatu2 === void 0 ? void 0 : _stateMinMaxTemperatu2.Value);
+  }
+  if (isFarenheight) {
+    var _data, _data2;
+    min = fahrenheitToCelsius((_data = data) === null || _data === void 0 || (_data = _data.Temperature) === null || _data === void 0 || (_data = _data.Minimum) === null || _data === void 0 ? void 0 : _data.Value);
+    max = fahrenheitToCelsius((_data2 = data) === null || _data2 === void 0 || (_data2 = _data2.Temperature) === null || _data2 === void 0 || (_data2 = _data2.Maximum) === null || _data2 === void 0 ? void 0 : _data2.Value);
+  }
+  return {
+    min: min,
+    max: max
+  };
+};
+exports.weeklyMinMax = weeklyMinMax;
 },{}],"../src/customHooks/useToggleFavorite.jsx":[function(require,module,exports) {
 "use strict";
 
@@ -49316,6 +49334,8 @@ var _partlyCloudy = _interopRequireDefault(require("../../assets/images/partly c
 var _fullHeartIconBlack = _interopRequireDefault(require("../../assets/images/full-heart-icon-black.png"));
 var _emptyHeartIcon = _interopRequireDefault(require("../../assets/images/empty-heart-icon.png"));
 var _helperFunction = require("../../utils/helperFunction");
+var _reactRedux = require("react-redux");
+var _globalSlice = require("../../../store/globalSlice");
 var _useToggleFavorite2 = _interopRequireDefault(require("../../customHooks/useToggleFavorite"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
@@ -49339,6 +49359,7 @@ var City = function City(_ref) {
     isDarkMode = _ref.isDarkMode;
   var _useToggleFavorite = (0, _useToggleFavorite2.default)(cityName, cityTemperature, cityCode),
     toggleFavoriteHandler = _useToggleFavorite.toggleFavoriteHandler;
+  var dispatch = (0, _reactRedux.useDispatch)();
   var _useState = (0, _react.useState)((_data$Temperature = data === null || data === void 0 ? void 0 : data.Temperature) !== null && _data$Temperature !== void 0 ? _data$Temperature : ""),
     _useState2 = _slicedToArray(_useState, 2),
     stateMinMaxTemperature = _useState2[0],
@@ -49347,41 +49368,39 @@ var City = function City(_ref) {
     _useState4 = _slicedToArray(_useState3, 2),
     stateSingleTemperature = _useState4[0],
     setStateSingleTemperature = _useState4[1];
-  var temperatureType = (0, _react.useRef)("F");
   var imperialVsMetricToggleHandler = function imperialVsMetricToggleHandler() {
     if (type === "weeklyItem") {
-      var min, max;
-      if (temperatureType.current === "C") {
-        var _stateMinMaxTemperatu, _stateMinMaxTemperatu2;
-        min = (0, _helperFunction.celsiusToFahrenheit)(stateMinMaxTemperature === null || stateMinMaxTemperature === void 0 || (_stateMinMaxTemperatu = stateMinMaxTemperature.Minimum) === null || _stateMinMaxTemperatu === void 0 ? void 0 : _stateMinMaxTemperatu.Value);
-        max = (0, _helperFunction.celsiusToFahrenheit)(stateMinMaxTemperature === null || stateMinMaxTemperature === void 0 || (_stateMinMaxTemperatu2 = stateMinMaxTemperature.Maximum) === null || _stateMinMaxTemperatu2 === void 0 ? void 0 : _stateMinMaxTemperatu2.Value);
-      }
-      if (temperatureType.current === "F") {
-        var _data$Temperature2, _data$Temperature3;
-        min = (0, _helperFunction.fahrenheitToCelsius)(data === null || data === void 0 || (_data$Temperature2 = data.Temperature) === null || _data$Temperature2 === void 0 || (_data$Temperature2 = _data$Temperature2.Minimum) === null || _data$Temperature2 === void 0 ? void 0 : _data$Temperature2.Value);
-        max = (0, _helperFunction.fahrenheitToCelsius)(data === null || data === void 0 || (_data$Temperature3 = data.Temperature) === null || _data$Temperature3 === void 0 || (_data$Temperature3 = _data$Temperature3.Maximum) === null || _data$Temperature3 === void 0 ? void 0 : _data$Temperature3.Value);
-      }
+      var _stateMinMaxTemperatu, _stateMinMaxTemperatu2, _data$Temperature2, _data$Temperature3;
+      var minMax = (0, _helperFunction.weeklyMinMax)(isFarenheight, stateMinMaxTemperature === null || stateMinMaxTemperature === void 0 || (_stateMinMaxTemperatu = stateMinMaxTemperature.Minimum) === null || _stateMinMaxTemperatu === void 0 ? void 0 : _stateMinMaxTemperatu.Value, stateMinMaxTemperature === null || stateMinMaxTemperature === void 0 || (_stateMinMaxTemperatu2 = stateMinMaxTemperature.Maximum) === null || _stateMinMaxTemperatu2 === void 0 ? void 0 : _stateMinMaxTemperatu2.Value, data === null || data === void 0 || (_data$Temperature2 = data.Temperature) === null || _data$Temperature2 === void 0 || (_data$Temperature2 = _data$Temperature2.Minimum) === null || _data$Temperature2 === void 0 ? void 0 : _data$Temperature2.Value, data === null || data === void 0 || (_data$Temperature3 = data.Temperature) === null || _data$Temperature3 === void 0 || (_data$Temperature3 = _data$Temperature3.Maximum) === null || _data$Temperature3 === void 0 ? void 0 : _data$Temperature3.Value);
+      // let min, max;
+      // if (!isFarenheight) {
+      //   min = celsiusToFahrenheit(stateMinMaxTemperature?.Minimum?.Value);
+      //   max = celsiusToFahrenheit(stateMinMaxTemperature?.Maximum?.Value);
+      // }
+      // if (isFarenheight) {
+      //   min = fahrenheitToCelsius(data?.Temperature?.Minimum?.Value);
+      //   max = fahrenheitToCelsius(data?.Temperature?.Maximum?.Value);
+      // }
       setStateMinMaxTemperature({
         Minimum: {
-          Value: min
+          Value: minMax.min
         },
         Maximum: {
-          Value: max
+          Value: minMax.max
         }
       });
     }
     if (type !== "weeklyItem") {
       var temp;
-      if (temperatureType.current === "C") {
+      if (isFarenheight) {
         temp = (0, _helperFunction.celsiusToFahrenheit)(stateSingleTemperature);
       }
-      if (temperatureType.current === "F") {
+      if (!isFarenheight) {
         temp = (0, _helperFunction.fahrenheitToCelsius)(cityTemperature);
       }
-      console.log(temp);
       setStateSingleTemperature(temp);
     }
-    temperatureType.current === "C" ? temperatureType.current = "F" : temperatureType.current = "C";
+    dispatch((0, _globalSlice.setToggleDegreeType)());
   };
   var dayAndMonth = (0, _helperFunction.getDayAndMonth)(data === null || data === void 0 ? void 0 : data.Date);
   var displayFavorite = function displayFavorite() {
@@ -49390,11 +49409,9 @@ var City = function City(_ref) {
     }
   };
   (0, _react.useEffect)(function () {
-    console.log(isFarenheight);
     setStateMinMaxTemperature(data === null || data === void 0 ? void 0 : data.Temperature);
     setStateSingleTemperature(cityTemperature);
     if (!isFarenheight) {
-      temperatureType.current = "F";
       imperialVsMetricToggleHandler();
     }
   }, [data, cityTemperature, isFarenheight, cityCode]);
@@ -49427,7 +49444,7 @@ var City = function City(_ref) {
 };
 var _default = City;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","../../assets/images/partly cloudy.png":"../src/assets/images/partly cloudy.png","../../assets/images/full-heart-icon-black.png":"../src/assets/images/full-heart-icon-black.png","../../assets/images/empty-heart-icon.png":"../src/assets/images/empty-heart-icon.png","../../utils/helperFunction":"../src/utils/helperFunction.js","../../customHooks/useToggleFavorite":"../src/customHooks/useToggleFavorite.jsx"}],"../src/utils/mockData.js":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","../../assets/images/partly cloudy.png":"../src/assets/images/partly cloudy.png","../../assets/images/full-heart-icon-black.png":"../src/assets/images/full-heart-icon-black.png","../../assets/images/empty-heart-icon.png":"../src/assets/images/empty-heart-icon.png","../../utils/helperFunction":"../src/utils/helperFunction.js","react-redux":"../node_modules/react-redux/es/index.js","../../../store/globalSlice":"../store/globalSlice.js","../../customHooks/useToggleFavorite":"../src/customHooks/useToggleFavorite.jsx"}],"../src/utils/mockData.js":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
