@@ -149,6 +149,11 @@
   width: 30px;
 }
 
+@media (max-width: 1250px) {
+  .city-container {
+    transform: scale(0.8);
+  }
+}
 .toggle-button-text-and-button-container {
   position: absolute;
   top: 133px;
@@ -176,7 +181,7 @@
   transition: 0.2s;
 }
 .toggle-button-container .toggle-button-true {
-  background-color: rgb(75, 168, 234);
+  background-color: #2c455b;
   right: 2px;
   top: -3px;
   transition: 0.2s;
@@ -200,22 +205,17 @@
 }
 
 .active-font-true {
-  color: rgba(75, 168, 234, 0.75);
-  font-weight: 600;
   letter-spacing: -0.13px;
 }
 
 @media (max-width: 1250px) {
-  .toggle-button-container {
-    width: 40px;
-    height: 19px;
+  .toggle-button-text-and-button-container {
     position: absolute;
-    top: 549px;
-    left: 41px;
+    top: 68px;
+    left: 14px;
   }
-  .toggle-button-container .toggle-button {
-    width: 24px;
-    height: 24px;
+  .toggle-font {
+    font-size: 23px;
   }
 }
 .home-container {
@@ -242,15 +242,19 @@
   left: 16px;
 }
 
-.gallery-container {
-  padding: 90px 40px;
-  grid-gap: 40px 40px;
-  justify-content: center;
-  width: 90%;
+@media (max-width: 1250px) {
+  .home-container .search-input {
+    font-size: 13px;
+    width: 300px;
+    height: 45px;
+    padding-left: 40px;
+  }
+  .search-icon {
+    height: 16px;
+  }
 }
-
 .favorites-title {
-  font-size: clamp(70px, 7.5vw, 90px);
+  font-size: clamp(60px, 7.5vw, 90px);
 }
 
 html {
@@ -285,13 +289,20 @@ body {
 .background-image-darkMode-true {
   transition: background-image 0.6s ease;
   background-size: cover;
-  background-image: url("/darkBackground.a1f37b6d.jpg");
+  background-image: url("/darkBackgroundComp.fa6a5ed0.jpg") !important;
 }
 
 .background-image-darkMode-false {
   transition: background-image 0.6s ease;
   background-size: cover;
-  background-image: url("/lightBackground.22330357.jpg");
+  background-image: url("/lightBackgroundComp.11b0aadb.jpg");
+}
+
+.gallery-container {
+  padding: 90px 40px;
+  grid-gap: 40px 40px;
+  justify-content: center;
+  width: 90%;
 }
 
 .gradual-animation {
@@ -799,6 +810,9 @@ p {
 @media (max-width: 1250px) {
   .mobile-none {
     display: none;
+  }
+  .gallery-container {
+    grid-gap: unset;
   }
 }
 @media (min-width: 1250px) {

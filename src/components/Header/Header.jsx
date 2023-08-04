@@ -44,6 +44,7 @@ const Header = () => {
         background: isDarkMode ? "#804784" : "white",
         transition: "0.6s",
         color: isDarkMode ? "white" : "black",
+        boxShadow: isDarkMode ? "0 10px 25px 0 rgb(255 255 255 / 60%)" : null,
       }}
     >
       <div className="HeaderInnerContainer">

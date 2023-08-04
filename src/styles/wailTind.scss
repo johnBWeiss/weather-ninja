@@ -39,12 +39,21 @@ body {
 .background-image-darkMode-true {
   transition: background-image 0.6s ease;
   background-size: cover;
-  background-image: url("../assets/images/darkBackground.jpg");
+  background-image: url("../assets/images/darkBackgroundComp.jpg") !important;
+  // background-image: url("../assets/images/darkBackground.jpg") !important;
 }
 .background-image-darkMode-false {
   transition: background-image 0.6s ease;
   background-size: cover;
-  background-image: url("../assets/images/lightBackground.jpg");
+  background-image: url("../assets/images/lightBackgroundComp.jpg");
+  // background-image: url("../assets/images/lightBackground.jpg");
+}
+
+.gallery-container {
+  padding: 90px 40px;
+  grid-gap: 40px 40px;
+  justify-content: center;
+  width: 90%;
 }
 .gradual-animation {
   animation: gradual 1.6s cubic-bezier(0.25, 0.1, 0.25, 1) 0s 1 forwards;
@@ -436,6 +445,10 @@ p {
 @media (max-width: $mobileBreakPoint) {
   .mobile-none {
     display: none;
+  }
+
+  .gallery-container {
+    grid-gap: unset;
   }
 }
 

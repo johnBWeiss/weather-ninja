@@ -17,6 +17,7 @@ const City = ({
   type,
   isFarenheight,
   favoriteClickHandler,
+  isDarkMode,
 }) => {
   const { toggleFavoriteHandler } = useToggleFavorite(
     cityName,
@@ -92,6 +93,7 @@ const City = ({
         favoriteClickHandler ? "hoverEffect" : null
       } `}
       onClick={displayFavorite}
+      style={{ background: isDarkMode ? "grey" : "white", transition: "0.6s" }}
     >
       <div className="celsius-button" onClick={imperialVsMetricToggleHandler}>
         {temperatureType.current === "F" ? "C" : "F"}

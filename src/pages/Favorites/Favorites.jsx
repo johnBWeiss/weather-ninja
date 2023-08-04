@@ -12,7 +12,8 @@ const Favorites = () => {
   const navigate = useNavigate();
   // const reduxState = useSelector(globalSelector);
   const dispatch = useDispatch();
-  const { favoritesArray, isFarenheight } = useSelector(globalSelector);
+  const { favoritesArray, isFarenheight, isDarkMode } =
+    useSelector(globalSelector);
 
   useEffect(() => {
     const favoritesFromStorage =
@@ -28,7 +29,10 @@ const Favorites = () => {
   };
 
   return (
-    <div className="gradual-animation">
+    <div
+      className="gradual-animation"
+      style={{ color: isDarkMode ? "white" : "black", transition: "0.6s" }}
+    >
       <h1 className="favorites-title padding-top-150 center">Favorites</h1>
       <div className="flex flex-wrap center gallery-container">
         {favoritesArray?.map((value) => (
@@ -39,6 +43,7 @@ const Favorites = () => {
             cityTemperature={value?.cityTemperature}
             favoriteClickHandler={favoriteClickHandler}
             isFarenheight={isFarenheight}
+            isDarkMode={isDarkMode}
           />
         ))}
       </div>

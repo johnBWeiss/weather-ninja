@@ -23,6 +23,7 @@ const Home = () => {
     fiveDaysArray,
     error,
     isFarenheight,
+    isDarkMode,
     currentCity: {
       isFavoriteChosen,
       currentCityName,
@@ -168,6 +169,7 @@ const Home = () => {
             type={"singleItem"}
             cityCode={cityCode}
             isFarenheight={isFarenheight}
+            isDarkMode={isDarkMode}
           />
         )}
       </div>
@@ -178,6 +180,7 @@ const Home = () => {
             type={"weeklyItem"}
             data={forecast}
             isFarenheight={isFarenheight}
+            isDarkMode={isDarkMode}
           />
         ))}
       </div>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./src/pages/Home/Home";
 import Header from "./src/components/Header/Header";
@@ -10,14 +10,19 @@ import { globalSelector } from "./store/globalSlice";
 
 const Main = () => {
   const { isDarkMode } = useSelector(globalSelector);
+  const [fallBackIsDarkMode, setFallBackIsDarkMode] = useState(
+    isDarkMode ?? false
+  );
+
+  useEffect(() => {
+    setFallBackIsDarkMode(isDarkMode);
+  }, [isDarkMode]);
 
   return (
-    <div className="app" style={{ background: isDarkMode ? "black" : "white" }}>
-      <img
-        className={`app-background-image background-image-darkMode-${isDarkMode}`}
-        // src={""}
-        alt="."
-      />
+    <div className="app">
+      <div
+        className={`app-background-image background-image-darkMode-false background-image-darkMode-${fallBackIsDarkMode}`}
+      ></div>
       <Router>
         <Header />
         <Routes>

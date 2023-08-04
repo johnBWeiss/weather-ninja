@@ -16,3 +16,9 @@
 .heart-icon-city {
   width: 30px;
 }
+
+@media (max-width: $mobileBreakPoint) {
+  .city-container {
+    transform: scale(0.8);
+  }
+}

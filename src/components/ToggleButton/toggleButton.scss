@@ -28,7 +28,9 @@
     transition: 0.2s;
   }
   .toggle-button-true {
-    background-color: rgba(75, 168, 234);
+    // background-color: rgba(75, 168, 234);
+    background-color: #2c455b;
+
     right: 2px;
     top: -3px;
     transition: 0.2s;
@@ -53,8 +55,8 @@
   }
 }
 .active-font-true {
-  color: rgba(75, 168, 234, 0.75);
-  font-weight: 600;
+  // color: rgba(75, 168, 234, 0.75);
+  // font-weight: 600;
   letter-spacing: -0.13px;
 }
 
@@ -64,23 +66,27 @@
 // }
 
 @media (max-width: $mobileBreakPoint) {
-  .toggle-button-container {
-    width: 40px;
-    height: 19px;
+  .toggle-button-text-and-button-container {
     position: absolute;
-    top: 549px;
-    left: 41px;
-
-    .toggle-button {
-      width: 24px;
-      height: 24px;
-    }
+    top: 68px;
+    left: 14px;
   }
+  // .toggle-button-container {
+  //   width: 40px;
+  //   height: 19px;
+  //   position: absolute;
+  //   top: 549px;
+  //   left: 41px;
 
-  // .toggle-font,
-  // .active-font-true {
-  //   display: none;
+  //   .toggle-button {
+  //     width: 24px;
+  //     height: 24px;
+  //   }
   // }
+
+  .toggle-font {
+    font-size: 23px;
+  }
 }
 
 // @media (max-width: 387px) {
