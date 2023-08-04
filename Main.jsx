@@ -12,7 +12,7 @@ const Main = () => {
   const { isDarkMode } = useSelector(globalSelector);
 
   return (
-    <div className="app">
+    <div className="app" style={{ background: isDarkMode ? "black" : "white" }}>
       <img
         className={`app-background-image background-image-darkMode-${isDarkMode}`}
         // src={""}

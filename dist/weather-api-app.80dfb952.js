@@ -51920,7 +51920,10 @@ var Main = function Main() {
   var _useSelector = (0, _reactRedux.useSelector)(_globalSlice.globalSelector),
     isDarkMode = _useSelector.isDarkMode;
   return /*#__PURE__*/_react.default.createElement("div", {
-    className: "app"
+    className: "app",
+    style: {
+      background: isDarkMode ? "black" : "white"
+    }
   }, /*#__PURE__*/_react.default.createElement("img", {
     className: "app-background-image background-image-darkMode-".concat(isDarkMode)
     // src={""}
@@ -52158,7 +52161,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52358" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55359" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];
