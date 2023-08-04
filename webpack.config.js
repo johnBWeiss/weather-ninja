@@ -15,7 +15,10 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: path.join(__dirname, "public", "index.html"),
     }),
-    new MiniCssExtractPlugin(), // Extract CSS into separate files
+    // Extract CSS into separate files
+    new MiniCssExtractPlugin({
+      filename: 'styles.css',
+    }),
     // new WebpackObfuscatorPlugin({
     //   // rotateStringArray: true,
     //   // controlFlowFlattening: true,
@@ -34,6 +37,16 @@ module.exports = {
         extractComments: false,
       }),
     ],
+    splitChunks: {
+      cacheGroups: {
+        styles: {
+          name: 'styles',
+          test: /\.s?css$/,
+          chunks: 'all',
+          enforce: true,
+        },
+      },
+    },
   },
   devServer: {
     static: {
@@ -58,12 +71,12 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /\.(jpg|png|gif|pdf|ico)$/,
-        type: "asset/resource",
+        test: /\.(jpg|png|gif|pdf|ico)$/i,
+        type: 'asset/inline',
       },
       {
         test: /\.svg$/i,
-        type: "asset/inline",
+        type: 'asset/inline',
         generator: {
           dataUrl: content => svgToMiniDataURI(content.toString()),
         },
@@ -71,6 +84,6 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: [".js", ".jsx"], // Remove the unnecessary "*"
+    extensions: [".js", ".jsx"],
   },
 };
