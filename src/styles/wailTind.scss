@@ -12,6 +12,7 @@ html {
   margin: 0 !important;
   padding: 0 !important;
   position: relative;
+  font-family: "Ubuntu", sans-serif;
   // overflow: hidden;
 }
 body {
@@ -22,11 +23,63 @@ body {
   letter-spacing: 0.5px;
 }
 
+.app-background-image {
+  z-index: -2;
+  position: fixed;
+  width: 100vw;
+  height: 100%;
+  min-height: 120vh;
+  -o-object-fit: cover;
+  object-fit: cover;
+  left: 0px;
+  top: 0px;
+  // transition: background-image 1s ease;
+}
+
+.background-image-darkMode-true {
+  transition: background-image 0.6s ease;
+  background-size: cover;
+  background-image: url("../assets/images/darkBackground.jpg");
+}
+.background-image-darkMode-false {
+  transition: background-image 0.6s ease;
+  background-size: cover;
+  background-image: url("../assets/images/lightBackground.jpg");
+}
+.gradual-animation {
+  animation: gradual 1.6s cubic-bezier(0.25, 0.1, 0.25, 1) 0s 1 forwards;
+}
+
+@keyframes gradual {
+  0% {
+    opacity: 0;
+    margin-top: 1%;
+  }
+
+  30% {
+    margin-top: 0%;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+.error-message {
+  color: red;
+}
+
 .hoverEffect {
   transition: 0.3s;
   &:hover {
     cursor: pointer;
     transform: scale(1.1);
+    transition: 0.3s;
+  }
+}
+.hoverEffect-S {
+  transition: 0.3s;
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.05);
     transition: 0.3s;
   }
 }
@@ -107,6 +160,9 @@ input {
 }
 .padding-top-100 {
   padding-top: 100px;
+}
+.padding-top-150 {
+  padding-top: 150px;
 }
 .padding-top-300 {
   padding-top: 300px;

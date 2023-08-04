@@ -11,10 +11,14 @@ import { getFiveDays } from "../../../store/globalSlice";
 import { errorHandler } from "../../../store/globalSlice";
 import { resetError } from "../../../store/globalSlice";
 import { getRandomErrorMessage, scrollToTop } from "../../utils/helperFunction";
+import { apiKey } from "../../api/api";
+import { baseURL } from "../../api/api";
+import { geoPositionURL } from "../../api/api";
+import { searchByTextURL } from "../../api/api";
 
 const Home = () => {
   const dispatch = useDispatch();
-  const reduxState = useSelector(globalSelector);
+  // const reduxState = useSelector(globalSelector);
   const {
     fiveDaysArray,
     error,
@@ -25,10 +29,9 @@ const Home = () => {
       currentCityTemperature,
       cityCode,
     },
-  } = reduxState;
+  } = useSelector(globalSelector);
 
   const [stateInputValue, setStateInputValue] = useState("");
-  console.log(isFarenheight);
   async function getCityFromGeolocation() {
     dispatch(resetError());
 
@@ -50,28 +53,21 @@ const Home = () => {
   }
 
   useEffect(() => {
-    dispatch(resetError());
     async function fetchCityName() {
       dispatch(resetError());
       if (currentCityName.length <= 0) {
         try {
           const position = await getCityFromGeolocation();
           const { latitude, longitude } = position;
-          const endpointURL =
-            "http://dataservice.accuweather.com/locations/v1/cities/geoposition/search";
-          const apiKey = "ps9T93lqmdD16AcRRA6Cuq83mABQMy4O";
-
-          const language = "en-us";
-          const toplevel = false;
-          const apiUrl = `${endpointURL}?apikey=${apiKey}&q=${latitude}%2C${longitude}&language=${language}&toplevel=${toplevel}`;
           axios
-            .get(apiUrl)
+            .get(
+              `${geoPositionURL}?apikey=${apiKey}&q=${latitude}%2C${longitude}&language=en-us&toplevel=false`
+            )
             .then((response) => {
               const data = response.data;
-              console.log(data);
               dispatch(
                 getSingleCity({
-                  cityCode: data.Key,
+                  cityCode: data?.Key,
                   cityName: data?.LocalizedName,
                   isFavoriteChosen: false,
                 })
@@ -100,30 +96,29 @@ const Home = () => {
       //   );
       // }
     }
+
     if (currentCityName == "") {
       // fetchCityName();
     }
     scrollToTop();
+    dispatch(resetError());
+
     // dispatch(getSingleCity({ cityCode: "215854", cityName: "Tel Aviv" }));
   }, []);
 
   const handleInputChange = (event) => {
-    console.log(event.target.value);
-    const inputText = event.target.value;
-
+    const inputText = event.target.value.toLowerCase();
     const englishLettersRegex = /^[a-zA-Z\s]*$/;
-
     if (englishLettersRegex.test(inputText)) {
-      let inputTextLowerCase = inputText.toLowerCase();
-      setStateInputValue(inputTextLowerCase);
+      // let inputTextLowerCase = inputText.toLowerCase();
+      setStateInputValue(inputText);
     }
   };
 
   const searchByTextHandler = async () => {
-    const apiKey = "ps9T93lqmdD16AcRRA6Cuq83mABQMy4O";
-    const language = "en-us";
-
-    const url = `http://dataservice.accuweather.com/locations/v1/cities/autocomplete?apikey=${apiKey}&q=${stateInputValue}&language=${language}`;
+    // const apiKey = "ps9T93lqmdD16AcRRA6Cuq83mABQMy4O";
+    // const language = "en-us";
+    const url = `${searchByTextURL}?apikey=${apiKey}&q=${stateInputValue}&language=en-us`;
     dispatch(resetError());
 
     try {
@@ -133,7 +128,7 @@ const Home = () => {
         getSingleCity({
           cityCode: response?.data?.[0]?.Key,
           cityName: response?.data?.[0]?.LocalizedName,
-          isFavoriteChosen: false,
+          // isFavoriteChosen: false,
         })
       );
       dispatch(
@@ -148,7 +143,7 @@ const Home = () => {
   };
 
   return (
-    <div className="home-container">
+    <div className="home-container gradual-animation">
       <div className="flex relative center">
         <img className="search-icon" src={searchIcon} alt="search icon" />
 

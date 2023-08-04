@@ -44,6 +44,11 @@
   font-size: clamp(16px, 1.5vw, 20px) !important;
 }
 
+.header-title {
+  cursor: pointer;
+  font-weight: 600;
+}
+
 .header-button-container {
   overflow: hidden;
   cursor: pointer;
@@ -82,6 +87,41 @@
   transition: 0.3s;
 }
 
+.title-and-theme-button-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-pack: center;
+  justify-content: center;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -ms-flex-pack: space-between;
+  justify-content: space-between;
+  grid-gap: 10px;
+  gap: 10px;
+}
+
+.theme-mode-img {
+  height: 40px;
+  cursor: pointer;
+}
+
+.shake {
+  animation: shake 1.5s;
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  5%, 25%, 45%, 65%, 85%, 95% {
+    transform: translateX(-1px);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(1px);
+  }
+}
 @media (max-width: 1250px) {
   .header-button-container {
     width: 110px;
@@ -98,6 +138,7 @@
   display: inline-block; /* Ensure the wrapper only takes the width of its contents */
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1), 0 -5px 10px rgba(0, 0, 0, 0.1);
   padding: 0px 20px;
+  background-color: white;
 }
 
 .weather-img {
@@ -108,31 +149,34 @@
   width: 30px;
 }
 
+.toggle-button-text-and-button-container {
+  position: absolute;
+  top: 133px;
+  left: 46px;
+}
+
 .toggle-button-container {
-  width: 34px;
-  height: 16px;
+  width: 50px;
+  height: 20px;
   background-color: #bcbbbb;
   border-radius: 8.7px;
   font-size: 12px;
   color: #6c757d;
-  position: absolute;
-  top: 133px;
-  left: 46px;
   transition: 0.2s;
   cursor: pointer;
   font-weight: 300;
 }
 .toggle-button-container .toggle-button {
-  width: 20px;
-  height: 20px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   position: relative;
-  right: -15px;
-  top: -2px;
+  right: -29px;
+  top: -3.5px;
   transition: 0.2s;
 }
 .toggle-button-container .toggle-button-true {
-  background-color: #007bff;
+  background-color: rgb(75, 168, 234);
   right: 2px;
   top: -3px;
   transition: 0.2s;
@@ -142,23 +186,23 @@
 }
 
 .active-true {
-  border: 0.7px solid #007bff;
   transition: border 0.1s;
 }
 
 .toggle-font {
-  transform: translate(-1px, 0);
+  transform: translate(-1px, 10px);
+  font-size: 40px;
+  cursor: pointer;
+}
+.toggle-font:hover {
+  font-weight: 900;
+  transform: translate(-1px, 10px) scale(1.1);
 }
 
 .active-font-true {
-  color: #007bff;
+  color: rgba(75, 168, 234, 0.75);
   font-weight: 600;
   letter-spacing: -0.13px;
-}
-
-.info-icon-container,
-.toggle-svg {
-  display: none;
 }
 
 @media (max-width: 1250px) {
@@ -172,38 +216,6 @@
   .toggle-button-container .toggle-button {
     width: 24px;
     height: 24px;
-  }
-  .toggle-font,
-  .active-font-true {
-    display: none;
-  }
-  .info-icon-container {
-    display: block;
-    position: absolute;
-    width: 24px;
-    height: 24px;
-    top: 546px;
-    left: 7px;
-  }
-  .toggle-bubble-container {
-    position: absolute;
-    top: 501px;
-    left: 8px;
-    background: #435971;
-    padding: 10px;
-    color: white;
-    border-radius: 5px;
-  }
-  .toggle-svg {
-    display: block;
-    position: relative;
-    left: 5.7px;
-    top: -37px;
-  }
-}
-@media (max-width: 387px) {
-  .toggle-button-container {
-    left: 36px;
   }
 }
 .home-container {
@@ -231,18 +243,14 @@
 }
 
 .gallery-container {
-  padding: 200px 40px;
+  padding: 90px 40px;
   grid-gap: 40px 40px;
   justify-content: center;
   width: 90%;
 }
 
-.error-message {
-  color: red;
-}
-
 .favorites-title {
-  font-size: clamp(26px, 4.5vw, 150px);
+  font-size: clamp(70px, 7.5vw, 90px);
 }
 
 html {
@@ -251,6 +259,7 @@ html {
   margin: 0 !important;
   padding: 0 !important;
   position: relative;
+  font-family: "Ubuntu", sans-serif;
 }
 
 body {
@@ -261,12 +270,65 @@ body {
   letter-spacing: 0.5px;
 }
 
+.app-background-image {
+  z-index: -2;
+  position: fixed;
+  width: 100vw;
+  height: 100%;
+  min-height: 120vh;
+  -o-object-fit: cover;
+  object-fit: cover;
+  left: 0px;
+  top: 0px;
+}
+
+.background-image-darkMode-true {
+  transition: background-image 0.6s ease;
+  background-size: cover;
+  background-image: url("/darkBackground.a1f37b6d.jpg");
+}
+
+.background-image-darkMode-false {
+  transition: background-image 0.6s ease;
+  background-size: cover;
+  background-image: url("/lightBackground.22330357.jpg");
+}
+
+.gradual-animation {
+  animation: gradual 1.6s cubic-bezier(0.25, 0.1, 0.25, 1) 0s 1 forwards;
+}
+
+@keyframes gradual {
+  0% {
+    opacity: 0;
+    margin-top: 1%;
+  }
+  30% {
+    margin-top: 0%;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+.error-message {
+  color: red;
+}
+
 .hoverEffect {
   transition: 0.3s;
 }
 .hoverEffect:hover {
   cursor: pointer;
   transform: scale(1.1);
+  transition: 0.3s;
+}
+
+.hoverEffect-S {
+  transition: 0.3s;
+}
+.hoverEffect-S:hover {
+  cursor: pointer;
+  transform: scale(1.05);
   transition: 0.3s;
 }
 
@@ -347,6 +409,10 @@ input {
 
 .padding-top-100 {
   padding-top: 100px;
+}
+
+.padding-top-150 {
+  padding-top: 150px;
 }
 
 .padding-top-300 {

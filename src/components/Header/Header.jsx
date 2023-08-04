@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { globalSelector } from "../../../store/globalSlice";
+import { globalSelector, setToggleDarkMode } from "../../../store/globalSlice";
+import { setToggleDegreeType } from "../../../store/globalSlice";
+import { useLocation } from "react-router-dom";
 import houseIcon from "../../assets/images/house-icon.png";
 import fullHeartIcon from "../../assets/images/full-heart-icon.png";
-import { useLocation } from "react-router-dom";
 import ToggleButton from "../ToggleButton/ToggleButton";
-import { setToggleDegreeType } from "../../../store/globalSlice";
+import darkModeImage from "../../assets/images/darkMode.png";
+import lightModeImage from "../../assets/images/lightMode.png";
+
 const Header = () => {
-  const reduxState = useSelector(globalSelector);
+  const { isFarenheight, isDarkMode, error } = useSelector(globalSelector);
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
@@ -35,9 +38,29 @@ const Header = () => {
     setOverlayPosition(location.pathname === "/" ? 0 : "47%");
   }, [location.pathname]);
   return (
-    <div className="HeaderContainer">
+    <div
+      className="HeaderContainer"
+      style={{
+        background: isDarkMode ? "#804784" : "white",
+        transition: "0.6s",
+        color: isDarkMode ? "white" : "black",
+      }}
+    >
       <div className="HeaderInnerContainer">
-        <h2>Weather Ninja</h2>
+        <div className="title-and-theme-button-container">
+          {" "}
+          <h2 className="header-title" onClick={() => navigate("/")}>
+            Weather Ninja
+          </h2>
+          <img
+            onClick={() => {
+              dispatch(setToggleDarkMode());
+            }}
+            className="theme-mode-img"
+            src={!isDarkMode ? darkModeImage : lightModeImage}
+            alt=""
+          />
+        </div>
         <div className="header-button-container space-around relative ">
           <div
             className="chosen-header-overlay"
@@ -65,7 +88,11 @@ const Header = () => {
           </div>
         </div>
       </div>
-      <ToggleButton parentFunction={toggleDegreeTypeHandler} />
+      <ToggleButton
+        parentFunction={toggleDegreeTypeHandler}
+        isFarenheight={isFarenheight}
+        isDarkMode={isDarkMode}
+      />
     </div>
   );
 };

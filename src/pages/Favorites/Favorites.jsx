@@ -1,22 +1,18 @@
-import React, { useState, useEffect } from "react";
-import City from "../../components/City/City";
-import {
-  getFiveDays,
-  getSingleCity,
-  resetError,
-} from "../../../store/globalSlice";
+import React, { useEffect } from "react";
 import { globalSelector } from "../../../store/globalSlice";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { setUpdateFavoriteArray } from "../../../store/globalSlice";
 import { useNavigate } from "react-router-dom";
 import { scrollToTop } from "../../utils/helperFunction";
+import { getFiveDays, getSingleCity } from "../../../store/globalSlice";
+import City from "../../components/City/City";
 
 const Favorites = () => {
   const navigate = useNavigate();
-  const reduxState = useSelector(globalSelector);
+  // const reduxState = useSelector(globalSelector);
   const dispatch = useDispatch();
-  const { favoritesArray, isFarenheight } = reduxState;
+  const { favoritesArray, isFarenheight } = useSelector(globalSelector);
 
   useEffect(() => {
     const favoritesFromStorage =
@@ -32,21 +28,21 @@ const Favorites = () => {
   };
 
   return (
-    <>
-      <h1 className="favorites-title padding-top-300 center">Favorites</h1>
+    <div className="gradual-animation">
+      <h1 className="favorites-title padding-top-150 center">Favorites</h1>
       <div className="flex flex-wrap center gallery-container">
-        {favoritesArray?.map((value, index) => (
+        {favoritesArray?.map((value) => (
           <City
-            key={index}
-            cityName={value.cityName}
-            cityCode={value.cityCode}
-            cityTemperature={value.cityTemperature}
+            key={value?.cityCode}
+            cityName={value?.cityName}
+            cityCode={value?.cityCode}
+            cityTemperature={value?.cityTemperature}
             favoriteClickHandler={favoriteClickHandler}
             isFarenheight={isFarenheight}
           />
         ))}
       </div>
-    </>
+    </div>
   );
 };
 export default Favorites;

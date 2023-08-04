@@ -1,65 +1,45 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { RootState } from "./store";
-import { useDispatch } from "react-redux";
 import axios from "axios";
-
-const baseURL = 'http://dataservice.accuweather.com'
-const apikey = 'ps9T93lqmdD16AcRRA6Cuq83mABQMy4O'
+import { apiKey } from "../src/api/api";
+import { baseURL } from "../src/api/api";
 
 let initialMobile = window.matchMedia("(max-width: 1250px)");
 const initialState = {
+  isDarkMode: false,
   favoritesArray: [],
   error: false,
   pending: false,
   isMobile: initialMobile.matches,
   mobileBreakPoint: 1250,
   isFarenheight: true,
+  fiveDaysArray: [],
   currentCity: {
-    isFavoriteChosen: false,
+    // isFavoriteChosen: false,
     cityCode: '',
     currentCityName: '',
     currentCityTemperature: ''
-    // minTemperature: '',
-    // maxTemperature: '',
   },
-  fiveDaysArray: []
-
-
 };
 
 export const getSingleCity = createAsyncThunk('globalSlice/getSingleCity',
-
   async (payload, thunkAPI) => {
-    console.log(payload.cityCode);
     try {
-      let response = await axios(`${baseURL}/currentconditions/v1/${payload.cityCode}?apikey=${apikey}&language=en-us`)
+      let response = await axios(`${baseURL}/currentconditions/v1/${payload.cityCode}?apikey=${apiKey}&language=en-us`)
       return { currentCityTemperature: response?.data?.[0]?.Temperature?.Imperial?.Value, currentCityName: payload?.cityName, isFavoriteChosen: payload.isFavoriteChosen, cityCode: payload.cityCode }
     } catch (error) {
-      /*
-       I use both the try catch method and the builder rejected method to catch errors,
-       because the rejected method does not cover all instances of errors. 
-      */
       thunkAPI.dispatch(errorHandler())
     }
   })
-export const getFiveDays = createAsyncThunk('globalSlice/getFiveDays',
 
+export const getFiveDays = createAsyncThunk('globalSlice/getFiveDays',
   async (payload, thunkAPI) => {
-    console.log(payload.cityCode);
     try {
-      let response = await axios(`${baseURL}/forecasts/v1/daily/5day/${payload.cityCode}?apikey=${apikey}&language=en-us`)
-      console.log(response?.data);
+      // let response = await axios(`${baseURL}/forecasts/v1/daily/5day/${payload.cityCode}?apiKey=${apiKey}&language=en-us`)
       return response?.data?.DailyForecasts
     } catch (error) {
-      /*
-       I use both the try catch method and the builder rejected method to catch errors,
-       because the rejected method does not cover all instances of errors. 
-      */
       thunkAPI.dispatch(errorHandler())
     }
   })
-
-
 
 export const globalSlice = createSlice({
   name: "globalSlice",
@@ -78,23 +58,16 @@ export const globalSlice = createSlice({
     },
     setUpdateFavoriteArray: (state, { payload }) => {
       state.favoritesArray = payload;
-      console.log(payload);
-      console.log(state.favoritesArray);
     },
     setToggleDegreeType: (state) => {
       state.isFarenheight = !state.isFarenheight
-
     },
-
-    // setCurrentCityFromFavorites: (state, { payload }) => {
-    //   state.currentCity = { ...payload, isFavoriteChosen: true };
-    // },
     setCurrentCity: (state, { payload }) => {
       state.currentCity = { ...payload };
     },
-
-
-
+    setToggleDarkMode: (state) => {
+      state.isDarkMode = !state.isDarkMode
+    },
   },
 
   extraReducers: (builder) => {
@@ -105,7 +78,6 @@ export const globalSlice = createSlice({
       .addCase(getSingleCity.fulfilled, (state, { payload }) => {
         state.pending = false
         state.currentCity = { ...payload }
-        // state.getSingleCity = { code: payload[0].Key, name:payload[0].LocalizedName }
       })
       .addCase(getSingleCity.rejected, (state) => {
         state.error = true
@@ -115,15 +87,14 @@ export const globalSlice = createSlice({
         state.pending = true
       })
       .addCase(getFiveDays.fulfilled, (state, { payload }) => {
-        console.log(payload);
         state.pending = false
         state.fiveDaysArray = payload
       })
       .addCase(getFiveDays.rejected, (state) => {
         state.error = true
         state.pending = true
+        console.log('get 5 builder rejcted');
       })
-
   },
 });
 
@@ -134,8 +105,8 @@ export const {
   errorHandler,
   resetError,
   setUpdateFavoriteArray,
-  setToggleDegreeType
-
+  setToggleDegreeType,
+  setToggleDarkMode
 } = globalSlice.actions;
 
 export const globalSelector = (state) => {
