@@ -9,7 +9,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 module.exports = {
   entry: "./index.js",
   output: {
-    filename: "main.js",
+    filename: "bundle.js", // Change the filename to "bundle.js" or any other name you like
     path: path.resolve(__dirname, "dist"),
   },
   plugins: [
@@ -45,7 +45,7 @@ module.exports = {
     splitChunks: {
       cacheGroups: {
         styles: {
-          name: 'styles',
+          name: 'styles', // Change the chunk name to a unique value, like 'styles'
           test: /\.s?css$/,
           chunks: 'all',
           enforce: true,
