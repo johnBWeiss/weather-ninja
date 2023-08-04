@@ -1,5 +1,7 @@
 import cloudy from "../assets/images/cloudy.png"
 import lightRain from "../assets/images/light rain.png"
+import clear from "../assets/images/clear.png"
+import partlyCloudy from "../assets/images/partly cloudy.png"
 
 
 
@@ -77,14 +79,16 @@ export const getImageForWeather = (weather) => {
     switch (lowerWeather) {
         case 'cloudy':
             return cloudy;
+        case 'partly cloudy':
+            return partlyCloudy;
         case 'clear':
-            return lightRain;
+            return clear;
         case 'light rain':
-            return cloudy;
+            return lightRain;
         case 'heavy rain':
             return lightRain;
         case 'mostly clear':
-            return cloudy;
+            return partlyCloudy;
         default:
             return lightRain;
     }
