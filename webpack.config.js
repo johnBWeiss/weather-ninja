@@ -50,7 +50,7 @@ module.exports = {
   },
   devServer: {
     static: {
-      directory: path.join(__dirname, "build"),
+      directory: path.join(__dirname, "dist"),
     },
     port: 3000,
   },
