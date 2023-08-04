@@ -22,7 +22,7 @@ module.exports = {
     new CopyPlugin({
       patterns: [
         { from: './_redirects', to: '' },
-        { from: './manifest.json', to: '' }, // Add this line to copy manifest.json
+        { from: './manifest.json', to: '' },
 
       ],
     }),
