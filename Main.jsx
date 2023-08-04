@@ -7,6 +7,7 @@ import lightBackground from "./src/assets/images/lightBackground.jpg";
 import darkBackground from "./src/assets/images/darkBackground.jpg";
 import { useSelector } from "react-redux";
 import { globalSelector } from "./store/globalSlice";
+import "./src/styles/wailTind.scss";
 
 const Main = () => {
   const { isDarkMode } = useSelector(globalSelector);
