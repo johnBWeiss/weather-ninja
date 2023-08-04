@@ -59,16 +59,18 @@ module.exports = {
       },
       {
         test: /\.(jpg|png|gif|pdf|ico)$/,
-        type: "asset/resource", // Use asset modules for image and file loading
+        type: "asset/resource",
       },
       {
         test: /\.svg$/i,
-        type: "asset/inline", // Use asset modules for SVG loading and convert them to data URIs
+        type: "asset/inline",
+        generator: {
+          dataUrl: content => svgToMiniDataURI(content.toString()),
+        },
       },
-      // You can add other rules for font files if needed
     ],
   },
   resolve: {
-    extensions: ["*", ".js", ".jsx"],
+    extensions: [".js", ".jsx"], // Remove the unnecessary "*"
   },
 };
