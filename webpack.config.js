@@ -9,13 +9,12 @@ module.exports = {
   entry: "./index.js",
   output: {
     filename: "main.js",
-    path: path.resolve(__dirname, "build"),
+    path: path.resolve(__dirname, "dist"),
   },
   plugins: [
     new HtmlWebpackPlugin({
       template: path.join(__dirname, "public", "index.html"),
     }),
-    // Extract CSS into separate files
     new MiniCssExtractPlugin({
       filename: 'styles.css',
     }),
@@ -64,9 +63,6 @@ module.exports = {
         test: /\.(js|jsx)$/,
         use: {
           loader: "babel-loader",
-          options: {
-            presets: ['@babel/preset-react'],
-          },
         },
         exclude: /node_modules/,
       },
