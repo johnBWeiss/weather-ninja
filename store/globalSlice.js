@@ -28,16 +28,18 @@ export const getSingleCity = createAsyncThunk('globalSlice/getSingleCity',
       return { currentCityTemperature: response?.data?.[0]?.Temperature?.Imperial?.Value, currentCityName: payload?.cityName, isFavoriteChosen: payload.isFavoriteChosen, cityCode: payload.cityCode, weatherText: response?.data?.[0]?.WeatherText }
     } catch (error) {
       thunkAPI.dispatch(errorHandler())
+      console.log(error);
     }
   })
 
 export const getFiveDays = createAsyncThunk('globalSlice/getFiveDays',
   async (payload, thunkAPI) => {
     try {
-      // let response = await axios(`${baseURL}/forecasts/v1/daily/5day/${payload.cityCode}?apiKey=${apiKey}&language=en-us`)
+      let response = await axios(`${baseURL}/forecasts/v1/daily/5day/${payload.cityCode}?apiKey=${apiKey}&language=en-us`)
       return response?.data?.DailyForecasts
     } catch (error) {
       thunkAPI.dispatch(errorHandler())
+      console.log(error);
     }
   })
 

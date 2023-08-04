@@ -20,7 +20,7 @@ const useToggleFavorite = (
       localStorage.setItem("favorites", JSON.stringify(updatedFavorites));
       dispatch(setUpdateFavoriteArray(updatedFavorites));
     } else {
-      favorites.push({ cityName, cityTemperature, cityCode });
+      favorites.push({ cityName, cityTemperature, cityCode, weatherText });
       localStorage.setItem("favorites", JSON.stringify(favorites));
       dispatch(setUpdateFavoriteArray(favorites));
     }

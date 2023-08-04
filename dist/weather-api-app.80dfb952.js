@@ -12455,9 +12455,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.searchByTextURL = exports.geoPositionURL = exports.baseURL = exports.apiKey = void 0;
 var baseURL = 'http://dataservice.accuweather.com';
+// export const apiKey = 'ps9T93lqmdD16AcRRA6Cuq83mABQMy4O';
 exports.baseURL = baseURL;
-var apiKey = 'ps9T93lqmdD16AcRRA6Cuq83mABQMy4O';
-// export const apiKey = 'IeogV01qgqGpHm1XxALIFB1JAtbxBs7E'
+var apiKey = 'IeogV01qgqGpHm1XxALIFB1JAtbxBs7E';
+// export const apiKey = 'R2wMZwBSVoGRpGVartAWpcPs7Oaz9zsy'
+// export const apiKey = '9x0oehpt46AI4aK2veZLfftoKZfi3AR8'
 exports.apiKey = apiKey;
 var geoPositionURL = "".concat(baseURL, "/locations/v1/cities/geoposition/search");
 exports.geoPositionURL = geoPositionURL;
@@ -12502,7 +12504,7 @@ var initialState = {
 };
 var getSingleCity = (0, _toolkit.createAsyncThunk)('globalSlice/getSingleCity', /*#__PURE__*/function () {
   var _ref = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee(payload, thunkAPI) {
-    var _response$data, _response$data2, _response;
+    var _response$data, _response$data2, response;
     return _regeneratorRuntime().wrap(function _callee$(_context) {
       while (1) switch (_context.prev = _context.next) {
         case 0:
@@ -12510,19 +12512,20 @@ var getSingleCity = (0, _toolkit.createAsyncThunk)('globalSlice/getSingleCity', 
           _context.next = 3;
           return (0, _axios.default)("".concat(_api.baseURL, "/currentconditions/v1/").concat(payload.cityCode, "?apikey=").concat(_api.apiKey, "&language=en-us"));
         case 3:
-          _response = _context.sent;
+          response = _context.sent;
           return _context.abrupt("return", {
-            currentCityTemperature: _response === null || _response === void 0 || (_response$data = _response.data) === null || _response$data === void 0 || (_response$data = _response$data[0]) === null || _response$data === void 0 || (_response$data = _response$data.Temperature) === null || _response$data === void 0 || (_response$data = _response$data.Imperial) === null || _response$data === void 0 ? void 0 : _response$data.Value,
+            currentCityTemperature: response === null || response === void 0 || (_response$data = response.data) === null || _response$data === void 0 || (_response$data = _response$data[0]) === null || _response$data === void 0 || (_response$data = _response$data.Temperature) === null || _response$data === void 0 || (_response$data = _response$data.Imperial) === null || _response$data === void 0 ? void 0 : _response$data.Value,
             currentCityName: payload === null || payload === void 0 ? void 0 : payload.cityName,
             isFavoriteChosen: payload.isFavoriteChosen,
             cityCode: payload.cityCode,
-            weatherText: _response === null || _response === void 0 || (_response$data2 = _response.data) === null || _response$data2 === void 0 || (_response$data2 = _response$data2[0]) === null || _response$data2 === void 0 ? void 0 : _response$data2.WeatherText
+            weatherText: response === null || response === void 0 || (_response$data2 = response.data) === null || _response$data2 === void 0 || (_response$data2 = _response$data2[0]) === null || _response$data2 === void 0 ? void 0 : _response$data2.WeatherText
           });
         case 7:
           _context.prev = 7;
           _context.t0 = _context["catch"](0);
           thunkAPI.dispatch(errorHandler());
-        case 10:
+          console.log(_context.t0);
+        case 11:
         case "end":
           return _context.stop();
       }
@@ -12535,21 +12538,26 @@ var getSingleCity = (0, _toolkit.createAsyncThunk)('globalSlice/getSingleCity', 
 exports.getSingleCity = getSingleCity;
 var getFiveDays = (0, _toolkit.createAsyncThunk)('globalSlice/getFiveDays', /*#__PURE__*/function () {
   var _ref2 = _asyncToGenerator( /*#__PURE__*/_regeneratorRuntime().mark(function _callee2(payload, thunkAPI) {
-    var _response2;
+    var _response$data3, response;
     return _regeneratorRuntime().wrap(function _callee2$(_context2) {
       while (1) switch (_context2.prev = _context2.next) {
         case 0:
           _context2.prev = 0;
-          return _context2.abrupt("return", (_response2 = response) === null || _response2 === void 0 || (_response2 = _response2.data) === null || _response2 === void 0 ? void 0 : _response2.DailyForecasts);
-        case 4:
-          _context2.prev = 4;
+          _context2.next = 3;
+          return (0, _axios.default)("".concat(_api.baseURL, "/forecasts/v1/daily/5day/").concat(payload.cityCode, "?apiKey=").concat(_api.apiKey, "&language=en-us"));
+        case 3:
+          response = _context2.sent;
+          return _context2.abrupt("return", response === null || response === void 0 || (_response$data3 = response.data) === null || _response$data3 === void 0 ? void 0 : _response$data3.DailyForecasts);
+        case 7:
+          _context2.prev = 7;
           _context2.t0 = _context2["catch"](0);
           thunkAPI.dispatch(errorHandler());
-        case 7:
+          console.log(_context2.t0);
+        case 11:
         case "end":
           return _context2.stop();
       }
-    }, _callee2, null, [[0, 4]]);
+    }, _callee2, null, [[0, 7]]);
   }));
   return function (_x3, _x4) {
     return _ref2.apply(this, arguments);
@@ -49338,7 +49346,8 @@ var useToggleFavorite = function useToggleFavorite(cityName, cityTemperature, ci
       favorites.push({
         cityName: cityName,
         cityTemperature: cityTemperature,
-        cityCode: cityCode
+        cityCode: cityCode,
+        weatherText: weatherText
       });
       localStorage.setItem("favorites", JSON.stringify(favorites));
       dispatch((0, _globalSlice.setUpdateFavoriteArray)(favorites));
@@ -49392,7 +49401,7 @@ var City = function City(_ref) {
     favoriteClickHandler = _ref.favoriteClickHandler,
     isDarkMode = _ref.isDarkMode,
     weatherText = _ref.weatherText;
-  var _useToggleFavorite = (0, _useToggleFavorite2.default)(cityName, cityTemperature, cityCode),
+  var _useToggleFavorite = (0, _useToggleFavorite2.default)(cityName, cityTemperature, cityCode, weatherText),
     toggleFavoriteHandler = _useToggleFavorite.toggleFavoriteHandler;
   var dispatch = (0, _reactRedux.useDispatch)();
   var _useState = (0, _react.useState)((_data$Temperature = data === null || data === void 0 ? void 0 : data.Temperature) !== null && _data$Temperature !== void 0 ? _data$Temperature : ""),
@@ -51552,7 +51561,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var Home = function Home() {
-  var _weeklyArrayShortData;
   var dispatch = (0, _reactRedux.useDispatch)();
   // const reduxState = useSelector(globalSelector);
   var _useSelector = (0, _reactRedux.useSelector)(_globalSlice.globalSelector),
@@ -51655,7 +51663,7 @@ var Home = function Home() {
       return _fetchCityName.apply(this, arguments);
     }
     if (currentCityName == "") {
-      // fetchCityName();
+      fetchCityName();
     }
     (0, _helperFunction.scrollToTop)();
     dispatch((0, _globalSlice.resetError)());
@@ -51747,18 +51755,14 @@ var Home = function Home() {
     weatherText: weatherText
   })), /*#__PURE__*/_react.default.createElement("div", {
     className: "flex flex-wrap center gallery-container"
-  }, _mockData.weeklyArrayShortData === null || _mockData.weeklyArrayShortData === void 0 || (_weeklyArrayShortData = _mockData.weeklyArrayShortData.DailyForecasts) === null || _weeklyArrayShortData === void 0 ? void 0 : _weeklyArrayShortData.map(function (forecast, index) {
-    return (
-      /*#__PURE__*/
-      // {fiveDaysArray?.map((forecast, index) => (
-      _react.default.createElement(_City.default, {
-        key: index,
-        type: "weeklyItem",
-        data: forecast,
-        isFarenheight: isFarenheight,
-        isDarkMode: isDarkMode
-      })
-    );
+  }, fiveDaysArray === null || fiveDaysArray === void 0 ? void 0 : fiveDaysArray.map(function (forecast, index) {
+    return /*#__PURE__*/_react.default.createElement(_City.default, {
+      key: index,
+      type: "weeklyItem",
+      data: forecast,
+      isFarenheight: isFarenheight,
+      isDarkMode: isDarkMode
+    });
   })));
 };
 var _default = Home;

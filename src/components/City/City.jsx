@@ -29,7 +29,8 @@ const City = ({
   const { toggleFavoriteHandler } = useToggleFavorite(
     cityName,
     cityTemperature,
-    cityCode
+    cityCode,
+    weatherText
   );
 
   const dispatch = useDispatch();

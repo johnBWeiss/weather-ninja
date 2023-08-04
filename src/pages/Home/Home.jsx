@@ -100,7 +100,7 @@ const Home = () => {
     }
 
     if (currentCityName == "") {
-      // fetchCityName();
+      fetchCityName();
     }
     scrollToTop();
     dispatch(resetError());
@@ -179,8 +179,8 @@ const Home = () => {
         )}
       </div>
       <div className="flex flex-wrap center gallery-container">
-        {weeklyArrayShortData?.DailyForecasts?.map((forecast, index) => (
-          // {fiveDaysArray?.map((forecast, index) => (
+        {/* {weeklyArrayShortData?.DailyForecasts?.map((forecast, index) => ( */}
+        {fiveDaysArray?.map((forecast, index) => (
           <City
             key={index}
             type={"weeklyItem"}
