@@ -89,37 +89,37 @@ const City = ({
 
   return (
     <div
-      className={`city-container vertical-flex gap-8 ${
+      className={`city-container vertical-flex ${
         favoriteClickHandler ? "hoverEffect" : null
       } `}
       onClick={displayFavorite}
-      style={{ background: isDarkMode ? "grey" : "white", transition: "0.6s" }}
+      style={{ background: isDarkMode ? "grey" : "white" }}
     >
-      <div className="celsius-button" onClick={imperialVsMetricToggleHandler}>
-        {temperatureType.current === "F" ? "C" : "F"}
+      <div className="city-title bold">
+        {/* {temperatureType.current === "F" ? "C" : "F"} */}
+        {cityName}
       </div>
       <div></div>
       {title}
       <div className="vertical-flex ">
         <div className="gap-12">
           <img className="weather-img" src={partCloud} alt="part cloud" />{" "}
-          {type === "weeklyItem" ? (
-            <div>
-              {stateMinMaxTemperature?.Minimum?.Value} -
-              {stateMinMaxTemperature?.Maximum?.Value}
-            </div>
-          ) : (
-            <div>{stateSingleTemperature}</div>
-          )}
         </div>
       </div>
-      <div className="space-between">
+      <div className="space-between bottom-row-city">
+        {type === "weeklyItem" && <div>{dayAndMonth}</div>}
+        {/* <div> ° {isFarenheight ? "F" : "C"}</div> */}
         {type === "weeklyItem" ? (
-          <div>{dayAndMonth}</div>
+          <div>
+            {stateMinMaxTemperature?.Minimum?.Value} -
+            {stateMinMaxTemperature?.Maximum?.Value}
+          </div>
         ) : (
-          <div>{cityName}</div>
+          <div>
+            {stateSingleTemperature}
+            {isFarenheight ? " °F" : " °C"}
+          </div>
         )}
-        <div> ° {temperatureType.current}</div>
 
         {type !== "weeklyItem" && (
           <img

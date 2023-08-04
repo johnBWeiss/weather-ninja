@@ -49399,16 +49399,14 @@ var City = function City(_ref) {
     }
   }, [data, cityTemperature, isFarenheight, cityCode]);
   return /*#__PURE__*/_react.default.createElement("div", {
-    className: "city-container vertical-flex gap-8 ".concat(favoriteClickHandler ? "hoverEffect" : null, " "),
+    className: "city-container vertical-flex ".concat(favoriteClickHandler ? "hoverEffect" : null, " "),
     onClick: displayFavorite,
     style: {
-      background: isDarkMode ? "grey" : "white",
-      transition: "0.6s"
+      background: isDarkMode ? "grey" : "white"
     }
   }, /*#__PURE__*/_react.default.createElement("div", {
-    className: "celsius-button",
-    onClick: imperialVsMetricToggleHandler
-  }, temperatureType.current === "F" ? "C" : "F"), /*#__PURE__*/_react.default.createElement("div", null), title, /*#__PURE__*/_react.default.createElement("div", {
+    className: "city-title bold"
+  }, cityName), /*#__PURE__*/_react.default.createElement("div", null), title, /*#__PURE__*/_react.default.createElement("div", {
     className: "vertical-flex "
   }, /*#__PURE__*/_react.default.createElement("div", {
     className: "gap-12"
@@ -49416,9 +49414,9 @@ var City = function City(_ref) {
     className: "weather-img",
     src: _partlyCloudy.default,
     alt: "part cloud"
-  }), " ", type === "weeklyItem" ? /*#__PURE__*/_react.default.createElement("div", null, stateMinMaxTemperature === null || stateMinMaxTemperature === void 0 || (_stateMinMaxTemperatu3 = stateMinMaxTemperature.Minimum) === null || _stateMinMaxTemperatu3 === void 0 ? void 0 : _stateMinMaxTemperatu3.Value, " -", stateMinMaxTemperature === null || stateMinMaxTemperature === void 0 || (_stateMinMaxTemperatu4 = stateMinMaxTemperature.Maximum) === null || _stateMinMaxTemperatu4 === void 0 ? void 0 : _stateMinMaxTemperatu4.Value) : /*#__PURE__*/_react.default.createElement("div", null, stateSingleTemperature))), /*#__PURE__*/_react.default.createElement("div", {
-    className: "space-between"
-  }, type === "weeklyItem" ? /*#__PURE__*/_react.default.createElement("div", null, dayAndMonth) : /*#__PURE__*/_react.default.createElement("div", null, cityName), /*#__PURE__*/_react.default.createElement("div", null, " \xB0 ", temperatureType.current), type !== "weeklyItem" && /*#__PURE__*/_react.default.createElement("img", {
+  }), " ")), /*#__PURE__*/_react.default.createElement("div", {
+    className: "space-between bottom-row-city"
+  }, type === "weeklyItem" && /*#__PURE__*/_react.default.createElement("div", null, dayAndMonth), type === "weeklyItem" ? /*#__PURE__*/_react.default.createElement("div", null, stateMinMaxTemperature === null || stateMinMaxTemperature === void 0 || (_stateMinMaxTemperatu3 = stateMinMaxTemperature.Minimum) === null || _stateMinMaxTemperatu3 === void 0 ? void 0 : _stateMinMaxTemperatu3.Value, " -", stateMinMaxTemperature === null || stateMinMaxTemperature === void 0 || (_stateMinMaxTemperatu4 = stateMinMaxTemperature.Maximum) === null || _stateMinMaxTemperatu4 === void 0 ? void 0 : _stateMinMaxTemperatu4.Value) : /*#__PURE__*/_react.default.createElement("div", null, stateSingleTemperature, isFarenheight ? " °F" : " °C"), type !== "weeklyItem" && /*#__PURE__*/_react.default.createElement("img", {
     onClick: function onClick(e) {
       return toggleFavoriteHandler(e, cityName, cityTemperature, cityCode);
     },

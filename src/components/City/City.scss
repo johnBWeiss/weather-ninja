@@ -7,6 +7,18 @@
     0 -5px 10px rgba(0, 0, 0, 0.1);
   padding: 0px 20px;
   background-color: white;
+  transition: "0.6s";
+}
+.city-title {
+  font-size: 29px;
+  // margin-top: 8px;
+  overflow-x: hidden;
+  height: 29px;
+}
+
+.bottom-row-city {
+  font-size: 24px;
+  font-weight: 900;
 }
 
 .weather-img {

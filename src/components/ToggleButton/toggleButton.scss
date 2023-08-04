@@ -1,7 +1,7 @@
 .toggle-button-text-and-button-container {
   position: absolute;
   top: 133px;
-  left: 46px;
+  left: 4%;
 }
 
 .toggle-button-container {
@@ -69,7 +69,6 @@
   .toggle-button-text-and-button-container {
     position: absolute;
     top: 68px;
-    left: 14px;
   }
   // .toggle-button-container {
   //   width: 40px;
@@ -89,8 +88,8 @@
   }
 }
 
-// @media (max-width: 387px) {
-//   .toggle-button-container {
-//     left: 36px;
-//   }
-// }
+@media (max-width: 487px) {
+  .toggle-button-container {
+    left: 14px;
+  }
+}
