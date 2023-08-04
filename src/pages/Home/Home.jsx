@@ -100,7 +100,7 @@ const Home = () => {
     }
 
     if (currentCityName == "") {
-      fetchCityName();
+      // fetchCityName();
     }
     scrollToTop();
     dispatch(resetError());
