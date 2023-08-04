@@ -13,7 +13,7 @@ const initialState = {
   pending: false,
   isMobile: initialMobile.matches,
   mobileBreakPoint: 1250,
-  isFarentHeight: true,
+  isFarenheight: true,
   currentCity: {
     isFavoriteChosen: false,
     cityCode: '',
@@ -81,6 +81,11 @@ export const globalSlice = createSlice({
       console.log(payload);
       console.log(state.favoritesArray);
     },
+    setToggleDegreeType: (state) => {
+      state.isFarenheight = !state.isFarenheight
+
+    },
+
     // setCurrentCityFromFavorites: (state, { payload }) => {
     //   state.currentCity = { ...payload, isFavoriteChosen: true };
     // },
@@ -128,7 +133,8 @@ export const {
   setIsMobile,
   errorHandler,
   resetError,
-  setUpdateFavoriteArray
+  setUpdateFavoriteArray,
+  setToggleDegreeType
 
 } = globalSlice.actions;
 

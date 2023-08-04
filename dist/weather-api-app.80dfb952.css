@@ -108,6 +108,104 @@
   width: 30px;
 }
 
+.toggle-button-container {
+  width: 34px;
+  height: 16px;
+  background-color: #bcbbbb;
+  border-radius: 8.7px;
+  font-size: 12px;
+  color: #6c757d;
+  position: absolute;
+  top: 133px;
+  left: 46px;
+  transition: 0.2s;
+  cursor: pointer;
+  font-weight: 300;
+}
+.toggle-button-container .toggle-button {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  position: relative;
+  right: -15px;
+  top: -2px;
+  transition: 0.2s;
+}
+.toggle-button-container .toggle-button-true {
+  background-color: #007bff;
+  right: 2px;
+  top: -3px;
+  transition: 0.2s;
+}
+.toggle-button-container .toggle-button-false {
+  background-color: #2c455b;
+}
+
+.active-true {
+  border: 0.7px solid #007bff;
+  transition: border 0.1s;
+}
+
+.toggle-font {
+  transform: translate(-1px, 0);
+}
+
+.active-font-true {
+  color: #007bff;
+  font-weight: 600;
+  letter-spacing: -0.13px;
+}
+
+.info-icon-container,
+.toggle-svg {
+  display: none;
+}
+
+@media (max-width: 1250px) {
+  .toggle-button-container {
+    width: 40px;
+    height: 19px;
+    position: absolute;
+    top: 549px;
+    left: 41px;
+  }
+  .toggle-button-container .toggle-button {
+    width: 24px;
+    height: 24px;
+  }
+  .toggle-font,
+  .active-font-true {
+    display: none;
+  }
+  .info-icon-container {
+    display: block;
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    top: 546px;
+    left: 7px;
+  }
+  .toggle-bubble-container {
+    position: absolute;
+    top: 501px;
+    left: 8px;
+    background: #435971;
+    padding: 10px;
+    color: white;
+    border-radius: 5px;
+  }
+  .toggle-svg {
+    display: block;
+    position: relative;
+    left: 5.7px;
+    top: -37px;
+  }
+}
+@media (max-width: 387px) {
+  .toggle-button-container {
+    left: 36px;
+  }
+}
 .home-container {
   padding-top: 160px;
   text-align: center;

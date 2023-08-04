@@ -77,6 +77,7 @@ const City = ({
   };
 
   useEffect(() => {
+    console.log(isFarenheight);
     setStateMinMaxTemperature(data?.Temperature);
     setStateSingleTemperature(cityTemperature);
     if (!isFarenheight) {

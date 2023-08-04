@@ -16,20 +16,8 @@ const Favorites = () => {
   const navigate = useNavigate();
   const reduxState = useSelector(globalSelector);
   const dispatch = useDispatch();
-  console.log(reduxState);
-  const { favoritesArray } = reduxState;
-  console.log(favoritesArray);
-  // console.log(updateFavoritesArray);
-  // const [favoritesArray, setFavoritesArray] = useState([]);
-  // const updateFavoritesState = () => {
-  //   const favoritesFromStorage =
-  //     JSON.parse(localStorage.getItem("favorites")) || [];
-  //   setFavoritesArray(favoritesFromStorage);
-  // };
+  const { favoritesArray, isFarenheight } = reduxState;
 
-  // useEffect(() => {
-  //   updateFavoritesState();
-  // }, [updateFavoritesArray]);
   useEffect(() => {
     const favoritesFromStorage =
       JSON.parse(localStorage.getItem("favorites")) || [];
@@ -50,11 +38,11 @@ const Favorites = () => {
         {favoritesArray?.map((value, index) => (
           <City
             key={index}
-            isFarenheight={true}
             cityName={value.cityName}
             cityCode={value.cityCode}
             cityTemperature={value.cityTemperature}
             favoriteClickHandler={favoriteClickHandler}
+            isFarenheight={isFarenheight}
           />
         ))}
       </div>

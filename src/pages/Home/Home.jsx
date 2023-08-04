@@ -18,6 +18,7 @@ const Home = () => {
   const {
     fiveDaysArray,
     error,
+    isFarenheight,
     currentCity: {
       isFavoriteChosen,
       currentCityName,
@@ -27,7 +28,7 @@ const Home = () => {
   } = reduxState;
 
   const [stateInputValue, setStateInputValue] = useState("");
-
+  console.log(isFarenheight);
   async function getCityFromGeolocation() {
     dispatch(resetError());
 
@@ -75,13 +76,11 @@ const Home = () => {
                   isFavoriteChosen: false,
                 })
               );
-              // setTimeout(() => {
-              //   dispatch(
-              //     getFiveDays({
-              //       cityCode: data.Key,
-              //     })
-              //   );
-              // }, 200);
+              dispatch(
+                getFiveDays({
+                  cityCode: data.Key,
+                })
+              );
             })
             .catch((error) => {
               console.error("Error fetching data:", error.message);
@@ -102,7 +101,7 @@ const Home = () => {
       // }
     }
     if (currentCityName == "") {
-      fetchCityName();
+      // fetchCityName();
     }
     scrollToTop();
     // dispatch(getSingleCity({ cityCode: "215854", cityName: "Tel Aviv" }));
@@ -173,7 +172,7 @@ const Home = () => {
             cityTemperature={currentCityTemperature ?? ""}
             type={"singleItem"}
             cityCode={cityCode}
-            // isFarenheight={false}
+            isFarenheight={isFarenheight}
           />
         )}
       </div>
@@ -183,7 +182,7 @@ const Home = () => {
             key={index}
             type={"weeklyItem"}
             data={forecast}
-            isFarenheight={true}
+            isFarenheight={isFarenheight}
           />
         ))}
       </div>

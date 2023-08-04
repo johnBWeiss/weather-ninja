@@ -41126,7 +41126,7 @@ exports.Axios = Axios;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.setUpdateFavoriteArray = exports.setIsMobile = exports.setCurrentCityFromFavorites = exports.setCurrentCity = exports.resetError = exports.globalSlice = exports.globalSelector = exports.getSingleCity = exports.getFiveDays = exports.errorHandler = exports.default = void 0;
+exports.setUpdateFavoriteArray = exports.setToggleDegreeType = exports.setIsMobile = exports.setCurrentCityFromFavorites = exports.setCurrentCity = exports.resetError = exports.globalSlice = exports.globalSelector = exports.getSingleCity = exports.getFiveDays = exports.errorHandler = exports.default = void 0;
 var _toolkit = require("@reduxjs/toolkit");
 var _store = require("./store");
 var _reactRedux = require("react-redux");
@@ -41150,7 +41150,7 @@ var initialState = {
   pending: false,
   isMobile: initialMobile.matches,
   mobileBreakPoint: 1250,
-  isFarentHeight: true,
+  isFarenheight: true,
   currentCity: {
     isFavoriteChosen: false,
     cityCode: '',
@@ -41256,6 +41256,9 @@ var globalSlice = (0, _toolkit.createSlice)({
       console.log(payload);
       console.log(state.favoritesArray);
     },
+    setToggleDegreeType: function setToggleDegreeType(state) {
+      state.isFarenheight = !state.isFarenheight;
+    },
     // setCurrentCityFromFavorites: (state, { payload }) => {
     //   state.currentCity = { ...payload, isFavoriteChosen: true };
     // },
@@ -41295,7 +41298,9 @@ var _globalSlice$actions = globalSlice.actions,
   setIsMobile = _globalSlice$actions.setIsMobile,
   errorHandler = _globalSlice$actions.errorHandler,
   resetError = _globalSlice$actions.resetError,
-  setUpdateFavoriteArray = _globalSlice$actions.setUpdateFavoriteArray;
+  setUpdateFavoriteArray = _globalSlice$actions.setUpdateFavoriteArray,
+  setToggleDegreeType = _globalSlice$actions.setToggleDegreeType;
+exports.setToggleDegreeType = setToggleDegreeType;
 exports.setUpdateFavoriteArray = setUpdateFavoriteArray;
 exports.resetError = resetError;
 exports.errorHandler = errorHandler;
@@ -49252,7 +49257,6 @@ var getRandomErrorMessage = function getRandomErrorMessage() {
 };
 exports.getRandomErrorMessage = getRandomErrorMessage;
 var isFavoriteHandler = function isFavoriteHandler(cityCode) {
-  console.log(cityCode);
   var favorites = JSON.parse(localStorage.getItem("favorites")) || [];
   return favorites.some(function (item) {
     return item.cityCode === cityCode;
@@ -49390,6 +49394,7 @@ var City = function City(_ref) {
     }
   };
   (0, _react.useEffect)(function () {
+    console.log(isFarenheight);
     setStateMinMaxTemperature(data === null || data === void 0 ? void 0 : data.Temperature);
     setStateSingleTemperature(cityTemperature);
     if (!isFarenheight) {
@@ -51477,6 +51482,7 @@ var Home = function Home() {
   var reduxState = (0, _reactRedux.useSelector)(_globalSlice.globalSelector);
   var fiveDaysArray = reduxState.fiveDaysArray,
     error = reduxState.error,
+    isFarenheight = reduxState.isFarenheight,
     _reduxState$currentCi = reduxState.currentCity,
     isFavoriteChosen = _reduxState$currentCi.isFavoriteChosen,
     currentCityName = _reduxState$currentCi.currentCityName,
@@ -51486,6 +51492,7 @@ var Home = function Home() {
     _useState2 = _slicedToArray(_useState, 2),
     stateInputValue = _useState2[0],
     setStateInputValue = _useState2[1];
+  console.log(isFarenheight);
   function getCityFromGeolocation() {
     return _getCityFromGeolocation.apply(this, arguments);
   }
@@ -51555,13 +51562,9 @@ var Home = function Home() {
                   cityName: data === null || data === void 0 ? void 0 : data.LocalizedName,
                   isFavoriteChosen: false
                 }));
-                // setTimeout(() => {
-                //   dispatch(
-                //     getFiveDays({
-                //       cityCode: data.Key,
-                //     })
-                //   );
-                // }, 200);
+                dispatch((0, _globalSlice.getFiveDays)({
+                  cityCode: data.Key
+                }));
               }).catch(function (error) {
                 console.error("Error fetching data:", error.message);
                 dispatch((0, _globalSlice.errorHandler)());
@@ -51582,7 +51585,7 @@ var Home = function Home() {
       return _fetchCityName.apply(this, arguments);
     }
     if (currentCityName == "") {
-      fetchCityName();
+      // fetchCityName();
     }
     (0, _helperFunction.scrollToTop)();
     // dispatch(getSingleCity({ cityCode: "215854", cityName: "Tel Aviv" }));
@@ -51662,8 +51665,8 @@ var Home = function Home() {
     cityName: currentCityName !== null && currentCityName !== void 0 ? currentCityName : "",
     cityTemperature: currentCityTemperature !== null && currentCityTemperature !== void 0 ? currentCityTemperature : "",
     type: "singleItem",
-    cityCode: cityCode
-    // isFarenheight={false}
+    cityCode: cityCode,
+    isFarenheight: isFarenheight
   })), /*#__PURE__*/_react.default.createElement("div", {
     className: "flex flex-wrap center gallery-container"
   }, fiveDaysArray === null || fiveDaysArray === void 0 ? void 0 : fiveDaysArray.map(function (forecast, index) {
@@ -51671,7 +51674,7 @@ var Home = function Home() {
       key: index,
       type: "weeklyItem",
       data: forecast,
-      isFarenheight: true
+      isFarenheight: isFarenheight
     });
   })));
 };
@@ -51681,7 +51684,81 @@ exports.default = _default;
 module.exports = "/house-icon.ebb7c12d.png";
 },{}],"../src/assets/images/full-heart-icon.png":[function(require,module,exports) {
 module.exports = "/full-heart-icon.d20d8ba8.png";
-},{}],"../src/components/Header/Header.jsx":[function(require,module,exports) {
+},{}],"../src/components/ToggleButton/ToggleButton.jsx":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _react = _interopRequireWildcard(require("react"));
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
+function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0); } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+// import info from "../../../assets/images/info.png";
+
+var ToggleButton = function ToggleButton(_ref) {
+  var parentFunction = _ref.parentFunction,
+    data = _ref.data;
+  var _useState = (0, _react.useState)(false),
+    _useState2 = _slicedToArray(_useState, 2),
+    activeStatus = _useState2[0],
+    setActiveStatus = _useState2[1];
+  var _useState3 = (0, _react.useState)(false),
+    _useState4 = _slicedToArray(_useState3, 2),
+    showBubbleSpeech = _useState4[0],
+    setShowBubbleSpeech = _useState4[1];
+  var clickHandler = function clickHandler() {
+    setActiveStatus(function (prev) {
+      return !prev;
+    });
+    parentFunction();
+  };
+  (0, _react.useEffect)(function () {
+    setActiveStatus(false);
+  }, [data === null || data === void 0 ? void 0 : data.text]);
+  return /*#__PURE__*/_react.default.createElement("div", {
+    className: "gap-4 vertical-flex",
+    style: {
+      marginTop: "6px"
+    }
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    onClick: clickHandler,
+    className: "toggle-button-container active-".concat(activeStatus)
+  }, /*#__PURE__*/_react.default.createElement("div", {
+    className: "toggle-button toggle-button-".concat(activeStatus, " ")
+  })), /*#__PURE__*/_react.default.createElement("div", {
+    className: "info-icon-container",
+    onClick: function onClick() {
+      setShowBubbleSpeech(function (prev) {
+        return !prev;
+      });
+    }
+  }, showBubbleSpeech && /*#__PURE__*/_react.default.createElement("svg", {
+    width: "12",
+    height: "6",
+    className: "pointer toggle-svg"
+  }, /*#__PURE__*/_react.default.createElement("polygon", {
+    style: {
+      transition: "0.5s"
+    },
+    points: "6,0 0,6 12,6",
+    fill: "#435971",
+    transform: "rotate(".concat(180, ", 6, 3)")
+  }))), showBubbleSpeech && /*#__PURE__*/_react.default.createElement("div", {
+    className: "toggle-bubble-container"
+  }, " ", data === null || data === void 0 ? void 0 : data.text), /*#__PURE__*/_react.default.createElement("div", {
+    className: "toggle-font active-font-".concat(activeStatus)
+  }, data === null || data === void 0 ? void 0 : data.text));
+};
+var _default = ToggleButton;
+exports.default = _default;
+},{"react":"../node_modules/react/index.js"}],"../src/components/Header/Header.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -51694,6 +51771,7 @@ var _reactRedux = require("react-redux");
 var _globalSlice = require("../../../store/globalSlice");
 var _houseIcon = _interopRequireDefault(require("../../assets/images/house-icon.png"));
 var _fullHeartIcon = _interopRequireDefault(require("../../assets/images/full-heart-icon.png"));
+var _ToggleButton = _interopRequireDefault(require("../ToggleButton/ToggleButton"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
@@ -51705,6 +51783,7 @@ function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefine
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var Header = function Header() {
   var reduxState = (0, _reactRedux.useSelector)(_globalSlice.globalSelector);
+  var dispatch = (0, _reactRedux.useDispatch)();
   var location = (0, _reactRouterDom.useLocation)();
   var navigate = (0, _reactRouterDom.useNavigate)();
   var _useState = (0, _react.useState)(location.pathname === "/" ? 0 : "47%"),
@@ -51720,6 +51799,9 @@ var Header = function Header() {
       setOverlayPosition("47%");
       navigate("/Favorites");
     }
+  };
+  var toggleDegreeTypeHandler = function toggleDegreeTypeHandler() {
+    dispatch((0, _globalSlice.setToggleDegreeType)());
   };
   (0, _react.useEffect)(function () {
     setOverlayPosition(location.pathname === "/" ? 0 : "47%");
@@ -51753,11 +51835,13 @@ var Header = function Header() {
     className: "header-button-img",
     src: _fullHeartIcon.default,
     alt: "full heart icon"
-  })))));
+  })))), /*#__PURE__*/_react.default.createElement(_ToggleButton.default, {
+    parentFunction: toggleDegreeTypeHandler
+  }));
 };
 var _default = Header;
 exports.default = _default;
-},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/dist/index.js","react-redux":"../node_modules/react-redux/es/index.js","../../../store/globalSlice":"../store/globalSlice.js","../../assets/images/house-icon.png":"../src/assets/images/house-icon.png","../../assets/images/full-heart-icon.png":"../src/assets/images/full-heart-icon.png"}],"../src/pages/Favorites/Favorites.jsx":[function(require,module,exports) {
+},{"react":"../node_modules/react/index.js","react-router-dom":"../node_modules/react-router-dom/dist/index.js","react-redux":"../node_modules/react-redux/es/index.js","../../../store/globalSlice":"../store/globalSlice.js","../../assets/images/house-icon.png":"../src/assets/images/house-icon.png","../../assets/images/full-heart-icon.png":"../src/assets/images/full-heart-icon.png","../ToggleButton/ToggleButton":"../src/components/ToggleButton/ToggleButton.jsx"}],"../src/pages/Favorites/Favorites.jsx":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -51777,20 +51861,8 @@ var Favorites = function Favorites() {
   var navigate = (0, _reactRouterDom.useNavigate)();
   var reduxState = (0, _reactRedux.useSelector)(_globalSlice.globalSelector);
   var dispatch = (0, _reactRedux.useDispatch)();
-  console.log(reduxState);
-  var favoritesArray = reduxState.favoritesArray;
-  console.log(favoritesArray);
-  // console.log(updateFavoritesArray);
-  // const [favoritesArray, setFavoritesArray] = useState([]);
-  // const updateFavoritesState = () => {
-  //   const favoritesFromStorage =
-  //     JSON.parse(localStorage.getItem("favorites")) || [];
-  //   setFavoritesArray(favoritesFromStorage);
-  // };
-
-  // useEffect(() => {
-  //   updateFavoritesState();
-  // }, [updateFavoritesArray]);
+  var favoritesArray = reduxState.favoritesArray,
+    isFarenheight = reduxState.isFarenheight;
   (0, _react.useEffect)(function () {
     var favoritesFromStorage = JSON.parse(localStorage.getItem("favorites")) || [];
     dispatch((0, _globalSlice.setUpdateFavoriteArray)(favoritesFromStorage));
@@ -51813,11 +51885,11 @@ var Favorites = function Favorites() {
   }, favoritesArray === null || favoritesArray === void 0 ? void 0 : favoritesArray.map(function (value, index) {
     return /*#__PURE__*/_react.default.createElement(_City.default, {
       key: index,
-      isFarenheight: true,
       cityName: value.cityName,
       cityCode: value.cityCode,
       cityTemperature: value.cityTemperature,
-      favoriteClickHandler: favoriteClickHandler
+      favoriteClickHandler: favoriteClickHandler,
+      isFarenheight: isFarenheight
     });
   })));
 };
@@ -52042,14 +52114,9 @@ var _reactRedux = require("react-redux");
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function (nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || typeof obj !== "object" && typeof obj !== "function") { return { default: obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj.default = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-// index.js
-
-// Initialize the store and provide it to the application
 (0, _client.createRoot)(document.getElementById('root')).render( /*#__PURE__*/_react.default.createElement(_reactRedux.Provider, {
   store: _store.store
 }, /*#__PURE__*/_react.default.createElement(_Main.default, null)));
-
-// Register the service worker
 serviceWorkerRegistration.register();
 },{"react":"../node_modules/react/index.js","./store/store":"../store/store.js","react-dom/client":"../node_modules/react-dom/client.js","./Main":"../Main.jsx","./serviceWorkerRegistration":"../serviceWorkerRegistration.js","./src/styles/WailTind.scss":"../src/styles/WailTind.scss","react-redux":"../node_modules/react-redux/es/index.js"}],"../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -52076,7 +52143,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49362" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52358" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

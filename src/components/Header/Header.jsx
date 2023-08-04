@@ -5,8 +5,11 @@ import { globalSelector } from "../../../store/globalSlice";
 import houseIcon from "../../assets/images/house-icon.png";
 import fullHeartIcon from "../../assets/images/full-heart-icon.png";
 import { useLocation } from "react-router-dom";
+import ToggleButton from "../ToggleButton/ToggleButton";
+import { setToggleDegreeType } from "../../../store/globalSlice";
 const Header = () => {
   const reduxState = useSelector(globalSelector);
+  const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
   const [overlayPosition, setOverlayPosition] = useState(
@@ -23,6 +26,11 @@ const Header = () => {
       navigate("/Favorites");
     }
   };
+
+  const toggleDegreeTypeHandler = () => {
+    dispatch(setToggleDegreeType());
+  };
+
   useEffect(() => {
     setOverlayPosition(location.pathname === "/" ? 0 : "47%");
   }, [location.pathname]);
@@ -57,6 +65,7 @@ const Header = () => {
           </div>
         </div>
       </div>
+      <ToggleButton parentFunction={toggleDegreeTypeHandler} />
     </div>
   );
 };

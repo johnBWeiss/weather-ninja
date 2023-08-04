@@ -34,7 +34,6 @@ export const getRandomErrorMessage = () => {
 
 
 export const isFavoriteHandler = (cityCode) => {
-    console.log(cityCode);
     const favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
     return favorites.some(
