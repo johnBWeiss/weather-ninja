@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import { apiKey } from "../src/api/api";
-import { baseURL } from "../src/api/api";
+
 
 let initialMobile = window.matchMedia("(max-width: 1250px)");
 const initialState = {

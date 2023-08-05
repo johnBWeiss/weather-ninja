@@ -62,12 +62,16 @@ export const scrollToTop = () => {
 export const weeklyMinMax = (isFarenheight, stateMin, stateMax, dataMin, dataMax) => {
     let min, max
     if (!isFarenheight) {
-        min = celsiusToFahrenheit(stateMinMaxTemperature?.Minimum?.Value);
-        max = celsiusToFahrenheit(stateMinMaxTemperature?.Maximum?.Value);
+        min = celsiusToFahrenheit(stateMin);
+        max = celsiusToFahrenheit(stateMax);
+        // min = celsiusToFahrenheit(stateMinMaxTemperature?.Minimum?.Value);
+        // max = celsiusToFahrenheit(stateMinMaxTemperature?.Maximum?.Value);
     }
     if (isFarenheight) {
-        min = fahrenheitToCelsius(data?.Temperature?.Minimum?.Value);
-        max = fahrenheitToCelsius(data?.Temperature?.Maximum?.Value);
+        min = fahrenheitToCelsius(dataMin);
+        // min = fahrenheitToCelsius(data?.Temperature?.Minimum?.Value);
+        max = fahrenheitToCelsius(dataMax);
+        // max = fahrenheitToCelsius(data?.Temperature?.Maximum?.Value);
     }
 
     return { min, max }
@@ -92,6 +96,6 @@ export const getImageForWeather = (weather) => {
         case 'mostly clear':
             return partlyCloudy;
         default:
-            return partlyCloudy;
+            return sunny;
     }
 }
