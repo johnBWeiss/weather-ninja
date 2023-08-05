@@ -26,30 +26,11 @@ const Home = () => {
     },
   } = useSelector(globalSelector);
 
+  const [stateInputValue, setStateInputValue] = useState("");
+
   const errorMessage = useMemo(() => {
     return error && getRandomErrorMessage(error);
   }, [error]);
-
-  const [stateInputValue, setStateInputValue] = useState("");
-  async function getCityFromGeolocation() {
-    dispatch(resetError());
-
-    return new Promise((resolve, reject) => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const { latitude, longitude } = position.coords;
-            resolve({ latitude, longitude });
-          },
-          () => {
-            reject(new Error("Failed to get geolocation."));
-          }
-        );
-      } else {
-        reject(new Error("Geolocation not supported in this browser."));
-      }
-    });
-  }
 
   useEffect(() => {
     async function fetchCityName() {
@@ -94,21 +75,30 @@ const Home = () => {
     dispatch(resetError());
   }, []);
 
-  const handleInputChange = (event) => {
-    const inputText = event.target.value.toLowerCase();
-    const englishLettersRegex = /^[a-zA-Z\s]*$/;
-    if (englishLettersRegex.test(inputText)) {
-      setStateInputValue(inputText);
-    }
-  };
+  async function getCityFromGeolocation() {
+    dispatch(resetError());
+    return new Promise((resolve, reject) => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+            resolve({ latitude, longitude });
+          },
+          () => {
+            reject(new Error("Failed to get geolocation."));
+          }
+        );
+      } else {
+        reject(new Error("Geolocation not supported in this browser."));
+      }
+    });
+  }
 
   const searchByTextHandler = async () => {
     const url = `https://express-proxy-server-yonatan.onrender.com/searchText/${stateInputValue}`;
     dispatch(resetError());
-
     try {
       const response = await axios.get(url);
-
       dispatch(
         getSingleCity({
           cityCode: response?.data?.[0]?.Key,
@@ -123,6 +113,14 @@ const Home = () => {
     } catch (error) {
       console.error("Error fetching data:", error.message);
       dispatch(errorHandler("searching text"));
+    }
+  };
+
+  const handleInputChange = (event) => {
+    const inputText = event.target.value.toLowerCase();
+    const englishLettersRegex = /^[a-zA-Z\s]*$/;
+    if (englishLettersRegex.test(inputText)) {
+      setStateInputValue(inputText);
     }
   };
 
