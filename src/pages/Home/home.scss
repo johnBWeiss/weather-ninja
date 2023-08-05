@@ -60,10 +60,13 @@
 }
 
 .weekly-forecast-title {
-  margin-top: 40px;
+  margin-top: 170px;
   font-size: clamp(45px, 6vw, 100px);
 }
 
+.current-location-title {
+  font-size: clamp(45px, 5.5vw, 90px);
+}
 .target-iframe {
   width: 100vw;
   margin-top: 20px;

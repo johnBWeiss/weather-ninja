@@ -18,7 +18,6 @@ const CityWeekly = ({
   const [stateMinMaxTemperature, setStateMinMaxTemperature] = useState(
     data?.Temperature ?? ""
   );
-
   const imperialVsMetricToggleHandler = () => {
     const minMax = weeklyMinMax(
       isFarenheight,

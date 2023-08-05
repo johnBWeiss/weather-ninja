@@ -8,7 +8,7 @@ const initialState = {
   favoritesArray: [],
   error: false,
   isFarenheight: true,
-  fiveDaysArray: false,
+  fiveDaysArray: [],
   currentCity: {
     cityCode: '',
     currentCityName: '',
@@ -20,7 +20,7 @@ export const getSingleCity = createAsyncThunk('globalSlice/getSingleCity',
   async (payload, thunkAPI) => {
     try {
       let response = await axios(`https://express-proxy-server-yonatan.onrender.com/getSingleCity/${payload.cityCode}`)
-      return { currentCityTemperature: response?.data?.[0]?.Temperature?.Imperial?.Value, currentCityName: payload?.cityName, isFavoriteChosen: payload.isFavoriteChosen, cityCode: payload.cityCode, weatherText: response?.data?.[0]?.WeatherText }
+      return { currentCityTemperature: response?.data?.[0]?.Temperature?.Imperial?.Value, currentCityName: payload?.cityName, isFavoriteChosen: payload?.isFavoriteChosen, cityCode: payload?.cityCode, weatherText: response?.data?.[0]?.WeatherText, isGeoLocation: payload?.isGeoLocation }
     } catch (error) {
       thunkAPI.dispatch(errorHandler("getting today's forecast"))
     }
@@ -71,6 +71,9 @@ export const globalSlice = createSlice({
     builder
       .addCase(getSingleCity.pending, (state) => {
         state.isPending = true
+      })
+      .addCase(getSingleCity.fulfilled, (state, { payload }) => {
+        state.currentCity = payload
       })
       .addCase(getSingleCity.rejected, (state) => {
         state.error = "getting data for today's forecast"

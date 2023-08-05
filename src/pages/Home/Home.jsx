@@ -28,6 +28,7 @@ const Home = () => {
       currentCityTemperature,
       cityCode,
       weatherText,
+      isGeoLocation,
     },
   } = useSelector(globalSelector);
 
@@ -36,13 +37,12 @@ const Home = () => {
   const errorMessage = useMemo(() => {
     return error && getRandomErrorMessage(error);
   }, [error]);
-
   useEffect(() => {
     async function fetchCityName() {
       dispatch(resetError());
       dispatch(setIsPending());
 
-      if (currentCityName.length <= 0) {
+      if (currentCityName?.length <= 0) {
         try {
           const position = await getCityFromGeolocation();
           const { latitude, longitude } = position;
@@ -57,7 +57,7 @@ const Home = () => {
                 getSingleCity({
                   cityCode: data?.Key,
                   cityName: data?.LocalizedName,
-                  isFavoriteChosen: false,
+                  isGeoLocation: true,
                 })
               );
               dispatch(
@@ -77,7 +77,7 @@ const Home = () => {
     }
 
     if (currentCityName == "") {
-      // fetchCityName();
+      fetchCityName();
     }
     scrollToTop();
     dispatch(resetError());
@@ -173,8 +173,13 @@ const Home = () => {
           ></iframe>
         )}
 
-        {currentCityName && (
+        {currentCityName && !isPending && !error && (
           <div className="current-forecast-city-container ">
+            {isGeoLocation && (
+              <div className="current-location-title bold">
+                current location
+              </div>
+            )}
             <City
               cityName={currentCityName ?? ""}
               cityTemperature={currentCityTemperature ?? ""}
@@ -187,22 +192,21 @@ const Home = () => {
           </div>
         )}
       </div>
-      {(error || fiveDaysArray) && currentCityName !== "" && (
+      {fiveDaysArray && !isPending && !error && (
         <div className="weekly-forecast-title bold">Weekly Forecast</div>
       )}
 
       <div className="flex flex-wrap center gallery-container">
-        {currentCityName !== "" &&
-          (error ? weeklyArrayShortData : fiveDaysArray)?.DailyForecasts?.map(
-            (forecast, index) => (
-              <CityWeekly
-                key={index}
-                data={forecast}
-                isFarenheight={isFarenheight}
-                isDarkMode={isDarkMode}
-              />
-            )
-          )}
+        {!isPending &&
+          !error &&
+          fiveDaysArray?.map((forecast, index) => (
+            <CityWeekly
+              key={index}
+              data={forecast}
+              isFarenheight={isFarenheight}
+              isDarkMode={isDarkMode}
+            />
+          ))}
       </div>
     </div>
   );
