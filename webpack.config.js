@@ -9,8 +9,10 @@ const CopyPlugin = require("copy-webpack-plugin");
 module.exports = {
   entry: "./index.js",
   output: {
-    filename: "[name].js", // Use [name] placeholder to generate unique filenames for each entry point.
+    filename: "[name].js",
     path: path.resolve(__dirname, "dist"),
+    publicPath: "/"
+
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -67,6 +69,8 @@ module.exports = {
     static: {
       directory: path.join(__dirname, "dist"),
     },
+    historyApiFallback: true,
+
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",

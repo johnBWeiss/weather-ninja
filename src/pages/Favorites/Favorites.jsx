@@ -5,7 +5,7 @@ import { useDispatch } from "react-redux";
 import { setUpdateFavoriteArray } from "../../../store/globalSlice";
 import { useNavigate } from "react-router-dom";
 import { scrollToTop } from "../../utils/helperFunction";
-import { getFiveDays, getSingleCity } from "../../../store/globalSlice";
+import { getFiveDays, setCurrentCity } from "../../../store/globalSlice";
 import City from "../../components/City/City";
 
 const Favorites = () => {
@@ -20,8 +20,22 @@ const Favorites = () => {
     scrollToTop();
   }, [dispatch]);
 
-  const favoriteClickHandler = (cityCode, cityName) => {
-    dispatch(getSingleCity({ cityCode, cityName }));
+  const favoriteClickHandler = (
+    currentCityTemperature,
+    currentCityName,
+    cityCode,
+    weatherText
+  ) => {
+    // dispatch(getSingleCity({ cityCode, cityName }));
+    dispatch(
+      setCurrentCity({
+        currentCityName,
+        currentCityTemperature,
+        cityCode,
+        weatherText,
+        isFavoriteChosen: true,
+      })
+    );
     dispatch(getFiveDays({ cityCode }));
     navigate("/");
   };

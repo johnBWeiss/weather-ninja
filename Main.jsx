@@ -28,7 +28,7 @@ const Main = () => {
         <Header />
         <Routes>
           <Route exact path="/" element={<Home />} />
-          <Route exact path="/Favorites" element={<Favorites />} />
+          <Route exact path="/favorites" element={<Favorites />} />
         </Routes>
       </Router>
     </div>

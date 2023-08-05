@@ -33,8 +33,6 @@ const City = ({
     weatherText
   );
 
-  const dispatch = useDispatch();
-
   const [stateMinMaxTemperature, setStateMinMaxTemperature] = useState(
     data?.Temperature ?? ""
   );
@@ -74,7 +72,7 @@ const City = ({
 
   const displayFavorite = () => {
     if (favoriteClickHandler) {
-      favoriteClickHandler(cityCode, cityName);
+      favoriteClickHandler(cityTemperature, cityName, cityCode, weatherText);
     }
   };
 
@@ -138,12 +136,8 @@ const City = ({
         )}
       </div>
       <div className="space-between bottom-row-city">
-        {type === "weeklyItem" && <div className="font-16">{dayAndMonth}</div>}
         {type === "weeklyItem" ? (
-          <div>
-            {/* {stateMinMaxTemperature?.Minimum?.Value} -
-            {stateMinMaxTemperature?.Maximum?.Value} */}
-          </div>
+          <div className="font-16">{dayAndMonth}</div>
         ) : (
           <div>
             {stateSingleTemperature}

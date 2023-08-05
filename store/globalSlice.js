@@ -11,7 +11,7 @@ const initialState = {
   isMobile: initialMobile.matches,
   mobileBreakPoint: 1250,
   isFarenheight: true,
-  fiveDaysArray: [],
+  fiveDaysArray: false,
   currentCity: {
     // isFavoriteChosen: false,
     cityCode: '',

@@ -4,28 +4,21 @@ import searchIcon from "../../assets/images/search-icon.png";
 import City from "../../components/City/City";
 import axios from "axios";
 import { globalSelector } from "../../../store/globalSlice";
-import { setCurrentCity } from "../../../store/globalSlice";
 import { getSingleCity } from "../../../store/globalSlice";
 import { weeklyArrayShortData } from "../../utils/mockData";
 import { getFiveDays } from "../../../store/globalSlice";
 import { errorHandler } from "../../../store/globalSlice";
 import { resetError } from "../../../store/globalSlice";
 import { getRandomErrorMessage, scrollToTop } from "../../utils/helperFunction";
-import { apiKey } from "../../api/api";
-import { baseURL } from "../../api/api";
-import { geoPositionURL } from "../../api/api";
-import { searchByTextURL } from "../../api/api";
 
 const Home = () => {
   const dispatch = useDispatch();
-  // const reduxState = useSelector(globalSelector);
   const {
     fiveDaysArray,
     error,
     isFarenheight,
     isDarkMode,
     currentCity: {
-      isFavoriteChosen,
       currentCityName,
       currentCityTemperature,
       cityCode,
@@ -67,11 +60,9 @@ const Home = () => {
           const { latitude, longitude } = position;
           axios
             .get(
-              // `${geoPositionURL}?apikey=${apiKey}&q=${latitude}%2C${longitude}&language=en-us&toplevel=false`
               `https://express-proxy-server-yonatan.onrender.com/getGeoPosition/${latitude}/${longitude}`
             )
             .then((response) => {
-              // const data = response;
               const data = response.data;
               dispatch(
                 getSingleCity({
@@ -95,14 +86,6 @@ const Home = () => {
           dispatch(errorHandler());
         }
       }
-
-      // if (isFavoriteChosen) {
-      //   dispatch(
-      //     getFiveDays({
-      //       cityCode: cityCode,
-      //     })
-      //   );
-      // }
     }
 
     if (currentCityName == "") {
@@ -110,27 +93,17 @@ const Home = () => {
     }
     scrollToTop();
     dispatch(resetError());
-
-    // dispatch(getSingleCity({ cityCode: "215854", cityName: "Tel Aviv" }));
   }, []);
 
   const handleInputChange = (event) => {
-    console.log(event);
-    if (event.target.value == "Enter") {
-      console.log("enter");
-    }
     const inputText = event.target.value.toLowerCase();
     const englishLettersRegex = /^[a-zA-Z\s]*$/;
     if (englishLettersRegex.test(inputText)) {
-      // let inputTextLowerCase = inputText.toLowerCase();
       setStateInputValue(inputText);
     }
   };
 
   const searchByTextHandler = async () => {
-    // const apiKey = "ps9T93lqmdD16AcRRA6Cuq83mABQMy4O";
-    // const language = "en-us";
-    // const url = `${searchByTextURL}?apikey=${apiKey}&q=${stateInputValue}&language=en-us`;
     const url = `https://express-proxy-server-yonatan.onrender.com/searchText/${stateInputValue}`;
     dispatch(resetError());
 
@@ -139,16 +112,12 @@ const Home = () => {
 
       dispatch(
         getSingleCity({
-          // cityCode: response?.[0]?.Key,
-          // cityName: response?.[0]?.LocalizedName,
           cityCode: response?.data?.[0]?.Key,
           cityName: response?.data?.[0]?.LocalizedName,
-          // isFavoriteChosen: false,
         })
       );
       dispatch(
         getFiveDays({
-          // cityCode: response?.[0]?.Key,
           cityCode: response?.data?.[0]?.Key,
         })
       );
@@ -180,33 +149,39 @@ const Home = () => {
       <div className="search-button" onClick={searchByTextHandler}>
         Search
       </div>
-      <div className="center padding-top-100">
+      <div className="center padding-top-50">
         {error && <h1 className="error-message">{errorMessage}</h1>}
         {currentCityName && (
-          <City
-            cityName={currentCityName ?? ""}
-            cityTemperature={currentCityTemperature ?? ""}
-            type={"singleItem"}
-            cityCode={cityCode}
-            isFarenheight={isFarenheight}
-            isDarkMode={isDarkMode}
-            weatherText={weatherText}
-          />
-        )}
-      </div>
-      <div className="flex flex-wrap center gallery-container">
-        {(error ? weeklyArrayShortData : fiveDaysArray)?.DailyForecasts?.map(
-          (forecast, index) => (
-            // {fiveDaysArray?.map((forecast, index) => (
+          <div className="current-forecast-city-container ">
             <City
-              key={index}
-              type={"weeklyItem"}
-              data={forecast}
+              cityName={currentCityName ?? ""}
+              cityTemperature={currentCityTemperature ?? ""}
+              type={"singleItem"}
+              cityCode={cityCode}
               isFarenheight={isFarenheight}
               isDarkMode={isDarkMode}
+              weatherText={weatherText}
             />
-          )
+          </div>
         )}
+      </div>
+      {(error || fiveDaysArray) && currentCityName !== "" && (
+        <div className="weekly-forecast-title bold">Weekly Forecast</div>
+      )}
+
+      <div className="flex flex-wrap center gallery-container">
+        {currentCityName !== "" &&
+          (error ? weeklyArrayShortData : fiveDaysArray)?.DailyForecasts?.map(
+            (forecast, index) => (
+              <City
+                key={index}
+                type={"weeklyItem"}
+                data={forecast}
+                isFarenheight={isFarenheight}
+                isDarkMode={isDarkMode}
+              />
+            )
+          )}
       </div>
     </div>
   );

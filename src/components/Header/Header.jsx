@@ -26,7 +26,7 @@ const Header = () => {
     }
     if (value === "favorites") {
       setOverlayPosition("47%");
-      navigate("/Favorites");
+      navigate("/favorites");
     }
   };
 
