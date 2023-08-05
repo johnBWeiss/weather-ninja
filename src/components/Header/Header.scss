@@ -59,11 +59,11 @@
   transition: 0.3s;
 }
 .title-and-theme-button-container {
-  @include flexBox(space-between);
+  @include flexBox(space-between, null, 8px);
 }
 
 .theme-mode-img {
-  height: 40px;
+  height: 50px;
   cursor: pointer;
   // &:hover {
   //   animation: shake 0.3s;
@@ -110,5 +110,8 @@
   }
   .header-button-img {
     height: 16px;
+  }
+  .title-and-theme-button-container {
+    @include flexBox(space-between, null, 0px);
   }
 }

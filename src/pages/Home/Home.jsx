@@ -174,9 +174,6 @@ const Home = () => {
           onKeyDown={(e) => {
             e.code === "Enter" && searchByTextHandler();
           }}
-          onPress={(e) => {
-            e.code === "Enter" && searchByTextHandler();
-          }}
           placeholder="Which city will it be?"
         />
       </div>
@@ -185,7 +182,7 @@ const Home = () => {
       </div>
       <div className="center padding-top-100">
         {error && <h1 className="error-message">{errorMessage}</h1>}
-        {!error && currentCityName && (
+        {currentCityName && (
           <City
             cityName={currentCityName ?? ""}
             cityTemperature={currentCityTemperature ?? ""}
@@ -198,16 +195,18 @@ const Home = () => {
         )}
       </div>
       <div className="flex flex-wrap center gallery-container">
-        {/* {weeklyArrayShortData?.DailyForecasts?.map((forecast, index) => ( */}
-        {fiveDaysArray?.map((forecast, index) => (
-          <City
-            key={index}
-            type={"weeklyItem"}
-            data={forecast}
-            isFarenheight={isFarenheight}
-            isDarkMode={isDarkMode}
-          />
-        ))}
+        {(error ? weeklyArrayShortData : fiveDaysArray)?.DailyForecasts?.map(
+          (forecast, index) => (
+            // {fiveDaysArray?.map((forecast, index) => (
+            <City
+              key={index}
+              type={"weeklyItem"}
+              data={forecast}
+              isFarenheight={isFarenheight}
+              isDarkMode={isDarkMode}
+            />
+          )
+        )}
       </div>
     </div>
   );

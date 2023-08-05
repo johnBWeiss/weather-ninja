@@ -8,21 +8,13 @@ import partlyCloudy from "../assets/images/partly cloudy.png"
 
 export const fahrenheitToCelsius = (fahrenheit) => {
     const celsius = (fahrenheit - 32) * (5 / 9);
-    // return Math.round(celsius); 
-    return Number(celsius.toFixed(1)); // Round to one decimal point
+    return Number(celsius.toFixed(1));
 };
 
 export const celsiusToFahrenheit = (celsius) => {
     const fahrenheit = (celsius * 9) / 5 + 32;
-    // return Math.round(fahrenheit); 
-    return Number(fahrenheit.toFixed(1)); // Round to one decimal point
+    return Number(fahrenheit.toFixed(1));
 };
-
-// export const getDayOfWeek = (dateStr) => {
-//     const date = new Date(dateStr);
-//     const dayOfWeek = date.toLocaleDateString(undefined, { weekday: "long" });
-//     return dayOfWeek;
-// };
 
 export const getDayAndMonth = (dateStr) => {
     const date = new Date(dateStr);
@@ -61,19 +53,14 @@ export const scrollToTop = () => {
 
 export const weeklyMinMax = (isFarenheight, stateMin, stateMax, dataMin, dataMax) => {
     let min, max
-    if (!isFarenheight) {
+    if (isFarenheight) {
         min = celsiusToFahrenheit(stateMin);
         max = celsiusToFahrenheit(stateMax);
-        // min = celsiusToFahrenheit(stateMinMaxTemperature?.Minimum?.Value);
-        // max = celsiusToFahrenheit(stateMinMaxTemperature?.Maximum?.Value);
     }
-    if (isFarenheight) {
+    if (!isFarenheight) {
         min = fahrenheitToCelsius(dataMin);
-        // min = fahrenheitToCelsius(data?.Temperature?.Minimum?.Value);
         max = fahrenheitToCelsius(dataMax);
-        // max = fahrenheitToCelsius(data?.Temperature?.Maximum?.Value);
     }
-
     return { min, max }
 }
 
@@ -96,6 +83,6 @@ export const getImageForWeather = (weather) => {
         case 'mostly clear':
             return partlyCloudy;
         default:
-            return sunny;
+            return clear;
     }
 }

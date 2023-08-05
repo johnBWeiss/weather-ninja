@@ -51,15 +51,7 @@ const City = ({
         data?.Temperature?.Minimum?.Value,
         data?.Temperature?.Maximum?.Value
       );
-      // let min, max;
-      // if (!isFarenheight) {
-      //   min = celsiusToFahrenheit(stateMinMaxTemperature?.Minimum?.Value);
-      //   max = celsiusToFahrenheit(stateMinMaxTemperature?.Maximum?.Value);
-      // }
-      // if (isFarenheight) {
-      //   min = fahrenheitToCelsius(data?.Temperature?.Minimum?.Value);
-      //   max = fahrenheitToCelsius(data?.Temperature?.Maximum?.Value);
-      // }
+
       setStateMinMaxTemperature({
         Minimum: { Value: minMax.min },
         Maximum: { Value: minMax.max },
@@ -76,8 +68,6 @@ const City = ({
       }
       setStateSingleTemperature(temp);
     }
-
-    // dispatch(setToggleDegreeType());
   };
 
   const dayAndMonth = getDayAndMonth(data?.Date);
