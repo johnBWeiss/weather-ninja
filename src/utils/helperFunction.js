@@ -36,7 +36,7 @@ export const getRandomErrorMessage = () => {
         "Yeah...so about your request. Not happening this time, had an error. Sorry",
         "Oops! Something went wrong. Just wear a sweater or something",
         "Um, is your browser ok? Cause this isn't really working. Check for an error somewhere",
-        "Sorry, had an error. let's blame the developer!",
+        "Sorry, had an error. Let's blame the developer!",
     ];
     const randomIndex = Math.floor(Math.random() * errorMessages.length);
     return errorMessages[randomIndex];

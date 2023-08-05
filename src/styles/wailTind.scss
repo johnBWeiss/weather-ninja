@@ -73,8 +73,12 @@ body {
   }
 }
 .error-message {
-  color: red;
+  color: white;
   font-size: 3.5vw;
+  padding: 30px 60px;
+  background-color: rgba(111, 0, 0, 0.7);
+
+  width: 100vw;
 }
 
 .hoverEffect {
