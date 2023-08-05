@@ -13,6 +13,7 @@ const Favorites = () => {
   const dispatch = useDispatch();
   const { favoritesArray, isFarenheight, isDarkMode } =
     useSelector(globalSelector);
+
   useEffect(() => {
     const favoritesFromStorage =
       JSON.parse(localStorage.getItem("favorites")) || [];
@@ -26,7 +27,6 @@ const Favorites = () => {
     cityCode,
     weatherText
   ) => {
-    // dispatch(getSingleCity({ cityCode, cityName }));
     dispatch(
       setCurrentCity({
         currentCityName,

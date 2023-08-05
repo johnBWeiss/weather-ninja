@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from "react";
-import partCloud from "../../assets/images/partly cloudy.png";
 import fullHeart from "../../assets/images/full-heart-icon-black.png";
 import emptyHeart from "../../assets/images/empty-heart-icon.png";
 import { fahrenheitToCelsius } from "../../utils/helperFunction";
 import { celsiusToFahrenheit } from "../../utils/helperFunction";
 import { getDayAndMonth } from "../../utils/helperFunction";
 import { isFavoriteHandler } from "../../utils/helperFunction";
-import { useDispatch } from "react-redux";
-import { setToggleDegreeType } from "../../../store/globalSlice";
 import { weeklyMinMax } from "../../utils/helperFunction";
+import { getImageForWeather } from "../../utils/helperFunction";
 import useToggleFavorite from "../../customHooks/useToggleFavorite";
 import sunIcon from "../../assets/images/sun-icon.png";
 import moonIcon from "../../assets/images/moon-icon.png";
-import { getImageForWeather } from "../../utils/helperFunction";
 
 const City = ({
   cityName,

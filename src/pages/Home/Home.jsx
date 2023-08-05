@@ -41,7 +41,7 @@ const Home = () => {
             const { latitude, longitude } = position.coords;
             resolve({ latitude, longitude });
           },
-          (error) => {
+          () => {
             reject(new Error("Failed to get geolocation."));
           }
         );

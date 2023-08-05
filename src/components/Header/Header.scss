@@ -15,7 +15,6 @@
 .HeaderInnerContainer {
   @include flexBox(space-between);
   width: 92%;
-  // font-size: 20px;
   font-size: clamp(16px, 1.5vw, 20px) !important;
 }
 .header-title {
@@ -36,7 +35,6 @@
   background-color: #bcbbbb;
   box-shadow: -1px 3px 11px -2px rgba(179, 179, 179, 0.3),
     inset 0 1px 3px 0 rgba(0, 0, 0, 0.5);
-  // height: 48px;
 }
 .header-button {
   width: 50%;
@@ -65,9 +63,6 @@
 .theme-mode-img {
   height: 50px;
   cursor: pointer;
-  // &:hover {
-  //   animation: shake 0.3s;
-  // }
 }
 
 .shake {
@@ -79,25 +74,17 @@
     transform: translateX(0);
   }
   5%,
-  // 15%,
   25%,
-  // 35%,
   45%,
-  // 55%,
   65%,
-  // 75%,
   85%,
   95% {
     transform: translateX(-1px);
   }
   10%,
-  // 20%,
   30%,
-  // 40%,
   50%,
-  // 60%,
   70%,
-  // 80%,
   90% {
     transform: translateX(1px);
   }

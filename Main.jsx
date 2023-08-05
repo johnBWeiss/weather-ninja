@@ -3,8 +3,6 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./src/pages/Home/Home";
 import Header from "./src/components/Header/Header";
 import Favorites from "./src/pages/Favorites/Favorites";
-import lightBackground from "./src/assets/images/lightBackground.jpg";
-import darkBackground from "./src/assets/images/darkBackground.jpg";
 import { useSelector } from "react-redux";
 import { globalSelector } from "./store/globalSlice";
 import "./src/styles/wailTind.scss";

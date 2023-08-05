@@ -11,10 +11,6 @@
   border-radius: 8.7px;
   font-size: 12px;
   color: #6c757d;
-  // position: absolute;
-  // top: 133px;
-  // left: 46px;
-
   transition: 0.2s;
   cursor: pointer;
   font-weight: 300;
@@ -28,9 +24,7 @@
     transition: 0.2s;
   }
   .toggle-button-true {
-    // background-color: rgba(75, 168, 234);
     background-color: #2c455b;
-
     right: 2px;
     top: -3px;
     transition: 0.2s;
@@ -41,7 +35,6 @@
 }
 
 .active-true {
-  // border: 0.7px solid #007bff;
   transition: border 0.1s;
 }
 
@@ -55,33 +48,14 @@
   }
 }
 .active-font-true {
-  // color: rgba(75, 168, 234, 0.75);
-  // font-weight: 600;
   letter-spacing: -0.13px;
 }
-
-// .info-icon-container,
-// .toggle-svg {
-//   display: none;
-// }
 
 @media (max-width: $mobileBreakPoint) {
   .toggle-button-text-and-button-container {
     position: absolute;
     top: 68px;
   }
-  // .toggle-button-container {
-  //   width: 40px;
-  //   height: 19px;
-  //   position: absolute;
-  //   top: 549px;
-  //   left: 41px;
-
-  //   .toggle-button {
-  //     width: 24px;
-  //     height: 24px;
-  //   }
-  // }
 
   .toggle-font {
     font-size: 23px;

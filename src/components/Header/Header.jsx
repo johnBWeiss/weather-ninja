@@ -11,7 +11,7 @@ import darkModeImage from "../../assets/images/darkMode.png";
 import lightModeImage from "../../assets/images/lightMode.png";
 
 const Header = () => {
-  const { isFarenheight, isDarkMode, error } = useSelector(globalSelector);
+  const { isFarenheight, isDarkMode } = useSelector(globalSelector);
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
@@ -49,7 +49,6 @@ const Header = () => {
     >
       <div className="HeaderInnerContainer">
         <div className="title-and-theme-button-container">
-          {" "}
           <h2 className="header-title" onClick={() => navigate("/")}>
             Weather Ninja
           </h2>

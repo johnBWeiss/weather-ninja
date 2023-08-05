@@ -4,8 +4,6 @@ import clear from "../assets/images/clear.png"
 import partlyCloudy from "../assets/images/partly cloudy.png"
 
 
-
-
 export const fahrenheitToCelsius = (fahrenheit) => {
     const celsius = (fahrenheit - 32) * (5 / 9);
     return Number(celsius.toFixed(1));

@@ -13,7 +13,6 @@ html {
   padding: 0 !important;
   position: relative;
   font-family: "Ubuntu", sans-serif;
-  // overflow: hidden;
 }
 body {
   margin: 0 !important;
@@ -33,20 +32,17 @@ body {
   object-fit: cover;
   left: 0px;
   top: 0px;
-  // transition: background-image 1s ease;
 }
 
 .background-image-darkMode-true {
   transition: background-image 0.6s ease;
   background-size: cover;
   background-image: url("../assets/images/darkBackgroundComp.jpg") !important;
-  // background-image: url("../assets/images/darkBackground.jpg") !important;
 }
 .background-image-darkMode-false {
   transition: background-image 0.6s ease;
   background-size: cover;
   background-image: url("../assets/images/lightBackgroundComp.jpg");
-  // background-image: url("../assets/images/lightBackground.jpg");
 }
 
 .gallery-container {
@@ -110,7 +106,6 @@ body {
   direction: rtl;
 }
 
-/* Preferred box-sizing value */
 *,
 *::before,
 *::after {
