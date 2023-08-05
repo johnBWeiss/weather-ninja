@@ -68,8 +68,8 @@ const Home = () => {
             )
             .then((response) => {
               console.log(response);
-              const data = response;
-              // const data = response.data;
+              // const data = response;
+              const data = response.data;
               dispatch(
                 getSingleCity({
                   cityCode: data?.Key,
@@ -79,7 +79,7 @@ const Home = () => {
               );
               dispatch(
                 getFiveDays({
-                  cityCode: data.Key,
+                  cityCode: data?.Key,
                 })
               );
             })
@@ -133,17 +133,17 @@ const Home = () => {
 
       dispatch(
         getSingleCity({
-          cityCode: response?.[0]?.Key,
-          cityName: response?.[0]?.LocalizedName,
-          // cityCode: response?.data?.[0]?.Key,
-          // cityName: response?.data?.[0]?.LocalizedName,
+          // cityCode: response?.[0]?.Key,
+          // cityName: response?.[0]?.LocalizedName,
+          cityCode: response?.data?.[0]?.Key,
+          cityName: response?.data?.[0]?.LocalizedName,
           // isFavoriteChosen: false,
         })
       );
       dispatch(
         getFiveDays({
-          cityCode: response?.[0]?.Key,
-          // cityCode: response?.data?.[0]?.Key,
+          // cityCode: response?.[0]?.Key,
+          cityCode: response?.data?.[0]?.Key,
         })
       );
     } catch (error) {

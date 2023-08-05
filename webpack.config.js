@@ -1,15 +1,15 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const { svgToMiniDataURI } = require("mini-svg-data-uri");
 const WebpackObfuscatorPlugin = require("webpack-obfuscator");
-const CopyPlugin = require('copy-webpack-plugin');
+const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
   entry: "./index.js",
   output: {
-    filename: "bundle.js", // Change the filename to "bundle.js" or any other name you like
+    filename: "[name].js", // Use [name] placeholder to generate unique filenames for each entry point.
     path: path.resolve(__dirname, "dist"),
   },
   plugins: [
@@ -17,13 +17,12 @@ module.exports = {
       template: path.join(__dirname, "public", "index.html"),
     }),
     new MiniCssExtractPlugin({
-      filename: 'styles.css',
+      filename: "styles.css",
     }),
     new CopyPlugin({
       patterns: [
-        { from: './_redirects', to: '' },
-        { from: './manifest.json', to: '' },
-
+        { from: "./_redirects", to: "" },
+        { from: "./manifest.json", to: "" },
       ],
     }),
     // new WebpackObfuscatorPlugin({
@@ -34,6 +33,22 @@ module.exports = {
     // }),
   ],
   optimization: {
+    splitChunks: {
+      cacheGroups: {
+        styles: {
+          name: "styles", // Change the chunk name to a unique value, like "styles"
+          test: /\.s?css$/,
+          chunks: "all",
+          enforce: true,
+        },
+        vendor: {
+          name: "vendor",
+          test: /[\\/]node_modules[\\/]/,
+          chunks: "all",
+          enforce: true,
+        },
+      },
+    },
     minimizer: [
       new TerserPlugin({
         terserOptions: {
@@ -44,16 +59,6 @@ module.exports = {
         extractComments: false,
       }),
     ],
-    splitChunks: {
-      cacheGroups: {
-        styles: {
-          name: 'styles', // Change the chunk name to a unique value, like 'styles'
-          test: /\.s?css$/,
-          chunks: 'all',
-          enforce: true,
-        },
-      },
-    },
   },
   devServer: {
     static: {
@@ -76,13 +81,13 @@ module.exports = {
       },
       {
         test: /\.(jpg|png|gif|pdf|ico)$/i,
-        type: 'asset/inline',
+        type: "asset/inline",
       },
       {
         test: /\.svg$/i,
-        type: 'asset/inline',
+        type: "asset/inline",
         generator: {
-          dataUrl: content => svgToMiniDataURI(content.toString()),
+          dataUrl: (content) => svgToMiniDataURI(content.toString()),
         },
       },
     ],
