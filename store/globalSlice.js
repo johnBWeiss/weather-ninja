@@ -28,7 +28,7 @@ export const getSingleCity = createAsyncThunk('globalSlice/getSingleCity',
       // return { currentCityTemperature: response?.[0]?.Temperature?.Imperial?.Value, currentCityName: payload?.cityName, isFavoriteChosen: payload.isFavoriteChosen, cityCode: payload.cityCode, weatherText: response?.[0]?.WeatherText }
       return { currentCityTemperature: response?.data?.[0]?.Temperature?.Imperial?.Value, currentCityName: payload?.cityName, isFavoriteChosen: payload.isFavoriteChosen, cityCode: payload.cityCode, weatherText: response?.data?.[0]?.WeatherText }
     } catch (error) {
-      thunkAPI.dispatch(errorHandler())
+      thunkAPI.dispatch(errorHandler("getting today's forecast"))
       console.log(error);
     }
   })
@@ -41,7 +41,7 @@ export const getFiveDays = createAsyncThunk('globalSlice/getFiveDays',
       // return response?.DailyForecasts
       return response?.data?.DailyForecasts
     } catch (error) {
-      thunkAPI.dispatch(errorHandler())
+      thunkAPI.dispatch(errorHandler("getting the weekly forecast"))
       console.log(error);
     }
   })
@@ -50,8 +50,8 @@ export const globalSlice = createSlice({
   name: "globalSlice",
   initialState,
   reducers: {
-    errorHandler: (state) => {
-      state.error = true
+    errorHandler: (state, { payload }) => {
+      state.error = payload
       // state.pending = true
     },
     resetError: (state) => {
@@ -85,7 +85,7 @@ export const globalSlice = createSlice({
         state.currentCity = { ...payload }
       })
       .addCase(getSingleCity.rejected, (state) => {
-        state.error = true
+        state.error = "getting data for today's forecast"
         state.pending = true
       })
       .addCase(getFiveDays.pending, (state) => {
@@ -96,7 +96,7 @@ export const globalSlice = createSlice({
         state.fiveDaysArray = payload
       })
       .addCase(getFiveDays.rejected, (state) => {
-        state.error = true
+        state.error = "getting data for the weekly forecast"
         state.pending = true
       })
   },

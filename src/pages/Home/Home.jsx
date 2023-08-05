@@ -27,7 +27,7 @@ const Home = () => {
   } = useSelector(globalSelector);
 
   const errorMessage = useMemo(() => {
-    return error && getRandomErrorMessage();
+    return error && getRandomErrorMessage(error);
   }, [error]);
 
   const [stateInputValue, setStateInputValue] = useState("");
@@ -79,17 +79,16 @@ const Home = () => {
             })
             .catch((error) => {
               console.error("Error fetching data:", error.message);
-              dispatch(errorHandler());
+              dispatch(errorHandler("getting your geo position"));
             });
         } catch (error) {
-          // console.log("Error getting geolocation:", error.message);
-          dispatch(errorHandler());
+          dispatch(errorHandler("getting your geo position"));
         }
       }
     }
 
     if (currentCityName == "") {
-      // fetchCityName();
+      fetchCityName();
     }
     scrollToTop();
     dispatch(resetError());
@@ -123,7 +122,7 @@ const Home = () => {
       );
     } catch (error) {
       console.error("Error fetching data:", error.message);
-      dispatch(errorHandler());
+      dispatch(errorHandler("searching text"));
     }
   };
 

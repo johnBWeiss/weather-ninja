@@ -23,12 +23,13 @@ export const getDayAndMonth = (dateStr) => {
     return dayAndMonth;
 };
 
-export const getRandomErrorMessage = () => {
+export const getRandomErrorMessage = (error) => {
     const errorMessages = [
-        "Yeah...so about your request. Not happening this time, had an error. Sorry",
-        "Oops! Something went wrong. Just wear a sweater or something",
-        "Um, is your browser ok? Cause this isn't really working. Check for an error somewhere",
-        "Sorry, had an error. Let's blame the developer!",
+        `Yeah...so about your request for ${error}. Not happening this time, had an error. Sorry`,
+        `Oops! Something went wrong with ${error}. Maybe just wear a sweater or something`,
+        `Um, is your browser ok? Cause ${error} didn't work. Check for an error somewhere`,
+        `Sorry, had an error with ${error}. Let's blame the developer!`,
+        `Sometimes you go through life thinking you can just prance along ${error}. Not this time, my friend. I'm afraid we had an error`,
     ];
     const randomIndex = Math.floor(Math.random() * errorMessages.length);
     return errorMessages[randomIndex];
