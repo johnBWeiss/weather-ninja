@@ -5,7 +5,9 @@
 ![image](https://github.com/johnBWeiss/weather-ninja/assets/94001381/a1c10d95-4c97-42e0-ba38-6c290bf2025c)
 ![image](https://github.com/johnBWeiss/weather-ninja/assets/94001381/9b80786c-d850-4a6e-800e-d19e55380f03)
 
-[![GitHub Stars](https://img.shields.io/github/stars/johnBWeiss/weather-ninja.svg?style=flat&label=Stars&color=blue)](https://github.com/johnBWeiss/weather-ninja)
+
+
+[![Commits](https://img.shields.io/github/commit-activity/y/johnBWeiss/weather-ninja.svg?style=flat&label=Commits)](https://github.com/johnBWeiss/weather-ninja)
 
 ## To run the application, execute the following commands in sequence:
 
