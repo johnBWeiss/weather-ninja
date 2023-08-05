@@ -9,6 +9,8 @@
 
 [![Commits](https://img.shields.io/github/commit-activity/y/johnBWeiss/weather-ninja.svg?style=flat&label=Commits)](https://github.com/johnBWeiss/weather-ninja)
 
+[![Repositories](https://img.shields.io/badge/Repos-10-brightgreen)](https://github.com/johnBWeiss)
+
 ## To run the application, execute the following commands in sequence:
 
 ```Javascript
