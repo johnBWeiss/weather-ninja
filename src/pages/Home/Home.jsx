@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import searchIcon from "../../assets/images/search-icon.png";
 import City from "../../components/City/City";
@@ -32,6 +32,10 @@ const Home = () => {
       weatherText,
     },
   } = useSelector(globalSelector);
+
+  const errorMessage = useMemo(() => {
+    return error && getRandomErrorMessage();
+  }, [error]);
 
   const [stateInputValue, setStateInputValue] = useState("");
   async function getCityFromGeolocation() {
@@ -111,6 +115,10 @@ const Home = () => {
   }, []);
 
   const handleInputChange = (event) => {
+    console.log(event);
+    if (event.target.value == "Enter") {
+      console.log("enter");
+    }
     const inputText = event.target.value.toLowerCase();
     const englishLettersRegex = /^[a-zA-Z\s]*$/;
     if (englishLettersRegex.test(inputText)) {
@@ -163,18 +171,20 @@ const Home = () => {
           type="text"
           value={stateInputValue}
           onChange={handleInputChange}
-          // onKeyDown={(e) => {
-          //   e.code === "Enter" && searchByTextHandler();
-          // }}
-          onKeyUp={(e) => {
+          onKeyDown={(e) => {
             e.code === "Enter" && searchByTextHandler();
           }}
-          placeholder="Search for a city and press enter"
+          onPress={(e) => {
+            e.code === "Enter" && searchByTextHandler();
+          }}
+          placeholder="Which city will it be?"
         />
       </div>
+      <div className="search-button" onClick={searchByTextHandler}>
+        Search
+      </div>
       <div className="center padding-top-100">
-        {error && <h1 className="error-message">{getRandomErrorMessage()}</h1>}
-
+        {error && <h1 className="error-message">{errorMessage}</h1>}
         {!error && currentCityName && (
           <City
             cityName={currentCityName ?? ""}

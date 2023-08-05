@@ -59,7 +59,7 @@
   transition: 0.3s;
 }
 .title-and-theme-button-container {
-  @include flexBox(space-between, null, 10px);
+  @include flexBox(space-between);
 }
 
 .theme-mode-img {
