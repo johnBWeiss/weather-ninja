@@ -67,7 +67,6 @@ const Home = () => {
               `https://express-proxy-server-yonatan.onrender.com/getGeoPosition/${latitude}/${longitude}`
             )
             .then((response) => {
-              console.log(response);
               // const data = response;
               const data = response.data;
               dispatch(
@@ -129,7 +128,6 @@ const Home = () => {
 
     try {
       const response = await axios.get(url);
-      console.log(response);
 
       dispatch(
         getSingleCity({

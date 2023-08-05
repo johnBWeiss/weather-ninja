@@ -98,7 +98,6 @@ export const globalSlice = createSlice({
       .addCase(getFiveDays.rejected, (state) => {
         state.error = true
         state.pending = true
-        console.log('get 5 builder rejcted');
       })
   },
 });
