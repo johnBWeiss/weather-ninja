@@ -23,6 +23,9 @@ module.exports = {
       patterns: [
         { from: "./_redirects", to: "" },
         { from: "./manifest.json", to: "" },
+        { from: "./public/favicon.ico", to: "" },
+        { from: "./public/logo192.png", to: "" },
+        { from: "./public/logo512.png", to: "" },
       ],
     }),
     // new WebpackObfuscatorPlugin({
