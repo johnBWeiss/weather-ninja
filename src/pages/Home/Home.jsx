@@ -64,7 +64,7 @@ const Home = () => {
           axios
             .get(
               // `${geoPositionURL}?apikey=${apiKey}&q=${latitude}%2C${longitude}&language=en-us&toplevel=false`
-              `https://express-proxy-server-yonatan.onrender.com//getGeoPosition/${latitude}/${longitude}`
+              `https://express-proxy-server-yonatan.onrender.com/getGeoPosition/${latitude}/${longitude}`
             )
             .then((response) => {
               const data = response;
