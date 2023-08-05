@@ -1,0 +1,66 @@
+.CarouselLibContainer {
+  width: 80%;
+  max-width: 1600px;
+  margin: 0 auto;
+
+  //   background-color: rgba(255, 255, 255, 0.3);
+  //   height: 144px;
+  @include flexBox(center);
+}
+
+.react-multi-carousel-track {
+  transition: 0.5s !important;
+}
+.carousel-container,
+.react-multi-carousel-list {
+  padding-right: 100px !important;
+}
+
+.react-multi-carousel-list {
+  position: static;
+  align-self: center;
+  align-items: center;
+  width: 80%;
+  max-width: 1600px;
+  margin: 0 auto;
+}
+.react-multi-carousel-dot-list {
+  display: none;
+}
+.react-multi-carousel-item,
+.carousel-item-padding-40-px,
+.react-multi-carousel-item--active {
+  display: flex;
+  justify-content: center;
+}
+
+.containerItem {
+  width: 240px;
+}
+
+.react-multiple-carousel__arrow--right {
+  background: rgba(0, 0, 0, 0) !important;
+  position: absolute;
+  right: 6%;
+}
+.react-multiple-carousel__arrow--left {
+  background: rgba(0, 0, 0, 0) !important;
+  position: absolute;
+  left: 6%;
+}
+.react-multiple-carousel__arrow::before {
+  color: $blue !important;
+  font-weight: 900;
+  font-size: 30px;
+}
+//   carousel-container
+// react-multi-carousel-item react-multi-carousel-item--active carousel-item-padding-40-px
+
+@media (min-width: 2050px) {
+  .react-multiple-carousel__arrow--right {
+    right: 14%;
+  }
+  .react-multiple-carousel__arrow--left {
+    left: 14%;
+  }
+}

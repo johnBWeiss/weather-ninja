@@ -6,7 +6,6 @@ import CityWeekly from "../../components/CityWeekly/CityWeekly";
 import axios from "axios";
 import { globalSelector } from "../../../store/globalSlice";
 import { getSingleCity } from "../../../store/globalSlice";
-import { weeklyArrayShortData } from "../../utils/mockData";
 import { getFiveDays } from "../../../store/globalSlice";
 import { errorHandler } from "../../../store/globalSlice";
 import { resetError } from "../../../store/globalSlice";
@@ -14,6 +13,7 @@ import { getRandomErrorMessage, scrollToTop } from "../../utils/helperFunction";
 import { setIsPending } from "../../../store/globalSlice";
 import { resetPending } from "../../../store/globalSlice";
 import earthIcon from "../../assets/images/earth-icon.png";
+import CarouselLib from "../../components/Carousel/CarouselLib";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -77,7 +77,7 @@ const Home = () => {
     }
 
     if (currentCityName == "") {
-      fetchCityName();
+      // fetchCityName();
     }
     scrollToTop();
     dispatch(resetError());
@@ -192,16 +192,24 @@ const Home = () => {
           </div>
         )}
       </div>
-      {fiveDaysArray && !isPending && !error && (
+      {fiveDaysArray?.length > 0 && !isPending && !error && (
         <div className="weekly-forecast-title bold">Weekly Forecast</div>
       )}
-
-      <div className="flex flex-wrap center gallery-container">
+      {!isPending && !error && fiveDaysArray?.length > 0 && (
+        <div className="desktop-none ">
+          <CarouselLib
+            carouselItems={fiveDaysArray}
+            isFarenheight={isFarenheight}
+            isDarkMode={isDarkMode}
+          />
+        </div>
+      )}
+      <div className="flex flex-wrap center gallery-container mobile-none">
         {!isPending &&
           !error &&
-          fiveDaysArray?.map((forecast, index) => (
+          fiveDaysArray?.map((forecast) => (
             <CityWeekly
-              key={index}
+              key={forecast?.Date}
               data={forecast}
               isFarenheight={isFarenheight}
               isDarkMode={isDarkMode}

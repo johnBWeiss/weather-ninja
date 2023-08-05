@@ -4,17 +4,7 @@ import { weeklyMinMax } from "../../utils/helperFunction";
 import sunIcon from "../../assets/images/sun-icon.png";
 import moonIcon from "../../assets/images/moon-icon.png";
 
-const CityWeekly = ({
-  cityName,
-  cityCode,
-  title,
-  cityTemperature,
-  data,
-  isFarenheight,
-  favoriteClickHandler,
-  isDarkMode,
-  weatherText,
-}) => {
+const CityWeekly = ({ data, isFarenheight, isDarkMode }) => {
   const [stateMinMaxTemperature, setStateMinMaxTemperature] = useState(
     data?.Temperature ?? ""
   );
@@ -35,25 +25,16 @@ const CityWeekly = ({
 
   const dayAndMonth = getDayAndMonth(data?.Date);
 
-  const displayFavorite = () => {
-    if (favoriteClickHandler) {
-      favoriteClickHandler(cityTemperature, cityName, cityCode, weatherText);
-    }
-  };
-
   useEffect(() => {
     setStateMinMaxTemperature(data?.Temperature);
     if (!isFarenheight) {
       imperialVsMetricToggleHandler();
     }
-  }, [data, cityTemperature, isFarenheight, cityCode]);
+  }, [data, isFarenheight]);
 
   return (
     <div
-      className={`city-container vertical-flex ${
-        favoriteClickHandler && "hoverEffect"
-      } `}
-      onClick={displayFavorite}
+      className={`city-container vertical-flex  `}
       style={{
         background: isDarkMode ? "grey" : "white",
         gap: "25px",
@@ -66,7 +47,6 @@ const CityWeekly = ({
         {stateMinMaxTemperature?.Maximum?.Value}
         {isFarenheight ? "°F" : "°C"}
       </div>
-      {title}
       <div className="gap-20 vertical-flex width-100 bold">
         <div className="gap-12 self-start ">
           <img className="sun-img" src={sunIcon} alt="part cloud" />

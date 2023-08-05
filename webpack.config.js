@@ -20,7 +20,9 @@ module.exports = {
       template: path.join(__dirname, "public", "index.html"),
     }),
     new MiniCssExtractPlugin({
-      filename: "styles.css",
+      filename: ({ chunk }) => {
+        return chunk.name === 'vendor' ? 'vendor.css' : 'styles.css';
+      },
     }),
     new CopyPlugin({
       patterns: [
