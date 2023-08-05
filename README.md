@@ -2,6 +2,10 @@
 
 # have a look at it live: https://yonatan-weiss-25-07-2023.netlify.app/
 
+![image](https://github.com/johnBWeiss/weather-ninja/assets/94001381/a1c10d95-4c97-42e0-ba38-6c290bf2025c)
+![image](https://github.com/johnBWeiss/weather-ninja/assets/94001381/9b80786c-d850-4a6e-800e-d19e55380f03)
+
+
 ## To run the application, execute the following commands in sequence:
 
 ```Javascript
