@@ -3,13 +3,9 @@ import fullHeart from "../../assets/images/full-heart-icon-black.png";
 import emptyHeart from "../../assets/images/empty-heart-icon.png";
 import { fahrenheitToCelsius } from "../../utils/helperFunction";
 import { celsiusToFahrenheit } from "../../utils/helperFunction";
-import { getDayAndMonth } from "../../utils/helperFunction";
 import { isFavoriteHandler } from "../../utils/helperFunction";
-import { weeklyMinMax } from "../../utils/helperFunction";
 import { getImageForWeather } from "../../utils/helperFunction";
 import useToggleFavorite from "../../customHooks/useToggleFavorite";
-import sunIcon from "../../assets/images/sun-icon.png";
-import moonIcon from "../../assets/images/moon-icon.png";
 
 const City = ({
   cityName,
@@ -30,42 +26,20 @@ const City = ({
     weatherText
   );
 
-  const [stateMinMaxTemperature, setStateMinMaxTemperature] = useState(
-    data?.Temperature ?? ""
-  );
   const [stateSingleTemperature, setStateSingleTemperature] = useState(
     cityTemperature ?? ""
   );
 
   const imperialVsMetricToggleHandler = () => {
-    if (type === "weeklyItem") {
-      const minMax = weeklyMinMax(
-        isFarenheight,
-        stateMinMaxTemperature?.Minimum?.Value,
-        stateMinMaxTemperature?.Maximum?.Value,
-        data?.Temperature?.Minimum?.Value,
-        data?.Temperature?.Maximum?.Value
-      );
-
-      setStateMinMaxTemperature({
-        Minimum: { Value: minMax.min },
-        Maximum: { Value: minMax.max },
-      });
+    let temp;
+    if (isFarenheight) {
+      temp = celsiusToFahrenheit(stateSingleTemperature);
     }
-
-    if (type !== "weeklyItem") {
-      let temp;
-      if (isFarenheight) {
-        temp = celsiusToFahrenheit(stateSingleTemperature);
-      }
-      if (!isFarenheight) {
-        temp = fahrenheitToCelsius(cityTemperature);
-      }
-      setStateSingleTemperature(temp);
+    if (!isFarenheight) {
+      temp = fahrenheitToCelsius(cityTemperature);
     }
+    setStateSingleTemperature(temp);
   };
-
-  const dayAndMonth = getDayAndMonth(data?.Date);
 
   const displayFavorite = () => {
     if (favoriteClickHandler) {
@@ -74,7 +48,6 @@ const City = ({
   };
 
   useEffect(() => {
-    setStateMinMaxTemperature(data?.Temperature);
     setStateSingleTemperature(cityTemperature);
     if (!isFarenheight) {
       imperialVsMetricToggleHandler();
@@ -89,75 +62,42 @@ const City = ({
       onClick={displayFavorite}
       style={{
         background: isDarkMode ? "grey" : "white",
-        gap: type === "weeklyItem" && "25px",
       }}
     >
-      {type !== "weeklyItem" && (
-        <div className=" gap-6 vertical-flex">
-          <div className="city-title bold">{cityName}</div>
-          <div className="font-10">{cityCode}</div>
-        </div>
-      )}
-      {type === "weeklyItem" && (
-        <div className="city-title bold">
-          {stateMinMaxTemperature?.Minimum?.Value}
-          {isFarenheight ? "°F" : "°C"}
-          <span> - </span>
-          {stateMinMaxTemperature?.Maximum?.Value}
-          {isFarenheight ? "°F" : "°C"}
-        </div>
-      )}
+      <div className=" gap-6 vertical-flex">
+        <div className="city-title bold">{cityName}</div>
+        <div className="font-10">{cityCode}</div>
+      </div>
       {title}
       <div className="gap-20 vertical-flex width-100 bold">
-        {type === "weeklyItem" && (
-          <>
-            <div className="gap-12 self-start ">
-              <img className="sun-img" src={sunIcon} alt="part cloud" />
-              <div>{data?.Day?.IconPhrase}</div>
-            </div>
-            <div className="gap-17 self-start">
-              <img className="moon-img" src={moonIcon} alt="part cloud" />
-              <div>{data?.Night?.IconPhrase}</div>
-            </div>
-          </>
-        )}
-        {type !== "weeklyItem" && (
-          <div className="gap-12">
-            <img
-              className="weather-img"
-              src={getImageForWeather(weatherText)}
-              alt="part cloud"
-            />
-            <div>{weatherText}</div>
-          </div>
-        )}
+        <div className="gap-12">
+          <img
+            className="weather-img"
+            src={getImageForWeather(weatherText)}
+            alt="part cloud"
+          />
+          <div>{weatherText}</div>
+        </div>
       </div>
       <div className="space-between bottom-row-city">
-        {type === "weeklyItem" ? (
-          <div className="font-16">{dayAndMonth}</div>
-        ) : (
-          <div>
-            {stateSingleTemperature}
-            {isFarenheight ? " °F" : " °C"}
-          </div>
-        )}
-
-        {type !== "weeklyItem" && (
-          <img
-            onClick={(e) =>
-              toggleFavoriteHandler(
-                e,
-                cityName,
-                cityTemperature,
-                cityCode,
-                weatherText
-              )
-            }
-            className="heart-icon-city hoverEffect"
-            src={isFavoriteHandler(cityCode) ? fullHeart : emptyHeart}
-            alt="heart"
-          />
-        )}
+        <div>
+          {stateSingleTemperature}
+          {isFarenheight ? " °F" : " °C"}
+        </div>
+        <img
+          onClick={(e) =>
+            toggleFavoriteHandler(
+              e,
+              cityName,
+              cityTemperature,
+              cityCode,
+              weatherText
+            )
+          }
+          className="heart-icon-city hoverEffect"
+          src={isFavoriteHandler(cityCode) ? fullHeart : emptyHeart}
+          alt="heart"
+        />
       </div>
     </div>
   );

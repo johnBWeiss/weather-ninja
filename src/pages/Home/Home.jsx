@@ -2,6 +2,7 @@ import React, { useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import searchIcon from "../../assets/images/search-icon.png";
 import City from "../../components/City/City";
+import CityWeekly from "../../components/CityWeekly/CityWeekly";
 import axios from "axios";
 import { globalSelector } from "../../../store/globalSlice";
 import { getSingleCity } from "../../../store/globalSlice";
@@ -170,9 +171,8 @@ const Home = () => {
         {currentCityName !== "" &&
           (error ? weeklyArrayShortData : fiveDaysArray)?.DailyForecasts?.map(
             (forecast, index) => (
-              <City
+              <CityWeekly
                 key={index}
-                type={"weeklyItem"}
                 data={forecast}
                 isFarenheight={isFarenheight}
                 isDarkMode={isDarkMode}
