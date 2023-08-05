@@ -11,6 +11,9 @@ import { getFiveDays } from "../../../store/globalSlice";
 import { errorHandler } from "../../../store/globalSlice";
 import { resetError } from "../../../store/globalSlice";
 import { getRandomErrorMessage, scrollToTop } from "../../utils/helperFunction";
+import { setIsPending } from "../../../store/globalSlice";
+import { resetPending } from "../../../store/globalSlice";
+import earthIcon from "../../assets/images/earth-icon.png";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -19,6 +22,7 @@ const Home = () => {
     error,
     isFarenheight,
     isDarkMode,
+    isPending,
     currentCity: {
       currentCityName,
       currentCityTemperature,
@@ -36,17 +40,19 @@ const Home = () => {
   useEffect(() => {
     async function fetchCityName() {
       dispatch(resetError());
+      dispatch(setIsPending());
+
       if (currentCityName.length <= 0) {
         try {
           const position = await getCityFromGeolocation();
           const { latitude, longitude } = position;
-
           axios
             .get(
               `https://express-proxy-server-yonatan.onrender.com/getGeoPosition/${latitude}/${longitude}`
             )
             .then((response) => {
               const data = response.data;
+              dispatch(resetPending());
               dispatch(
                 getSingleCity({
                   cityCode: data?.Key,
@@ -79,6 +85,8 @@ const Home = () => {
 
   async function getCityFromGeolocation() {
     dispatch(resetError());
+    dispatch(setIsPending());
+
     return new Promise((resolve, reject) => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
@@ -98,6 +106,8 @@ const Home = () => {
   }
 
   const searchByTextHandler = async () => {
+    dispatch(setIsPending());
+
     const url = `https://express-proxy-server-yonatan.onrender.com/searchText/${stateInputValue}`;
     dispatch(resetError());
     try {
@@ -150,12 +160,15 @@ const Home = () => {
         Search
       </div>
       <div className="center padding-top-50">
+        {isPending && (
+          <img className="spinner" src={earthIcon} alt="earth icon" />
+        )}
         {error && <h1 className="error-message">{errorMessage}</h1>}
         {error && (
           <iframe
             src="https://weather-ninja-earth-banner.netlify.app/"
             width="100%"
-            height="320"
+            height="160"
             className="target-iframe"
           ></iframe>
         )}

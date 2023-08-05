@@ -91,11 +91,12 @@ body {
 }
 .error-message {
   color: white;
-  font-size: clamp(16px, 3.5vw, 24px);
+  font-size: clamp(16px, 3.5vw, 20px);
   padding: 30px 60px;
   background-color: rgba(111, 0, 0, 0.7);
   width: 100vw;
   line-height: 2.5;
+  position: relative;
 }
 
 .hoverEffect {

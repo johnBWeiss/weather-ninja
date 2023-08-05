@@ -3,6 +3,7 @@ import axios from "axios";
 
 
 const initialState = {
+  isPending: false,
   isDarkMode: false,
   favoritesArray: [],
   error: false,
@@ -41,6 +42,7 @@ export const globalSlice = createSlice({
   reducers: {
     errorHandler: (state, { payload }) => {
       state.error = payload
+      state.isPending = false
     },
     resetError: (state) => {
       state.error = false
@@ -57,25 +59,33 @@ export const globalSlice = createSlice({
     setToggleDarkMode: (state) => {
       state.isDarkMode = !state.isDarkMode
     },
+    setIsPending: (state) => {
+      state.isPending = true
+    },
+    resetPending: (state) => {
+      state.isPending = false
+    },
   },
 
   extraReducers: (builder) => {
     builder
-      .addCase(getSingleCity.fulfilled, (state, { payload }) => {
-        state.pending = false
-        state.currentCity = { ...payload }
+      .addCase(getSingleCity.pending, (state) => {
+        state.isPending = true
       })
       .addCase(getSingleCity.rejected, (state) => {
         state.error = "getting data for today's forecast"
-        state.pending = true
+        state.isPending = false
+      })
+      .addCase(getFiveDays.pending, (state) => {
+        state.isPending = true
       })
       .addCase(getFiveDays.fulfilled, (state, { payload }) => {
-        state.pending = false
+        state.isPending = false
         state.fiveDaysArray = payload
       })
       .addCase(getFiveDays.rejected, (state) => {
         state.error = "getting data for the weekly forecast"
-        state.pending = true
+        state.isPending = true
       })
   },
 });
@@ -87,7 +97,9 @@ export const {
   resetError,
   setUpdateFavoriteArray,
   setToggleDegreeType,
-  setToggleDarkMode
+  setToggleDarkMode,
+  setIsPending,
+  resetPending
 } = globalSlice.actions;
 
 export const globalSelector = (state) => {
