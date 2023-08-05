@@ -63,10 +63,12 @@ const Home = () => {
           const { latitude, longitude } = position;
           axios
             .get(
-              `${geoPositionURL}?apikey=${apiKey}&q=${latitude}%2C${longitude}&language=en-us&toplevel=false`
+              // `${geoPositionURL}?apikey=${apiKey}&q=${latitude}%2C${longitude}&language=en-us&toplevel=false`
+              `https://express-proxy-server-yonatan.onrender.com//getGeoPosition/${latitude}/${longitude}`
             )
             .then((response) => {
-              const data = response.data;
+              const data = response;
+              // const data = response.data;
               dispatch(
                 getSingleCity({
                   cityCode: data?.Key,
@@ -120,22 +122,25 @@ const Home = () => {
   const searchByTextHandler = async () => {
     // const apiKey = "ps9T93lqmdD16AcRRA6Cuq83mABQMy4O";
     // const language = "en-us";
-    const url = `${searchByTextURL}?apikey=${apiKey}&q=${stateInputValue}&language=en-us`;
+    // const url = `${searchByTextURL}?apikey=${apiKey}&q=${stateInputValue}&language=en-us`;
+    const url = `https://express-proxy-server-yonatan.onrender.com/searchText/${stateInputValue}`;
     dispatch(resetError());
 
     try {
       const response = await axios.get(url);
-      console.log("Response:", response.data[0].Key);
       dispatch(
         getSingleCity({
-          cityCode: response?.data?.[0]?.Key,
-          cityName: response?.data?.[0]?.LocalizedName,
+          cityCode: response?.[0]?.Key,
+          cityName: response?.[0]?.LocalizedName,
+          // cityCode: response?.data?.[0]?.Key,
+          // cityName: response?.data?.[0]?.LocalizedName,
           // isFavoriteChosen: false,
         })
       );
       dispatch(
         getFiveDays({
-          cityCode: response?.data?.[0]?.Key,
+          cityCode: response?.[0]?.Key,
+          // cityCode: response?.data?.[0]?.Key,
         })
       );
     } catch (error) {
