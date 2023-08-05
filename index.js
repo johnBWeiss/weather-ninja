@@ -1,7 +1,6 @@
 import React from "react";
 import { store } from "./store/store";
 import Main from "./Main";
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import "./src/styles/wailTind.scss";
 import { Provider } from "react-redux";
 import ReactDOM from "react-dom";
