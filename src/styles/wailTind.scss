@@ -35,11 +35,15 @@ body {
 }
 
 .background-image-darkMode-true {
+  -webkit-transition: background-image 0.6s ease;
+  -o-transition: background-image 0.6s ease;
   transition: background-image 0.6s ease;
   background-size: cover;
   background-image: url("../assets/images/darkBackgroundComp.jpg") !important;
 }
 .background-image-darkMode-false {
+  -webkit-transition: background-image 0.6s ease;
+  -o-transition: background-image 0.6s ease;
   transition: background-image 0.6s ease;
   background-size: cover;
   background-image: url("../assets/images/lightBackgroundComp.jpg");
@@ -48,11 +52,28 @@ body {
 .gallery-container {
   padding: 90px 40px;
   grid-gap: 40px 40px;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
   width: 90%;
 }
 .gradual-animation {
+  -webkit-animation: gradual 1.6s cubic-bezier(0.25, 0.1, 0.25, 1) 0s 1 forwards;
   animation: gradual 1.6s cubic-bezier(0.25, 0.1, 0.25, 1) 0s 1 forwards;
+}
+
+@-webkit-keyframes gradual {
+  0% {
+    opacity: 0;
+    margin-top: 1%;
+  }
+
+  30% {
+    margin-top: 0%;
+  }
+  40% {
+    opacity: 1;
+  }
 }
 
 @keyframes gradual {
@@ -77,18 +98,30 @@ body {
 }
 
 .hoverEffect {
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
   transition: 0.3s;
   &:hover {
     cursor: pointer;
+    -webkit-transform: scale(1.1);
+    -ms-transform: scale(1.1);
     transform: scale(1.1);
+    -webkit-transition: 0.3s;
+    -o-transition: 0.3s;
     transition: 0.3s;
   }
 }
 .hoverEffect-S {
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
   transition: 0.3s;
   &:hover {
     cursor: pointer;
+    -webkit-transform: scale(1.05);
+    -ms-transform: scale(1.05);
     transform: scale(1.05);
+    -webkit-transition: 0.3s;
+    -o-transition: 0.3s;
     transition: 0.3s;
   }
 }
@@ -99,6 +132,7 @@ body {
   }
 }
 .cover {
+  -o-object-fit: cover;
   object-fit: cover;
 }
 
@@ -109,6 +143,7 @@ body {
 *,
 *::before,
 *::after {
+  -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
 
@@ -121,13 +156,28 @@ img {
   max-width: 100%;
 }
 input {
+  -moz-user-select: text;
+  -ms-user-select: text;
   user-select: text;
   -webkit-user-select: text;
 }
 
 .text-animation-fade-in {
+  -webkit-animation-name: fade-in;
   animation-name: fade-in;
+  -webkit-animation-duration: 0.5s;
   animation-duration: 0.5s;
+}
+@-webkit-keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
 }
 @keyframes fade-in {
   0% {
@@ -183,18 +233,28 @@ input {
 }
 
 .lower-2 {
+  -webkit-transform: translateY(2px);
+  -ms-transform: translateY(2px);
   transform: translateY(2px);
 }
 .lower-8 {
+  -webkit-transform: translateY(8px);
+  -ms-transform: translateY(8px);
   transform: translateY(8px);
 }
 .lower-10 {
+  -webkit-transform: translateY(10px);
+  -ms-transform: translateY(10px);
   transform: translateY(10px);
 }
 .lower-12 {
+  -webkit-transform: translateY(12px);
+  -ms-transform: translateY(12px);
   transform: translateY(12px);
 }
 .lower-36 {
+  -webkit-transform: translateY(36px);
+  -ms-transform: translateY(36px);
   transform: translateY(36px);
 }
 
@@ -207,6 +267,9 @@ input {
 
 .vertical-flex {
   @include flexBox(center);
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
   flex-direction: column;
 }
 .flex-end {
@@ -214,10 +277,13 @@ input {
 }
 
 .flex-wrap {
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
 
 .align-end {
+  -webkit-box-align: end;
+  -ms-flex-align: end;
   align-items: flex-end;
 }
 
@@ -232,7 +298,11 @@ input {
 }
 .true-center {
   @include flexBox(center);
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
   width: fit-content;
+  -ms-flex-item-align: center;
+  -ms-grid-row-align: center;
   align-self: center;
   margin: 0 auto;
   text-align: center;
@@ -247,29 +317,47 @@ input {
 
 .center {
   margin: 0 auto;
+  -ms-flex-item-align: center;
+  -ms-grid-row-align: center;
   align-self: center;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
   width: fit-content;
 }
 .row-reverse {
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+  -ms-flex-direction: row-reverse;
   flex-direction: row-reverse;
 }
 
 .column-reverse {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: reverse;
+  -ms-flex-direction: column-reverse;
   flex-direction: column-reverse;
 }
 
 .self-end {
+  -ms-flex-item-align: end;
   align-self: flex-end;
 }
 .self-start {
+  -ms-flex-item-align: start;
   align-self: flex-start;
 }
 .self-center {
+  -ms-flex-item-align: center;
+  -ms-grid-row-align: center;
   align-self: center;
 }
 
 .fit-content {
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
   width: fit-content;
+  height: -webkit-fit-content;
+  height: -moz-fit-content;
   height: fit-content;
 }
 
@@ -283,73 +371,77 @@ input {
 }
 
 .gap-2 {
-  display: flex;
+  @include flexBox();
   gap: 2px;
 }
 .gap-4 {
-  display: flex;
+  @include flexBox();
   gap: 4px;
 }
 .gap-5 {
-  display: flex;
+  @include flexBox();
   gap: 5px;
 }
 .gap-6 {
-  display: flex;
+  @include flexBox();
   gap: 6px;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 .gap-8 {
-  display: flex;
+  @include flexBox();
   gap: 8px;
 }
 .gap-10 {
-  display: flex;
+  @include flexBox();
   gap: 10px;
 }
 .gap-12 {
-  display: flex;
+  @include flexBox();
   gap: 12px;
+  -webkit-box-align: center;
+  -ms-flex-align: center;
   align-items: center;
 }
 .gap-16 {
-  display: flex;
+  @include flexBox();
   gap: 16px;
 }
 .gap-17 {
-  display: flex;
+  @include flexBox();
   gap: 17px;
 }
 .gap-18 {
-  display: flex;
+  @include flexBox();
   gap: 18px;
 }
 .gap-20 {
-  display: flex;
+  @include flexBox();
   gap: 20px;
 }
 .gap-22 {
-  display: flex;
+  @include flexBox();
   gap: 22px;
 }
 .gap-24 {
-  display: flex;
+  @include flexBox();
   gap: 24px;
 }
 .gap-28 {
-  display: flex;
+  @include flexBox();
   gap: 28px;
 }
 .gap-32 {
-  display: flex;
+  @include flexBox();
   gap: 32px;
 }
 .gap-44 {
-  display: flex;
+  @include flexBox();
   gap: 44px;
 }
 .gap-70 {
-  display: flex;
+  @include flexBox();
   gap: 70px;
 }
 .width-100 {
@@ -413,6 +505,8 @@ input {
 
 .formMessage {
   text-align: center;
+  -webkit-transform: translateY(-55px);
+  -ms-transform: translateY(-55px);
   transform: translateY(-55px);
   direction: rtl;
   color: rgb(118, 207, 118);
