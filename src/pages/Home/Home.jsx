@@ -40,6 +40,7 @@ const Home = () => {
         try {
           const position = await getCityFromGeolocation();
           const { latitude, longitude } = position;
+
           axios
             .get(
               `https://express-proxy-server-yonatan.onrender.com/getGeoPosition/${latitude}/${longitude}`
@@ -74,6 +75,12 @@ const Home = () => {
     }
     scrollToTop();
     dispatch(resetError());
+
+    const targetIframe = document.getElementById("target-iframe");
+    targetIframe?.contentWindow?.postMessage(
+      { latitude: 32.109333, longitude: 34.855499 },
+      "https://app.netlify.com/sites/peaceful-begonia-2fdbf4/deploys/64ce874f739d9454a1d1d33d"
+    );
   }, []);
 
   async function getCityFromGeolocation() {
@@ -83,6 +90,7 @@ const Home = () => {
         navigator.geolocation.getCurrentPosition(
           (position) => {
             const { latitude, longitude } = position.coords;
+
             resolve({ latitude, longitude });
           },
           () => {
@@ -162,6 +170,13 @@ const Home = () => {
             />
           </div>
         )}
+        <iframe
+          src="https://64ce874f739d9454a1d1d33d--peaceful-begonia-2fdbf4.netlify.app/"
+          width="120"
+          height="120"
+          className="target-iframe"
+          style={{ position: "absolute", top: "243px", left: "20px" }}
+        ></iframe>
       </div>
       {(error || fiveDaysArray) && currentCityName !== "" && (
         <div className="weekly-forecast-title bold">Weekly Forecast</div>

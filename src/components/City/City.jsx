@@ -13,7 +13,6 @@ const City = ({
   title,
   cityTemperature,
   data,
-  type,
   isFarenheight,
   favoriteClickHandler,
   isDarkMode,
