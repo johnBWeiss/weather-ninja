@@ -4,7 +4,6 @@ import React from "react";
 import CityWeekly from "../CityWeekly/CityWeekly";
 
 const CarouselLib = ({ carouselItems, isDarkMode, isFarenheight }) => {
-  console.log(carouselItems);
   const responsive = {
     desktop: {
       breakpoint: { max: 6000, min: 1024 },
