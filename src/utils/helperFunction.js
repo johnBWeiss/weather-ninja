@@ -30,6 +30,7 @@ export const getRandomErrorMessage = (error) => {
         `Um, is your browser ok? Cause ${error} didn't work. Check for an error somewhere`,
         `Sorry, had an error with ${error}. Let's blame the developer!`,
         `Sometimes you go through life thinking you can just prance along ${error}. Not this time, my friend. I'm afraid we had an error`,
+        `you think it's my fault we had an error ${error}? It's all because of the A.I`
     ];
     const randomIndex = Math.floor(Math.random() * errorMessages.length);
     return errorMessages[randomIndex];
