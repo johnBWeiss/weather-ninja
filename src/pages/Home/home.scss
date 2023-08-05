@@ -64,6 +64,10 @@
   font-size: clamp(45px, 6vw, 100px);
 }
 
+.target-iframe {
+  width: 100vw;
+}
+
 @media (max-width: $mobileBreakPoint) {
   .home-container {
     .search-input {

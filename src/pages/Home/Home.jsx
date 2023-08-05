@@ -71,16 +71,10 @@ const Home = () => {
     }
 
     if (currentCityName == "") {
-      fetchCityName();
+      // fetchCityName();
     }
     scrollToTop();
     dispatch(resetError());
-
-    const targetIframe = document.getElementById("target-iframe");
-    targetIframe?.contentWindow?.postMessage(
-      { latitude: 32.109333, longitude: 34.855499 },
-      "https://app.netlify.com/sites/peaceful-begonia-2fdbf4/deploys/64ce874f739d9454a1d1d33d"
-    );
   }, []);
 
   async function getCityFromGeolocation() {
@@ -157,6 +151,15 @@ const Home = () => {
       </div>
       <div className="center padding-top-50">
         {error && <h1 className="error-message">{errorMessage}</h1>}
+        {error && (
+          <iframe
+            src="https://weather-ninja-earth-banner.netlify.app/"
+            width="100%"
+            height="320"
+            className="target-iframe"
+          ></iframe>
+        )}
+
         {currentCityName && (
           <div className="current-forecast-city-container ">
             <City
@@ -170,13 +173,6 @@ const Home = () => {
             />
           </div>
         )}
-        <iframe
-          src="https://64ce874f739d9454a1d1d33d--peaceful-begonia-2fdbf4.netlify.app/"
-          width="120"
-          height="120"
-          className="target-iframe"
-          style={{ position: "absolute", top: "243px", left: "20px" }}
-        ></iframe>
       </div>
       {(error || fiveDaysArray) && currentCityName !== "" && (
         <div className="weekly-forecast-title bold">Weekly Forecast</div>
