@@ -24,7 +24,7 @@ const initialState = {
 export const getSingleCity = createAsyncThunk('globalSlice/getSingleCity',
   async (payload, thunkAPI) => {
     try {
-      let response = await axios(`https://express-proxy-server-yonatan.onrender.com//getSingleCity/${payload.cityCode}`)
+      let response = await axios(`https://express-proxy-server-yonatan.onrender.com/getSingleCity/${payload.cityCode}`)
       // let response = await axios(`${baseURL}/currentconditions/v1/${payload.cityCode}?apikey=${apiKey}&language=en-us`)
       return { currentCityTemperature: response?.[0]?.Temperature?.Imperial?.Value, currentCityName: payload?.cityName, isFavoriteChosen: payload.isFavoriteChosen, cityCode: payload.cityCode, weatherText: response?.[0]?.WeatherText }
       // return { currentCityTemperature: response?.data?.[0]?.Temperature?.Imperial?.Value, currentCityName: payload?.cityName, isFavoriteChosen: payload.isFavoriteChosen, cityCode: payload.cityCode, weatherText: response?.data?.[0]?.WeatherText }
@@ -37,7 +37,7 @@ export const getSingleCity = createAsyncThunk('globalSlice/getSingleCity',
 export const getFiveDays = createAsyncThunk('globalSlice/getFiveDays',
   async (payload, thunkAPI) => {
     try {
-      let response = await axios(`https://express-proxy-server-yonatan.onrender.com//getFiveDays/${payload.cityCode}`)
+      let response = await axios(`https://express-proxy-server-yonatan.onrender.com/getFiveDays/${payload.cityCode}`)
       // let response = await axios(`${baseURL}/forecasts/v1/daily/5day/${payload.cityCode}?apikey=${apiKey}&language=en-us`)
       return response?.DailyForecasts
       // return response?.data?.DailyForecasts
