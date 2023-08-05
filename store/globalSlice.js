@@ -35,7 +35,7 @@ export const getSingleCity = createAsyncThunk('globalSlice/getSingleCity',
 export const getFiveDays = createAsyncThunk('globalSlice/getFiveDays',
   async (payload, thunkAPI) => {
     try {
-      let response = await axios(`${baseURL}/forecasts/v1/daily/5day/${payload.cityCode}?apiKey=${apiKey}&language=en-us`)
+      let response = await axios(`${baseURL}/forecasts/v1/daily/5day/${payload.cityCode}?apikey=${apiKey}&language=en-us`)
       return response?.data?.DailyForecasts
     } catch (error) {
       thunkAPI.dispatch(errorHandler())
