@@ -165,7 +165,10 @@ const Home = () => {
           type="text"
           value={stateInputValue}
           onChange={handleInputChange}
-          onKeyDown={(e) => {
+          // onKeyDown={(e) => {
+          //   e.code === "Enter" && searchByTextHandler();
+          // }}
+          onKeyUp={(e) => {
             e.code === "Enter" && searchByTextHandler();
           }}
           placeholder="Search for a city and press enter"

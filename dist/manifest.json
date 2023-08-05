@@ -1,6 +1,6 @@
 {
-  "short_name": "Weather Ninja",
-  "name": "Weather Ninja",
+  "short_name": "React App",
+  "name": "Create React App Sample",
   "icons": [
     {
       "src": "favicon.ico",
