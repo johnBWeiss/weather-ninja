@@ -7,7 +7,6 @@
     0 6px 6px rgba(0, 0, 0, 0.1), 0 -5px 10px rgba(0, 0, 0, 0.1);
   box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1),
     0 -5px 10px rgba(0, 0, 0, 0.1);
-  padding: 0px 20px;
   background-color: white;
   -webkit-transition: "0.6s";
   -o-transition: "0.6s";
@@ -25,6 +24,7 @@
 .bottom-row-city {
   font-size: 24px;
   font-weight: 900;
+  padding: 0 30px;
 }
 
 .weather-img {

@@ -262,6 +262,10 @@ input {
   transform: translateY(36px);
 }
 
+.left-X-25 {
+  transform: translateX(-25px);
+}
+
 .flex {
   @include flexBox();
 }
@@ -456,6 +460,9 @@ input {
 }
 .width-90 {
   width: 90%;
+}
+.width-80 {
+  width: 80%;
 }
 
 .bold {

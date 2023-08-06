@@ -63,19 +63,19 @@ const City = ({
         background: isDarkMode ? "grey" : "white",
       }}
     >
-      <div className=" gap-6 vertical-flex">
+      <div className=" gap-6 vertical-flex" style={{ marginBottom: "-6px" }}>
         <div className="city-title bold">{cityName}</div>
         <div className="font-10">{cityCode}</div>
       </div>
       {title}
       <div className="gap-20 vertical-flex width-100 bold">
-        <div className="gap-12">
+        <div className="space-between width-90">
           <img
             className="weather-img"
             src={getImageForWeather(weatherText)}
             alt="part cloud"
           />
-          <div>{weatherText}</div>
+          <div className="left-X-25">{weatherText}</div>
         </div>
       </div>
       <div className="space-between bottom-row-city">

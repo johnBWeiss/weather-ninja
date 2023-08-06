@@ -38,6 +38,7 @@ const CityWeekly = ({ data, isFarenheight, isDarkMode }) => {
       style={{
         background: isDarkMode ? "grey" : "white",
         gap: "25px",
+        padding: "0 20px",
       }}
     >
       <div className="city-title bold">
