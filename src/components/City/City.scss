@@ -28,7 +28,11 @@
 }
 
 .weather-img {
-  height: 140px;
+  height: 120px;
+}
+.weatherText {
+  transform: translateX(-25px);
+  max-width: 50px;
 }
 
 .heart-icon-city {

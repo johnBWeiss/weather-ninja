@@ -51,11 +51,11 @@ const CityWeekly = ({ data, isFarenheight, isDarkMode }) => {
       <div className="gap-20 vertical-flex width-100 bold">
         <div className="gap-12 self-start ">
           <img className="sun-img" src={sunIcon} alt="part cloud" />
-          <div>{data?.Day?.IconPhrase}</div>
+          <div className="text-align-left">{data?.Day?.IconPhrase}</div>
         </div>
         <div className="gap-17 self-start">
           <img className="moon-img" src={moonIcon} alt="part cloud" />
-          <div>{data?.Night?.IconPhrase}</div>
+          <div className="text-align-left">{data?.Night?.IconPhrase}</div>
         </div>
       </div>
       <div className="space-between bottom-row-city">

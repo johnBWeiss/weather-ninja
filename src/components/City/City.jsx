@@ -75,7 +75,7 @@ const City = ({
             src={getImageForWeather(weatherText)}
             alt="part cloud"
           />
-          <div className="left-X-25">{weatherText}</div>
+          <div className="weatherText">{weatherText}</div>
         </div>
       </div>
       <div className="space-between bottom-row-city">
