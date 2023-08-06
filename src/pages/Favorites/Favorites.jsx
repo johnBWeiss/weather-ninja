@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { globalSelector, setIsPending } from "../../../store/globalSlice";
+import { globalSelector } from "../../../store/globalSlice";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -19,9 +19,6 @@ const Favorites = () => {
   const [localPending, setLocalPending] = useState(false);
 
   useEffect(() => {
-    const favoritesFromStorage =
-      JSON.parse(localStorage.getItem("favorites")) || [];
-
     const updateStorage = async () => {
       const favoritesFromStorage =
         JSON.parse(localStorage.getItem("favorites")) || [];
@@ -57,7 +54,6 @@ const Favorites = () => {
           "There was an error updating your favorite locations, here is the last saved version of them"
         );
         updatedFavoritesArray = favoritesFromStorage;
-        // setfavoritesArray(favoritesFromStorage);
       }
 
       setfavoritesArray(updatedFavoritesArray);
