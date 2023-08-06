@@ -58,7 +58,7 @@ const CityWeekly = ({ data, isFarenheight, isDarkMode }) => {
           <div className="text-align-left">{data?.Night?.IconPhrase}</div>
         </div>
       </div>
-      <div className="space-between bottom-row-city">
+      <div className="space-between bottom-row-city no-wrap">
         <div className="font-16">{dayAndMonth}</div>
       </div>
     </div>
