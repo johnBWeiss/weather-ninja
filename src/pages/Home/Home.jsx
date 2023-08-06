@@ -1,28 +1,21 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { getRandomErrorMessage, scrollToTop } from "../../utils/helperFunction";
+import { resetError, globalSelector } from "../../../store/globalSlice";
 import useTextHandler from "../../customHooks/useTextHandler";
-import axios from "axios";
+import useGeoLocation from "../../customHooks/useGeoLocation";
 import searchIcon from "../../assets/images/search-icon.png";
 import City from "../../components/City/City";
 import CityWeekly from "../../components/CityWeekly/CityWeekly";
 import earthIcon from "../../assets/images/earth-icon.png";
 import CarouselLib from "../../components/Carousel/CarouselLib";
-import {
-  errorHandler,
-  resetError,
-  globalSelector,
-  getSingleCity,
-  getFiveDays,
-  setIsPending,
-  resetPending,
-} from "../../../store/globalSlice";
 
 const Home = () => {
   const dispatch = useDispatch();
   const [stateInputValue, setStateInputValue] = useState("");
 
   const { textAPIhandler } = useTextHandler();
+  const { getGeoPositionWeather } = useGeoLocation();
   const {
     fiveDaysArray,
     error,
@@ -43,73 +36,13 @@ const Home = () => {
   const errorMessage = useMemo(() => {
     return error && getRandomErrorMessage(error);
   }, [error]);
+
   useEffect(() => {
-    async function fetchCityName() {
-      dispatch(resetError());
-      dispatch(setIsPending());
-
-      if (currentCityName?.length <= 0) {
-        try {
-          const position = await getCityFromGeolocation();
-          const { latitude, longitude } = position;
-          axios
-            .get(
-              `https://express-proxy-server-yonatan.onrender.com/getGeoPosition/${latitude}/${longitude}`
-            )
-            .then((response) => {
-              const data = response.data;
-              dispatch(resetPending());
-              dispatch(
-                getSingleCity({
-                  cityCode: data?.Key,
-                  cityName: data?.LocalizedName,
-                  isGeoLocation: true,
-                })
-              );
-              dispatch(
-                getFiveDays({
-                  cityCode: data?.Key,
-                })
-              );
-            })
-            .catch((error) => {
-              console.error("Error fetching data:", error.message);
-              dispatch(errorHandler("getting your geo position"));
-            });
-        } catch (error) {
-          dispatch(errorHandler("getting your geo position"));
-        }
-      }
-    }
-
     if (currentCityName == "") {
-      // fetchCityName();
+      getGeoPositionWeather(currentCityName);
     }
     scrollToTop();
-    dispatch(resetError());
   }, []);
-
-  async function getCityFromGeolocation() {
-    dispatch(resetError());
-    dispatch(setIsPending());
-
-    return new Promise((resolve, reject) => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const { latitude, longitude } = position.coords;
-
-            resolve({ latitude, longitude });
-          },
-          () => {
-            reject(new Error("Failed to get geolocation."));
-          }
-        );
-      } else {
-        reject(new Error("Geolocation not supported in this browser."));
-      }
-    });
-  }
 
   const handleInputChange = (event) => {
     const inputText = event.target.value.toLowerCase();
