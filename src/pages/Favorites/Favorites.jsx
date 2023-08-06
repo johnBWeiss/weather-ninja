@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { globalSelector } from "../../../store/globalSlice";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { scrollToTop } from "../../utils/helperFunction";
-import { getFiveDays, setCurrentCity } from "../../../store/globalSlice";
+import {
+  getFiveDays,
+  setCurrentCity,
+  globalSelector,
+} from "../../../store/globalSlice";
 import earthIcon from "../../assets/images/earth-icon.png";
 import axios from "axios";
 import City from "../../components/City/City";
@@ -35,7 +37,6 @@ const Favorites = () => {
             weatherText: response?.data?.[0]?.WeatherText,
           };
         } catch (error) {
-          console.log(error);
           setLocalFavoriteError(
             "There was an error updating your favorite locations, here is the last saved version of them"
           );

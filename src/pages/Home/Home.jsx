@@ -31,8 +31,6 @@ const Home = () => {
     },
   } = useSelector(globalSelector);
 
-  console.log(currentCityName);
-
   const errorMessage = useMemo(() => {
     return error && getRandomErrorMessage(error);
   }, [error]);

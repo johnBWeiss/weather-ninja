@@ -6,7 +6,7 @@ const initialState = {
   isPending: false,
   isDarkMode: false,
   favoritesArray: [],
-  // error: false,
+  error: false,
   singleError: false,
   weeklyError: false,
   isFarenheight: true,

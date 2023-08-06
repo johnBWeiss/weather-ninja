@@ -9,6 +9,7 @@ $blue: #393799;
 $purple: #804784;
 $mobileBreakPoint: 1024px;
 $divisivMobileBreakPoint: 1025px;
+
 @media (max-width: $mobileBreakPoint) {
   * {
     --headerHeight: 54px;
