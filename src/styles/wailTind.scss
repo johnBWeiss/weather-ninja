@@ -554,6 +554,14 @@ p {
     grid-gap: unset;
     padding: 40px 40px;
   }
+
+  .hoverEffect {
+    &:hover {
+      -webkit-transform: scale(0.9);
+      -ms-transform: scale(0.9);
+      transform: scale(0.9);
+    }
+  }
 }
 
 @media (min-width: $mobileBreakPoint) {

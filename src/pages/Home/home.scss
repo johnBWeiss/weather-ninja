@@ -70,6 +70,7 @@
 .target-iframe {
   width: 100vw;
   margin-top: 20px;
+  margin-bottom: 100px;
 }
 
 .spinner {
@@ -122,6 +123,10 @@
       height: 45px;
       padding-left: 40px;
     }
+  }
+
+  .spinner {
+    height: 85px;
   }
 
   .search-button {

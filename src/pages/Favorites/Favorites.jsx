@@ -57,7 +57,6 @@ const Favorites = () => {
             isFarenheight={isFarenheight}
             isDarkMode={isDarkMode}
             weatherText={value?.weatherText}
-            type={"singleItem"}
           />
         ))}
       </div>

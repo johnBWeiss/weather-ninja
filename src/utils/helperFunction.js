@@ -82,6 +82,8 @@ export const getImageForWeather = (weather) => {
             return lightRain;
         case 'mostly clear':
             return partlyCloudy;
+        case 'mostly sunny':
+            return partlyCloudy;
         default:
             return clear;
     }

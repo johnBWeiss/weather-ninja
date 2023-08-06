@@ -7,7 +7,7 @@ $headerHeight: 70px;
 $maxZindex: 1001;
 $blue: #393799;
 $purple: #804784;
-$mobileBreakPoint: 1250px;
+$mobileBreakPoint: 1024px;
 @media (max-width: $mobileBreakPoint) {
   * {
     --headerHeight: 54px;

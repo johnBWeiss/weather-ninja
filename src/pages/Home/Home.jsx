@@ -4,14 +4,21 @@ import searchIcon from "../../assets/images/search-icon.png";
 import City from "../../components/City/City";
 import CityWeekly from "../../components/CityWeekly/CityWeekly";
 import axios from "axios";
-import { globalSelector } from "../../../store/globalSlice";
-import { getSingleCity } from "../../../store/globalSlice";
-import { getFiveDays } from "../../../store/globalSlice";
-import { errorHandler } from "../../../store/globalSlice";
-import { resetError } from "../../../store/globalSlice";
+import {
+  errorHandler,
+  resetError,
+  setSingleError,
+  globalSelector,
+  getSingleCity,
+  getFiveDays,
+  setIsPending,
+  resetPending,
+} from "../../../store/globalSlice";
+
+import { setWeeklyError } from "../../../store/globalSlice";
+// import { errorHandler } from "../../../store/globalSlice";
 import { getRandomErrorMessage, scrollToTop } from "../../utils/helperFunction";
-import { setIsPending } from "../../../store/globalSlice";
-import { resetPending } from "../../../store/globalSlice";
+
 import earthIcon from "../../assets/images/earth-icon.png";
 import CarouselLib from "../../components/Carousel/CarouselLib";
 
@@ -23,6 +30,8 @@ const Home = () => {
     isFarenheight,
     isDarkMode,
     isPending,
+    singleError,
+    weeklyError,
     currentCity: {
       currentCityName,
       currentCityTemperature,
@@ -125,7 +134,7 @@ const Home = () => {
       );
     } catch (error) {
       console.error("Error fetching data:", error.message);
-      dispatch(errorHandler("searching text"));
+      dispatch(setSingleError("searching text"));
     }
   };
 
@@ -161,19 +170,22 @@ const Home = () => {
       </div>
       <div className="center padding-top-50">
         {isPending && (
-          <img className="spinner" src={earthIcon} alt="earth icon" />
+          <div className="gap-16 vertical-flex">
+            <div className="font-24 bold">Loading your location</div>{" "}
+            <img className="spinner" src={earthIcon} alt="earth icon" />
+          </div>
         )}
         {error && <h1 className="error-message">{errorMessage}</h1>}
         {error && (
           <iframe
             src="https://weather-ninja-earth-banner.netlify.app/"
             width="100%"
-            height="160"
+            height="220"
             className="target-iframe"
           ></iframe>
         )}
 
-        {currentCityName && !isPending && !error && (
+        {currentCityName && !isPending && !singleError && (
           <div className="current-forecast-city-container ">
             {isGeoLocation && (
               <div className="current-location-title bold">
@@ -192,10 +204,10 @@ const Home = () => {
           </div>
         )}
       </div>
-      {fiveDaysArray?.length > 0 && !isPending && !error && (
+      {fiveDaysArray?.length > 0 && !isPending && !weeklyError && (
         <div className="weekly-forecast-title bold">Weekly Forecast</div>
       )}
-      {!isPending && !error && fiveDaysArray?.length > 0 && (
+      {!isPending && !weeklyError && fiveDaysArray?.length > 0 && (
         <div className="desktop-none ">
           <CarouselLib
             carouselItems={fiveDaysArray}

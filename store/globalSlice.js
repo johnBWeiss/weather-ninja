@@ -6,7 +6,9 @@ const initialState = {
   isPending: false,
   isDarkMode: false,
   favoritesArray: [],
-  error: false,
+  // error: false,
+  singleError: false,
+  weeklyError: false,
   isFarenheight: true,
   fiveDaysArray: [],
   currentCity: {
@@ -22,7 +24,7 @@ export const getSingleCity = createAsyncThunk('globalSlice/getSingleCity',
       let response = await axios(`https://express-proxy-server-yonatan.onrender.com/getSingleCity/${payload.cityCode}`)
       return { currentCityTemperature: response?.data?.[0]?.Temperature?.Imperial?.Value, currentCityName: payload?.cityName, isFavoriteChosen: payload?.isFavoriteChosen, cityCode: payload?.cityCode, weatherText: response?.data?.[0]?.WeatherText, isGeoLocation: payload?.isGeoLocation }
     } catch (error) {
-      thunkAPI.dispatch(errorHandler("getting today's forecast"))
+      thunkAPI.dispatch(setSingleError("getting today's forecast"))
     }
   })
 
@@ -32,7 +34,7 @@ export const getFiveDays = createAsyncThunk('globalSlice/getFiveDays',
       let response = await axios(`https://express-proxy-server-yonatan.onrender.com/getFiveDays/${payload.cityCode}`)
       return response?.data?.DailyForecasts
     } catch (error) {
-      thunkAPI.dispatch(errorHandler("getting the weekly forecast"))
+      thunkAPI.dispatch(setWeeklyError("getting the weekly forecast"))
     }
   })
 
@@ -44,8 +46,21 @@ export const globalSlice = createSlice({
       state.error = payload
       state.isPending = false
     },
+    setSingleError: (state, { payload }) => {
+      state.singleError = true
+      state.error = payload
+      state.isPending = false
+    },
+    setWeeklyError: (state, { payload }) => {
+      state.weeklyError = true
+      state.error = payload
+
+      state.isPending = false
+    },
     resetError: (state) => {
       state.error = false
+      state.singleError = false
+      state.weeklyError = false
     },
     setUpdateFavoriteArray: (state, { payload }) => {
       state.favoritesArray = payload;
@@ -76,7 +91,8 @@ export const globalSlice = createSlice({
         state.currentCity = payload
       })
       .addCase(getSingleCity.rejected, (state) => {
-        state.error = "getting data for today's forecast"
+        state.error = true
+        state.singleError = "getting data for today's forecast"
         state.isPending = false
       })
       .addCase(getFiveDays.pending, (state) => {
@@ -87,8 +103,10 @@ export const globalSlice = createSlice({
         state.fiveDaysArray = payload
       })
       .addCase(getFiveDays.rejected, (state) => {
-        state.error = "getting data for the weekly forecast"
-        state.isPending = true
+        state.weeklyError = "getting data for the weekly forecast"
+        state.isPending = false
+        state.error = true
+
       })
   },
 });
@@ -102,7 +120,9 @@ export const {
   setToggleDegreeType,
   setToggleDarkMode,
   setIsPending,
-  resetPending
+  resetPending,
+  setSingleError,
+  setWeeklyError
 } = globalSlice.actions;
 
 export const globalSelector = (state) => {
