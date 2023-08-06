@@ -22,7 +22,7 @@ export const getSingleCity = createAsyncThunk('globalSlice/getSingleCity',
   async (payload, thunkAPI) => {
     try {
       let response = await axios(`https://express-proxy-server-yonatan.onrender.com/getSingleCity/${payload.cityCode}`)
-      return { currentCityTemperature: response?.data?.[0]?.Temperature?.Imperial?.Value, currentCityName: payload?.cityName, isFavoriteChosen: payload?.isFavoriteChosen, cityCode: payload?.cityCode, weatherText: response?.data?.[0]?.WeatherText, isGeoLocation: payload?.isGeoLocation }
+      return { currentCityTemperature: response?.data?.[0]?.Temperature?.Imperial?.Value, currentCityName: payload?.cityName, cityCode: payload?.cityCode, weatherText: response?.data?.[0]?.WeatherText, isGeoLocation: payload?.isGeoLocation }
     } catch (error) {
       thunkAPI.dispatch(setSingleError("getting today's forecast"))
     }
