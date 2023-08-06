@@ -2,7 +2,7 @@
   width: 80%;
   max-width: 1600px;
   margin: 0 auto;
-  padding-bottom: 140px;
+  padding-bottom: 110px;
   @include flexBox(center);
 }
 
@@ -37,19 +37,19 @@
 }
 
 .react-multiple-carousel__arrow--right {
-  padding: 20px;
+  padding: 10px;
   position: absolute;
   right: 6%;
 }
 .react-multiple-carousel__arrow--left {
-  padding: 20px;
+  padding: 10px;
   position: absolute;
   left: 6%;
 }
 .react-multiple-carousel__arrow::before {
   color: gold !important;
   font-weight: 900;
-  font-size: 30px;
+  font-size: 20px;
 }
 
 @media (min-width: 2050px) {

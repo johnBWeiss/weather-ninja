@@ -1,21 +1,19 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { getRandomErrorMessage, scrollToTop } from "../../utils/helperFunction";
-import { resetError, globalSelector } from "../../../store/globalSlice";
+import { globalSelector } from "../../../store/globalSlice";
 import useTextHandler from "../../customHooks/useTextHandler";
 import useGeoLocation from "../../customHooks/useGeoLocation";
 import searchIcon from "../../assets/images/search-icon.png";
 import City from "../../components/City/City";
-import CityWeekly from "../../components/CityWeekly/CityWeekly";
 import earthIcon from "../../assets/images/earth-icon.png";
-import CarouselLib from "../../components/Carousel/CarouselLib";
-
+import FiveDays from "../../components/FiveDays/FiveDays";
 const Home = () => {
-  const dispatch = useDispatch();
   const [stateInputValue, setStateInputValue] = useState("");
 
   const { textAPIhandler } = useTextHandler();
   const { getGeoPositionWeather } = useGeoLocation();
+
   const {
     fiveDaysArray,
     error,
@@ -33,13 +31,15 @@ const Home = () => {
     },
   } = useSelector(globalSelector);
 
+  console.log(currentCityName);
+
   const errorMessage = useMemo(() => {
     return error && getRandomErrorMessage(error);
   }, [error]);
 
   useEffect(() => {
     if (currentCityName == "") {
-      getGeoPositionWeather(currentCityName);
+      getGeoPositionWeather();
     }
     scrollToTop();
   }, []);
@@ -84,14 +84,16 @@ const Home = () => {
             <img className="spinner" src={earthIcon} alt="earth icon" />
           </div>
         )}
-        {error && <h1 className="error-message">{errorMessage}</h1>}
         {error && (
-          <iframe
-            src="https://weather-ninja-earth-banner.netlify.app/"
-            width="100%"
-            height="220"
-            className="target-iframe"
-          ></iframe>
+          <>
+            <h1 className="error-message">{errorMessage}</h1>
+            <iframe
+              src="https://weather-ninja-earth-banner.netlify.app/"
+              width="100%"
+              height="220"
+              className="target-iframe"
+            ></iframe>
+          </>
         )}
 
         {currentCityName && !isPending && !singleError && (
@@ -114,29 +116,12 @@ const Home = () => {
         )}
       </div>
       {fiveDaysArray?.length > 0 && !isPending && !weeklyError && (
-        <div className="weekly-forecast-title bold">Weekly Forecast</div>
+        <FiveDays
+          fiveDaysArray={fiveDaysArray}
+          isFarenheight={isFarenheight}
+          isDarkMode={isDarkMode}
+        />
       )}
-      {!isPending && !weeklyError && fiveDaysArray?.length > 0 && (
-        <div className="desktop-none ">
-          <CarouselLib
-            carouselItems={fiveDaysArray}
-            isFarenheight={isFarenheight}
-            isDarkMode={isDarkMode}
-          />
-        </div>
-      )}
-      <div className="flex flex-wrap center gallery-container mobile-none">
-        {!isPending &&
-          !error &&
-          fiveDaysArray?.map((forecast) => (
-            <CityWeekly
-              key={forecast?.Date}
-              data={forecast}
-              isFarenheight={isFarenheight}
-              isDarkMode={isDarkMode}
-            />
-          ))}
-      </div>
     </div>
   );
 };

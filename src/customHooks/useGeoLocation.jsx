@@ -33,41 +33,38 @@ const useGeoLocation = () => {
     });
   };
 
-  const getGeoPositionWeather = async (currentCityName) => {
+  const getGeoPositionWeather = async () => {
     dispatch(resetError());
     dispatch(setIsPending());
-
-    if (currentCityName?.length <= 0) {
-      try {
-        const position = await getCityFromGeolocation();
-        const { latitude, longitude } = position;
-        axios
-          .get(
-            `https://express-proxy-server-yonatan.onrender.com/getGeoPosition/${latitude}/${longitude}`
-          )
-          .then((response) => {
-            const data = response.data;
-            dispatch(resetPending());
-            dispatch(
-              getSingleCity({
-                cityCode: data?.Key,
-                cityName: data?.LocalizedName,
-                isGeoLocation: true,
-              })
-            );
-            dispatch(
-              getFiveDays({
-                cityCode: data?.Key,
-              })
-            );
-          })
-          .catch((error) => {
-            console.error("Error fetching data:", error.message);
-            dispatch(errorHandler("getting your geo position"));
-          });
-      } catch (error) {
-        dispatch(errorHandler("getting your geo position"));
-      }
+    try {
+      const position = await getCityFromGeolocation();
+      const { latitude, longitude } = position;
+      axios
+        .get(
+          `https://express-proxy-server-yonatan.onrender.com/getGeoPosition/${latitude}/${longitude}`
+        )
+        .then((response) => {
+          const data = response.data;
+          dispatch(resetPending());
+          dispatch(
+            getSingleCity({
+              cityCode: data?.Key,
+              cityName: data?.LocalizedName,
+              isGeoLocation: true,
+            })
+          );
+          dispatch(
+            getFiveDays({
+              cityCode: data?.Key,
+            })
+          );
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error.message);
+          dispatch(errorHandler("getting your geo position"));
+        });
+    } catch (error) {
+      dispatch(errorHandler("getting your geo position"));
     }
   };
 

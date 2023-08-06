@@ -57,10 +57,10 @@
   -webkit-transform: scale(1.25);
   -ms-transform: scale(1.25);
   transform: scale(1.25);
+  padding-bottom: 100px;
 }
 
 .weekly-forecast-title {
-  margin-top: 170px;
   font-size: clamp(45px, 6vw, 100px);
 }
 
@@ -116,6 +116,10 @@
 }
 
 @media (max-width: $mobileBreakPoint) {
+  .current-forecast-city-container {
+    margin: 0px auto;
+    margin-top: 80px;
+  }
   .home-container {
     .search-input {
       font-size: 15px;
