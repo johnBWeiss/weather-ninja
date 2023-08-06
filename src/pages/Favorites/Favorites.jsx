@@ -45,7 +45,7 @@ const Favorites = () => {
       className="gradual-animation"
       style={{ color: isDarkMode ? "white" : "black", transition: "0.6s" }}
     >
-      <h1 className="favorites-title padding-top-150 center">Favorites</h1>
+      <h1 className="favorites-title padding-top-200 center">Favorites</h1>
       <div className="flex flex-wrap center gallery-container">
         {favoritesArray?.map((value) => (
           <City

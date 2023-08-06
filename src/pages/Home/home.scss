@@ -51,6 +51,7 @@
 }
 .current-forecast-city-container {
   margin: 80px auto;
+  margin-bottom: 52px;
   width: -webkit-fit-content;
   width: -moz-fit-content;
   width: fit-content;
@@ -61,11 +62,11 @@
 }
 
 .weekly-forecast-title {
-  font-size: clamp(45px, 6vw, 100px);
+  font-size: clamp(45px, 6vw, 82px);
 }
 
 .current-location-title {
-  font-size: clamp(35px, 5.5vw, 90px);
+  font-size: clamp(35px, 5.5vw, 70px);
 }
 .target-iframe {
   width: 100vw;
