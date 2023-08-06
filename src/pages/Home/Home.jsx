@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { getRandomErrorMessage, scrollToTop } from "../../utils/helperFunction";
+import useTextHandler from "../../customHooks/useTextHandler";
+import axios from "axios";
 import searchIcon from "../../assets/images/search-icon.png";
 import City from "../../components/City/City";
 import CityWeekly from "../../components/CityWeekly/CityWeekly";
-import axios from "axios";
+import earthIcon from "../../assets/images/earth-icon.png";
+import CarouselLib from "../../components/Carousel/CarouselLib";
 import {
   errorHandler,
   resetError,
-  setSingleError,
   globalSelector,
   getSingleCity,
   getFiveDays,
@@ -15,15 +18,11 @@ import {
   resetPending,
 } from "../../../store/globalSlice";
 
-import { setWeeklyError } from "../../../store/globalSlice";
-// import { errorHandler } from "../../../store/globalSlice";
-import { getRandomErrorMessage, scrollToTop } from "../../utils/helperFunction";
-
-import earthIcon from "../../assets/images/earth-icon.png";
-import CarouselLib from "../../components/Carousel/CarouselLib";
-
 const Home = () => {
   const dispatch = useDispatch();
+  const [stateInputValue, setStateInputValue] = useState("");
+
+  const { textAPIhandler } = useTextHandler();
   const {
     fiveDaysArray,
     error,
@@ -40,8 +39,6 @@ const Home = () => {
       isGeoLocation,
     },
   } = useSelector(globalSelector);
-
-  const [stateInputValue, setStateInputValue] = useState("");
 
   const errorMessage = useMemo(() => {
     return error && getRandomErrorMessage(error);
@@ -86,7 +83,7 @@ const Home = () => {
     }
 
     if (currentCityName == "") {
-      fetchCityName();
+      // fetchCityName();
     }
     scrollToTop();
     dispatch(resetError());
@@ -114,30 +111,6 @@ const Home = () => {
     });
   }
 
-  const searchByTextHandler = async () => {
-    dispatch(setIsPending());
-
-    const url = `https://express-proxy-server-yonatan.onrender.com/searchText/${stateInputValue}`;
-    dispatch(resetError());
-    try {
-      const response = await axios.get(url);
-      dispatch(
-        getSingleCity({
-          cityCode: response?.data?.[0]?.Key,
-          cityName: response?.data?.[0]?.LocalizedName,
-        })
-      );
-      dispatch(
-        getFiveDays({
-          cityCode: response?.data?.[0]?.Key,
-        })
-      );
-    } catch (error) {
-      console.error("Error fetching data:", error.message);
-      dispatch(setSingleError("searching text"));
-    }
-  };
-
   const handleInputChange = (event) => {
     const inputText = event.target.value.toLowerCase();
     const englishLettersRegex = /^[a-zA-Z\s]*$/;
@@ -160,12 +133,15 @@ const Home = () => {
           value={stateInputValue}
           onChange={handleInputChange}
           onKeyDown={(e) => {
-            e.code === "Enter" && searchByTextHandler();
+            e.code === "Enter" && textAPIhandler(stateInputValue);
           }}
           placeholder="Which city will it be?"
         />
       </div>
-      <div className="search-button" onClick={searchByTextHandler}>
+      <div
+        className="search-button"
+        onClick={() => textAPIhandler(stateInputValue)}
+      >
         Search
       </div>
       <div className="center padding-top-50">

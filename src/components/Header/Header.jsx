@@ -1,20 +1,24 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { globalSelector, setToggleDarkMode } from "../../../store/globalSlice";
-import { setToggleDegreeType } from "../../../store/globalSlice";
-import { useLocation } from "react-router-dom";
 import houseIcon from "../../assets/images/house-icon.png";
 import fullHeartIcon from "../../assets/images/full-heart-icon.png";
 import ToggleButton from "../ToggleButton/ToggleButton";
 import darkModeImage from "../../assets/images/darkMode.png";
 import lightModeImage from "../../assets/images/lightMode.png";
+import {
+  globalSelector,
+  setToggleDarkMode,
+  setToggleDegreeType,
+} from "../../../store/globalSlice";
 
 const Header = () => {
   const { isFarenheight, isDarkMode } = useSelector(globalSelector);
+
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
+
   const [overlayPosition, setOverlayPosition] = useState(
     location.pathname === "/" ? 0 : "47%"
   );
@@ -37,6 +41,7 @@ const Header = () => {
   useEffect(() => {
     setOverlayPosition(location.pathname === "/" ? 0 : "47%");
   }, [location.pathname]);
+
   return (
     <div
       className="HeaderContainer"

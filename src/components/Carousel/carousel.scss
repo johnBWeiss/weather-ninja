@@ -2,9 +2,7 @@
   width: 80%;
   max-width: 1600px;
   margin: 0 auto;
-
-  //   background-color: rgba(255, 255, 255, 0.3);
-  //   height: 144px;
+  padding-bottom: 140px;
   @include flexBox(center);
 }
 
@@ -39,22 +37,20 @@
 }
 
 .react-multiple-carousel__arrow--right {
-  background: rgba(0, 0, 0, 0) !important;
+  padding: 20px;
   position: absolute;
   right: 6%;
 }
 .react-multiple-carousel__arrow--left {
-  background: rgba(0, 0, 0, 0) !important;
+  padding: 20px;
   position: absolute;
   left: 6%;
 }
 .react-multiple-carousel__arrow::before {
-  color: $blue !important;
+  color: gold !important;
   font-weight: 900;
   font-size: 30px;
 }
-//   carousel-container
-// react-multi-carousel-item react-multi-carousel-item--active carousel-item-padding-40-px
 
 @media (min-width: 2050px) {
   .react-multiple-carousel__arrow--right {
