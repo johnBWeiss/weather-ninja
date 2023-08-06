@@ -1,16 +1,11 @@
 import React, { useEffect, useState } from "react";
-import {
-  globalSelector,
-  setIsPending,
-  resetPending,
-  setSingleError,
-} from "../../../store/globalSlice";
+import { globalSelector, setIsPending } from "../../../store/globalSlice";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { setUpdateFavoriteArray } from "../../../store/globalSlice";
 import { useNavigate } from "react-router-dom";
 import { scrollToTop } from "../../utils/helperFunction";
 import { getFiveDays, setCurrentCity } from "../../../store/globalSlice";
+import earthIcon from "../../assets/images/earth-icon.png";
 import axios from "axios";
 import City from "../../components/City/City";
 
@@ -19,47 +14,59 @@ const Favorites = () => {
   const dispatch = useDispatch();
   const { isFarenheight, isDarkMode } = useSelector(globalSelector);
 
-  // const { favoritesArray, isFarenheight, isDarkMode } =
-  //   useSelector(globalSelector);
-
   const [favoritesArray, setfavoritesArray] = useState([]);
+  const [localFavoriteError, setLocalFavoriteError] = useState(false);
+  const [localPending, setLocalPending] = useState(false);
 
   useEffect(() => {
     const favoritesFromStorage =
       JSON.parse(localStorage.getItem("favorites")) || [];
-    let updatedFavoritesArray = [];
 
     const updateStorage = async () => {
-      console.log("in axios");
-      console.log(favoritesFromStorage);
-      for (let i = 0; i < favoritesFromStorage.length; i++) {
+      const favoritesFromStorage =
+        JSON.parse(localStorage.getItem("favorites")) || [];
+      let updatedFavoritesArray = [];
+
+      const apiCalls = favoritesFromStorage.map(async (v) => {
         try {
           let response = await axios(
-            `https://express-proxy-server-yonatan.onrender.com/getSingleCity/${favoritesFromStorage[i].cityCode}`
+            `https://express-proxy-server-yonatan.onrender.com/getSingleCity/${v.cityCode}`
           );
-
-          updatedFavoritesArray.push({
-            ...favoritesFromStorage[i],
+          return {
+            ...v,
             cityTemperature: response?.data?.[0]?.Temperature?.Imperial?.Value,
             weatherText: response?.data?.[0]?.WeatherText,
-          });
-          setfavoritesArray(updatedFavoritesArray);
+          };
         } catch (error) {
           console.log(error);
-          const favoritesFromStorage =
-            JSON.parse(localStorage.getItem("favorites")) || [];
-          setfavoritesArray(favoritesFromStorage);
+          setLocalFavoriteError(
+            "There was an error updating your favorite locations, here are the last saved version of them"
+          );
+          return v;
         }
+      });
+      try {
+        setLocalPending(true);
+        const results = await Promise.all(apiCalls);
+        updatedFavoritesArray = results;
+        setLocalPending(false);
+      } catch (error) {
+        setLocalPending(false);
+
+        setLocalFavoriteError(
+          "There was an error updating your favorite locations, here are the last saved version of them"
+        );
+        updatedFavoritesArray = favoritesFromStorage;
+        // setfavoritesArray(favoritesFromStorage);
       }
+
+      setfavoritesArray(updatedFavoritesArray);
     };
 
     updateStorage();
 
-    dispatch(setUpdateFavoriteArray(favoritesFromStorage));
     scrollToTop();
   }, [dispatch]);
-
-  // useEffect(() => {}, [favoritesArray]);
 
   const favoriteClickHandler = (
     currentCityTemperature,
@@ -85,6 +92,17 @@ const Favorites = () => {
       style={{ color: isDarkMode ? "white" : "black", transition: "0.6s" }}
     >
       <h1 className="favorites-title padding-top-200 center">Favorites</h1>
+      {localPending && (
+        <div className="gap-16 vertical-flex">
+          <div className="font-24 bold">Updating your favroite locations</div>
+          <img className="spinner" src={earthIcon} alt="earth icon" />
+        </div>
+      )}
+      {localFavoriteError && (
+        <div className="error-message favorites-error">
+          {localFavoriteError}
+        </div>
+      )}
       <div className="flex flex-wrap center gallery-container">
         {favoritesArray?.map((value) => (
           <City
