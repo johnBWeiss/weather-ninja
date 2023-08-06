@@ -40,7 +40,7 @@ const Favorites = () => {
         } catch (error) {
           console.log(error);
           setLocalFavoriteError(
-            "There was an error updating your favorite locations, here are the last saved version of them"
+            "There was an error updating your favorite locations, here is the last saved version of them"
           );
           return v;
         }
@@ -54,7 +54,7 @@ const Favorites = () => {
         setLocalPending(false);
 
         setLocalFavoriteError(
-          "There was an error updating your favorite locations, here are the last saved version of them"
+          "There was an error updating your favorite locations, here is the last saved version of them"
         );
         updatedFavoritesArray = favoritesFromStorage;
         // setfavoritesArray(favoritesFromStorage);
